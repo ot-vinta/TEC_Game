@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace tec
+{
+    class GameController
+    {
+        private Scheme scheme;
+        private Player player;
+
+        public GameController(Scheme scheme, Player player)
+        {
+            this.scheme = scheme;
+            this.player = player;
+        }
+
+        public void InitializeScheme(String path)
+        {
+            try
+            {
+                using (StreamReader reader = new StreamReader(path))
+                {
+                    string line = reader.ReadLine();
+                    while (line != "")
+                    {
+                        int id = Int32.Parse(line.Substring(0, line.IndexOf(' ')));
+                        //TO DO We need to get button object to init new Node
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void StartElimination()
+        {
+            //TO DO
+        }
+
+        public void ChangeDirection(NullorElement element)
+        {
+            //TO DO
+        }
+
+        public void AddNullator(Node node1, Node node2)
+        {
+            Nullator nullator = new Nullator(node1, node2, scheme.GetElementsSize());
+            scheme.AddElement(nullator);
+        }
+
+        public void AddNorator(Node node1, Node node2)
+        {
+            Norator norator = new Norator(node1, node2, scheme.GetElementsSize());
+            scheme.AddElement(norator);
+        }
+
+        public void DestroyElement(BaseElement element)
+        {
+            scheme.RemoveElement(element);
+        }
+    }
+}
