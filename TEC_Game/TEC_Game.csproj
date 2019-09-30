@@ -55,6 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseElement.cs" />
+    <Compile Include="Conductor.cs" />
+    <Compile Include="GameController.cs" />
+    <Compile Include="Resistor.cs" />
+    <Compile Include="Scheme.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -69,6 +74,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Node.cs" />
+    <Compile Include="Norator.cs" />
+    <Compile Include="Nullator.cs" />
+    <Compile Include="NullorElement.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
