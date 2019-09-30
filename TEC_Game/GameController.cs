@@ -45,7 +45,10 @@ namespace tec
 
         public void ChangeDirection(NullorElement element)
         {
-            //TO DO
+            if (element.GetDirection() == "right") 
+                element.SetDirection("left");
+            else
+                element.SetDirection("right");
         }
 
         public void AddNullator(Node node1, Node node2)
