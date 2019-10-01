@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox HorizontalAlignment="Left" Height="109" Margin="69,119,0,0" TextWrapping="Wrap" Text="Схема №1" VerticalAlignment="Top" Width="188" FontSize="38"/>
+        <TextBox HorizontalAlignment="Left" Height="109" Margin="69,119,0,0" TextWrapping="Wrap" Text="краткое описание схемы" VerticalAlignment="Top" Width="188" FontSize="38"/>
         <Button Content="Уровень 1" HorizontalAlignment="Left" Margin="69,257,0,0" VerticalAlignment="Top" Width="188" FontSize="36" Height="60"/>
-        <TextBox HorizontalAlignment="Left" Height="109" Margin="302,119,0,0" TextWrapping="Wrap" Text="Схема №2" VerticalAlignment="Top" Width="188" FontSize="38"/>
+        <TextBox HorizontalAlignment="Left" Height="109" Margin="302,119,0,0" TextWrapping="Wrap" Text="краткое описание схемы" VerticalAlignment="Top" Width="188" FontSize="38"/>
         <Button Content="Уровень 2" HorizontalAlignment="Left" Margin="302,257,0,0" VerticalAlignment="Top" Width="188" FontSize="36" Height="60"/>
-        <TextBox HorizontalAlignment="Left" Height="109" Margin="540,119,0,0" TextWrapping="Wrap" Text="Схема №3" VerticalAlignment="Top" Width="188" FontSize="38"/>
+        <TextBox HorizontalAlignment="Left" Height="109" Margin="540,119,0,0" TextWrapping="Wrap" Text="краткое описание схемы" VerticalAlignment="Top" Width="188" FontSize="38"/>
         <Button Content="Уровень 3" HorizontalAlignment="Left" Margin="540,257,0,0" VerticalAlignment="Top" Width="188" FontSize="36" Height="60"/>
     </Grid>
 </Window>
