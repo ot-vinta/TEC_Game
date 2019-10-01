@@ -68,6 +68,19 @@ namespace tec
             return null;
         }
 
+        public int GetNodeConnectionsCount(Node node)
+        {
+            int answer = 0;
+
+            foreach (var element in elements)
+            {
+                if (element.GetNode1().GetId() == node.GetId()) answer++;
+                if (element.GetNode2().GetId() == node.GetId()) answer++;
+            }
+
+            return answer;
+        }
+
         public int GetElementsSize()
         {
             return elements.Count();
