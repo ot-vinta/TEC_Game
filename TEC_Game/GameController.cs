@@ -40,7 +40,20 @@ namespace tec
 
         public void StartElimination()
         {
-            //TO DO
+            if (!scheme.SchemeIsConnected())
+            {
+                //Print warning
+                scheme.RemoveElement(scheme.FindNullator());
+                scheme.RemoveElement(scheme.FindNorator());
+            }
+            else
+            {
+                Queue<Node> queue = new Queue<Node>();
+                queue.Enqueue(scheme.FindNullator().GetNode1());
+                queue.Enqueue(scheme.FindNullator().GetNode2());
+                queue.Enqueue(scheme.FindNorator().GetNode1());
+                queue.Enqueue(scheme.FindNorator().GetNode2());
+            }
         }
 
         public void ChangeDirection(NullorElement element)
