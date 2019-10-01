@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TEC_Game;
 
 namespace tec
 {
@@ -29,6 +30,7 @@ namespace tec
                     {
                         int id = Int32.Parse(line.Substring(0, line.IndexOf(' ')));
                         //TO DO We need to get button object to init new Node
+                        
                     }
                 }
             }
@@ -53,6 +55,13 @@ namespace tec
                 queue.Enqueue(scheme.FindNullator().GetNode2());
                 queue.Enqueue(scheme.FindNorator().GetNode1());
                 queue.Enqueue(scheme.FindNorator().GetNode2());
+                scheme.RemoveElement(scheme.FindNorator());
+                scheme.RemoveElement(scheme.FindNullator());
+                while (queue.Count > 0)
+                {
+                    Node node = queue.Dequeue();
+                    if (scheme.GetNodeConnectionsCount(node) == 1)
+                }
             }
         }
 

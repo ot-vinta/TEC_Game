@@ -10,10 +10,12 @@ namespace tec
     class Scheme
     {
         private List<BaseElement> elements;
+        private List<Node> nodes;
 
         public Scheme()
         {
             elements = new List<BaseElement>();
+            nodes = new List<Node>();
         }
 
         public bool HasNullor()
@@ -30,16 +32,9 @@ namespace tec
 
         public bool SchemeIsConnected()
         {
-            int[] nodeFreq = new int[GetElementsSize()];
             foreach (var element in elements)
             {
-                nodeFreq[element.GetNode1().GetId()]++;
-                nodeFreq[element.GetNode2().GetId()]++;
-            }
-
-            for (int i = 1; i < GetElementsSize(); i++)
-            {
-                if (nodeFreq[i] == 1)
+                if (element.GetNode2() == null)
                     return false;
             }
 
@@ -70,15 +65,7 @@ namespace tec
 
         public int GetNodeConnectionsCount(Node node)
         {
-            int answer = 0;
-
-            foreach (var element in elements)
-            {
-                if (element.GetNode1().GetId() == node.GetId()) answer++;
-                if (element.GetNode2().GetId() == node.GetId()) answer++;
-            }
-
-            return answer;
+            return node.GetConnectedElementsCount();
         }
 
         public int GetElementsSize()
@@ -89,11 +76,19 @@ namespace tec
         public void AddElement(BaseElement element)
         {
             elements.Add(element);
+            nodes[element.GetNode1().GetId() - 1].AddConnectedElement(element);
+            nodes[element.GetNode2().GetId() - 1].AddConnectedElement(element);
+        }
+
+        public void AddNode(Node node)
+        {
+            nodes.Add(node);
         }
 
         public void RemoveElement(BaseElement element)
         {
             elements.Remove(element);
+
             element.Destroy();
             element = null;
         }
