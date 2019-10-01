@@ -60,7 +60,23 @@ namespace tec
                 while (queue.Count > 0)
                 {
                     Node node = queue.Dequeue();
-                    if (scheme.GetNodeConnectionsCount(node) == 1)
+                    Resistor aloneElement = node.GetResistor();
+                    if ((scheme.GetNodeConnectionsCount(node) == 1) && (aloneElement != null))
+                    {
+                        if (node.GetId() == aloneElement.GetNode1().GetId())
+                            queue.Enqueue(aloneElement.GetNode2());
+                        else
+                            queue.Enqueue(aloneElement.GetNode1());
+                        scheme.RemoveElement(aloneElement);
+                    }
+                    else if ((scheme.GetNodeConnectionsCount(node) > 1) && (node.GetConductor() != null))
+                    {
+                        Conductor conductor = node.GetConductor();
+                        while (conductor != null)
+                        {
+
+                        }
+                    }
                 }
             }
         }

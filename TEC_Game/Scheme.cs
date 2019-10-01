@@ -88,7 +88,8 @@ namespace tec
         public void RemoveElement(BaseElement element)
         {
             elements.Remove(element);
-
+            nodes[element.GetNode1().GetId() - 1].RemoveElement(element);
+            nodes[element.GetNode2().GetId() - 1].RemoveElement(element);
             element.Destroy();
             element = null;
         }

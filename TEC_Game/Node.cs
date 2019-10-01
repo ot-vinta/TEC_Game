@@ -25,12 +25,22 @@ namespace tec
             connectedElements.Add(element);
         }
 
-        public BaseElement GetConnectedElement()
+        public Resistor GetResistor()
         {
-            if (connectedElements.Count == 1)
-                return connectedElements[0];
+            if ((connectedElements.Count == 1) && (connectedElements[0] is Resistor))
+                return (Resistor) connectedElements[0];
             else
                 return null;
+        }
+
+        public Conductor GetConductor()
+        {
+            foreach (var element in connectedElements)
+            {
+                if (element is Conductor)
+                    return (Conductor) element;
+            }
+            return null;
         }
 
         public int GetConnectedElementsCount()
