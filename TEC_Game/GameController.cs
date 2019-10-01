@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TEC_Game;
 
 namespace tec
 {
@@ -29,6 +30,7 @@ namespace tec
                     {
                         int id = Int32.Parse(line.Substring(0, line.IndexOf(' ')));
                         //TO DO We need to get button object to init new Node
+                        
                     }
                 }
             }
@@ -40,7 +42,43 @@ namespace tec
 
         public void StartElimination()
         {
-            //TO DO
+            if (!scheme.SchemeIsConnected())
+            {
+                //Print warning
+                scheme.RemoveElement(scheme.FindNullator());
+                scheme.RemoveElement(scheme.FindNorator());
+            }
+            else
+            {
+                Queue<Node> queue = new Queue<Node>();
+                queue.Enqueue(scheme.FindNullator().GetNode1());
+                queue.Enqueue(scheme.FindNullator().GetNode2());
+                queue.Enqueue(scheme.FindNorator().GetNode1());
+                queue.Enqueue(scheme.FindNorator().GetNode2());
+                scheme.RemoveElement(scheme.FindNorator());
+                scheme.RemoveElement(scheme.FindNullator());
+                while (queue.Count > 0)
+                {
+                    Node node = queue.Dequeue();
+                    Resistor aloneElement = node.GetResistor();
+                    if ((scheme.GetNodeConnectionsCount(node) == 1) && (aloneElement != null))
+                    {
+                        if (node.GetId() == aloneElement.GetNode1().GetId())
+                            queue.Enqueue(aloneElement.GetNode2());
+                        else
+                            queue.Enqueue(aloneElement.GetNode1());
+                        scheme.RemoveElement(aloneElement);
+                    }
+                    else if ((scheme.GetNodeConnectionsCount(node) > 1) && (node.GetConductor() != null))
+                    {
+                        Conductor conductor = node.GetConductor();
+                        while (conductor != null)
+                        {
+
+                        }
+                    }
+                }
+            }
         }
 
         public void ChangeDirection(NullorElement element)
