@@ -50,6 +50,7 @@ namespace tec
             }
             else
             {
+                //Добавляем в очередь ноды, соединенные с нуллором
                 Queue<Node> queue = new Queue<Node>();
                 queue.Enqueue(scheme.FindNullator().GetNode1());
                 queue.Enqueue(scheme.FindNullator().GetNode2());
@@ -61,6 +62,7 @@ namespace tec
                 {
                     Node node = queue.Dequeue();
                     Resistor aloneElement = node.GetResistor();
+                    //Если подключен только один резистор, его можно убрать
                     if ((scheme.GetNodeConnectionsCount(node) == 1) && (aloneElement != null))
                     {
                         if (node.GetId() == aloneElement.GetNode1().GetId())
@@ -69,12 +71,14 @@ namespace tec
                             queue.Enqueue(aloneElement.GetNode1());
                         scheme.RemoveElement(aloneElement);
                     }
+                    //В случае, когда к узлу подключено много элементов, есть смысл убирать только проводимости
                     else if ((scheme.GetNodeConnectionsCount(node) > 1) && (node.GetConductor() != null))
                     {
                         Conductor conductor = node.GetConductor();
                         while (conductor != null)
                         {
-
+                            scheme.RemoveElement(conductor);
+                            conductor = node.GetConductor();
                         }
                     }
                 }
