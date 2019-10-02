@@ -10,6 +10,7 @@
         <Button Content="Применить" HorizontalAlignment="Left" Margin="540,325,0,0" VerticalAlignment="Top" Width="188" FontSize="36" Height="60"/>
         <Grid HorizontalAlignment="Left" Height="399" Margin="10,10,0,0" VerticalAlignment="Top" Width="500" >
             <Label Content="Этот грид рабочее &#xD;&#xA;поле на котором будет &#xD;&#xA;сама схема" HorizontalAlignment="Left" Margin="48,45,0,0" VerticalAlignment="Top" FontSize="20" Height="164" Width="258"/>
+            <Image HorizontalAlignment="Left" Height="100" Margin="145,255,0,0" VerticalAlignment="Top" Width="100"/>
         </Grid>
         <CheckBox Content="Нуллатор" HorizontalAlignment="Left" Margin="540,161,0,0" VerticalAlignment="Top" FontSize="28" Height="38" Width="188"/>
         <CheckBox Content="Норратор" HorizontalAlignment="Left" Margin="540,204,0,0" VerticalAlignment="Top" FontSize="28" Height="50" Width="188"/>
