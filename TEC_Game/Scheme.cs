@@ -11,6 +11,7 @@ namespace tec
     {
         private List<BaseElement> elements;
         private List<Node> nodes;
+        //Нужен список проводов
 
         public Scheme()
         {

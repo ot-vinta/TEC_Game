@@ -10,19 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace TEC_Game
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для ChooseLevelWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ChooseLevelWindow : Window
     {
-        public MainWindow()
+        public ChooseLevelWindow()
         {
             InitializeComponent();
+        }
+
+        private void GoBackButton_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }
