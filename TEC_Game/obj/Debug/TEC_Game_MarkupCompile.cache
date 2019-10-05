@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Projects\TEC_Game\TEC_Game\App.xaml
-11151548125
+3-571145534
 
-16-1344415746
+171618654224
 13-1505183044
-MainWindow.xaml;
+ChooseLevelWindow.xaml;GameWindow.xaml;MainWindow.xaml;
 
-True
+False
 
