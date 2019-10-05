@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TEC_Game"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" WindowState="Maximized">
     <Grid>
         <TextBox HorizontalAlignment="Left" Height="63" Margin="146,140,0,0" TextWrapping="Wrap" Text="Схемы электрических цепей" VerticalAlignment="Top" Width="506" FontSize="38"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="299,286,0,0" VerticalAlignment="Top" Width="181" FontSize="36" Height="60"/>
+        <Button x:Name="ChooseLevelButton" Content="Button" HorizontalAlignment="Left" Margin="299,286,0,0" VerticalAlignment="Top" Width="181" FontSize="36" Height="60" Click="ChooseLevelButton_Click"/>
     </Grid>
 </Window>

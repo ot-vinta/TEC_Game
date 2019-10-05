@@ -56,12 +56,15 @@ namespace tec
                 queue.Enqueue(scheme.FindNullator().GetNode2());
                 queue.Enqueue(scheme.FindNorator().GetNode1());
                 queue.Enqueue(scheme.FindNorator().GetNode2());
+
+                //Из схемы можно убрать нуллор, он больше не нужен
                 scheme.RemoveElement(scheme.FindNorator());
                 scheme.RemoveElement(scheme.FindNullator());
                 while (queue.Count > 0)
                 {
                     Node node = queue.Dequeue();
                     Resistor aloneElement = node.GetResistor();
+
                     //Если подключен только один резистор, его можно убрать
                     if ((scheme.GetNodeConnectionsCount(node) == 1) && (aloneElement != null))
                     {
