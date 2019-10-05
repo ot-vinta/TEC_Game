@@ -15,13 +15,18 @@ using System.Windows.Shapes;
 namespace TEC_Game
 {
     /// <summary>
-    /// Логика взаимодействия для Window1.xaml
+    /// Логика взаимодействия для ChooseLevelWindow.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class ChooseLevelWindow : Window
     {
-        public Window1()
+        public ChooseLevelWindow()
         {
             InitializeComponent();
+        }
+
+        private void GoBackButton_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

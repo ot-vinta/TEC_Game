@@ -56,26 +56,23 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BaseElement.cs" />
+    <Compile Include="ChooseLevelWindow.xaml.cs">
+      <DependentUpon>ChooseLevelWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Conductor.cs" />
     <Compile Include="GameController.cs" />
-    <Compile Include="PlayerWindow.xaml.cs">
-      <DependentUpon>PlayerWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resistor.cs" />
     <Compile Include="Scheme.cs" />
-    <Compile Include="Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
-    </Compile>
-    <Page Include="PlayerWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="ChooseLevelWindow.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GameWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -89,10 +86,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Window1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Node.cs" />
