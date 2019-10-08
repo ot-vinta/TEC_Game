@@ -10,14 +10,16 @@ namespace tec
     class Node
     {
         private Button button;
-        private int id;
+        private int id, X, Y;
         private List<BaseElement> connectedElements;
 
-        public Node(Button button, int id)
+        public Node(Button button, int id, int X, int Y)
         {
             this.button = button;
             connectedElements = new List<BaseElement>();
             this.id = id;
+            this.X = X;
+            this.Y = Y;s
         }
 
         public void AddConnectedElement(BaseElement element)

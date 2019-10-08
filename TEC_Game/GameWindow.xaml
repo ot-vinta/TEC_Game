@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="GameWindow" Height="450" Width="800" WindowState="Maximized">
     <Grid>
+        <Button x:Name="ToMainMenuButton" Content="Меню" HorizontalAlignment="Left" Click="ToMainMenuButton_Click" Margin="0,0,0,389" Width="50"/>
         <Button Content="Применить" HorizontalAlignment="Left" Margin="540,325,0,0" VerticalAlignment="Top" Width="188" FontSize="36" Height="60"/>
-        <Grid HorizontalAlignment="Left" Height="399" Margin="10,10,0,0" VerticalAlignment="Top" Width="500" >
+        <Grid HorizontalAlignment="Left" Height="367" Margin="10,42,0,0" VerticalAlignment="Top" Width="500" >
             <Label Content="Этот грид рабочее &#xD;&#xA;поле на котором будет &#xD;&#xA;сама схема" HorizontalAlignment="Left" Margin="48,45,0,0" VerticalAlignment="Top" FontSize="20" Height="164" Width="258"/>
         </Grid>
         <CheckBox Content="Нуллатор" HorizontalAlignment="Left" Margin="540,161,0,0" VerticalAlignment="Top" FontSize="28" Height="38" Width="188"/>

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using TEC_Game;
 
 namespace tec
@@ -28,9 +29,43 @@ namespace tec
                     string line = reader.ReadLine();
                     while (line != "")
                     {
-                        int id = Int32.Parse(line.Substring(0, line.IndexOf(' ')));
-                        //TO DO We need to get button object to init new Node
-                        
+                        string format = GetSubString(ref line, 2);
+
+                        int node1Id = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
+                        int node1X = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
+                        int node1Y = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
+
+                        int node2Id = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
+                        int node2X = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
+                        int node2Y = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
+
+                        string type = GetSubString(ref line, 1);
+
+                        Node node1 = new Node(new Button(), node1Id, node1X, node1Y);
+                        Node node2 = new Node(new Button(), node2Id, node2X, node2Y);
+                        scheme.AddNode(node1);
+                        scheme.AddNode(node2);
+
+                        if (type == "r")
+                        {
+                            var resistor = new Resistor(node1, node2, scheme.GetElementsSize());
+                            scheme.AddElement(resistor);
+                        }
+                        else
+                        {
+                            var conductor = new Conductor(node1, node2, scheme.GetElementsSize());
+                            scheme.AddElement(conductor);
+                        }
+
+                        if (format == "sh")
+                        {
+                            
+                            //Print it on screen
+                        }
+                        else if (format == "ff")
+                        {
+                            //Print it on screen
+                        }
                     }
                 }
             }
@@ -38,6 +73,13 @@ namespace tec
             {
                 Console.WriteLine(e.Message);
             }
+        }
+
+        private string GetSubString(ref string line, int len)
+        {
+            string ans = line.Substring(0, len);
+            line = line.Substring(len + 1, line.Length - len);
+            return ans;
         }
 
         public void StartElimination()
