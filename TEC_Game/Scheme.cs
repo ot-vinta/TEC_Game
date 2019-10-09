@@ -86,6 +86,16 @@ namespace tec
             nodes.Add(node);
         }
 
+        public Node GetNode(int id)
+        {
+            foreach (var node in nodes)
+            {
+                if (node.GetId() == id)
+                    return node;
+            }
+            return null;
+        }
+
         public void RemoveElement(BaseElement element)
         {
             elements.Remove(element);
