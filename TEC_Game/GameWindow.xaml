@@ -14,7 +14,7 @@
             </Border>
         </ControlTemplate>
     </Window.Resources>
-    <Grid>
+    <Grid x:Name="GameGrid">
         <Button x:Name="ToMainMenuButton" Content="Меню" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ToMainMenuButton_Click" Width="50"/>
         
         <Grid HorizontalAlignment="Left" Height="780" Margin="10,3
