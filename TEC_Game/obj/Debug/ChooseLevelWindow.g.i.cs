@@ -41,7 +41,7 @@ namespace TEC_Game {
     public partial class ChooseLevelWindow : System.Windows.Window, System.Windows.Markup.IComponentConnector {
         
         
-        #line 16 "..\..\ChooseLevelWindow.xaml"
+        #line 10 "..\..\ChooseLevelWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Button GoBackButton;
         
@@ -81,7 +81,7 @@ namespace TEC_Game {
             case 1:
             this.GoBackButton = ((System.Windows.Controls.Button)(target));
             
-            #line 16 "..\..\ChooseLevelWindow.xaml"
+            #line 10 "..\..\ChooseLevelWindow.xaml"
             this.GoBackButton.Click += new System.Windows.RoutedEventHandler(this.GoBackButton_Click);
             
             #line default

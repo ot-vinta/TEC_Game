@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using TEC_Game;
 
@@ -22,15 +23,23 @@ namespace tec
 
         public void InitializeScheme(String path)
         {
+            const int X_CENTER = 450;
+            const int Y_CENTER = 390;
             try
             {
                 using (StreamReader reader = new StreamReader(path))
                 {
                     string line = reader.ReadLine();
+                    int X_SIZE = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
+                    int Y_SIZE = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
+
+                    line = reader.ReadLine();
                     while (line != "")
                     {
+                        //Определяем формат данных
                         string format = GetSubString(ref line, 2);
 
+                        //Получаем данные для узлов
                         int node1Id = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
                         int node1X = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
                         int node1Y = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
@@ -39,13 +48,20 @@ namespace tec
                         int node2X = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
                         int node2Y = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
 
+                        //Определеям тип элемента(r - резистор, p - проводимость
                         string type = GetSubString(ref line, 1);
 
+                        //Добавляем в схему узлы
                         Node node1 = new Node(new Button(), node1Id, node1X, node1Y);
                         Node node2 = new Node(new Button(), node2Id, node2X, node2Y);
                         scheme.AddNode(node1);
                         scheme.AddNode(node2);
 
+                        //Кнопкам узлов добавляем номер
+                        node1.GetButton().Content = node1Id.ToString();
+                        node2.GetButton().Content = node2Id.ToString();
+                        
+                        //Добавляем элемент в зависимости от типа
                         if (type == "r")
                         {
                             var resistor = new Resistor(node1, node2, scheme.GetElementsSize());
@@ -57,11 +73,19 @@ namespace tec
                             scheme.AddElement(conductor);
                         }
 
+                        //Находим объект игрового окна для добавления элементов в него
+                        Window gameWindow;
+                        foreach (Window window in Application.Current.Windows)
+                            if (window is GameWindow) gameWindow = window;
+
+                        //формат sh указывает на то, что между двумя нодами подключен только один элемент
                         if (format == "sh")
                         {
+
+
                             
-                            //Print it on screen
                         }
+                        //Этот формат показывает, что между 2 нодами есть несколько элементов
                         else if (format == "ff")
                         {
                             //Print it on screen

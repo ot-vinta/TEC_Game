@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace tec
@@ -16,10 +17,14 @@ namespace tec
         public Node(Button button, int id, int X, int Y)
         {
             this.button = button;
+
+            button.VerticalAlignment = VerticalAlignment.Top;
+            button.HorizontalAlignment = HorizontalAlignment.Left;
+
             connectedElements = new List<BaseElement>();
             this.id = id;
             this.X = X;
-            this.Y = Y;s
+            this.Y = Y;
         }
 
         public void AddConnectedElement(BaseElement element)
