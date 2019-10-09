@@ -23,5 +23,10 @@ namespace TEC_Game
         {
             InitializeComponent();
         }
+
+        private void ToMainMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
