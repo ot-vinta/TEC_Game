@@ -14,6 +14,5 @@ D:\Projects\TEC_Game\TEC_Game\obj\Debug\MainWindow.baml
 D:\Projects\TEC_Game\TEC_Game\obj\Debug\TEC_Game.g.resources
 D:\Projects\TEC_Game\TEC_Game\obj\Debug\TEC_Game.Properties.Resources.resources
 D:\Projects\TEC_Game\TEC_Game\obj\Debug\TEC_Game.csproj.GenerateResource.cache
-D:\Projects\TEC_Game\TEC_Game\obj\Debug\TEC_Game.csproj.CoreCompileInputs.cache
 D:\Projects\TEC_Game\TEC_Game\obj\Debug\TEC_Game.exe
 D:\Projects\TEC_Game\TEC_Game\obj\Debug\TEC_Game.pdb

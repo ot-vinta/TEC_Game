@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using tec;
 
 namespace TEC_Game
 {
@@ -27,6 +28,15 @@ namespace TEC_Game
         private void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private void Level1Button_Click(object sender, RoutedEventArgs e)
+        {
+            GameWindow gameWindow = new GameWindow();
+            GameController controller = new GameController(new Scheme(), new Player());
+            string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
+            controller.InitializeScheme(dir + "Level1.txt");
+            gameWindow.Show();
         }
     }
 }

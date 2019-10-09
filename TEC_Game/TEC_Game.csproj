@@ -121,5 +121,15 @@
   <ItemGroup>
     <Resource Include="Level1.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Conductor.png" />
+    <Resource Include="Images\Norator.png" />
+    <Resource Include="Images\Nullator.png" />
+    <Resource Include="Images\Resistor.png" />
+    <Resource Include="Images\Wire.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\level1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

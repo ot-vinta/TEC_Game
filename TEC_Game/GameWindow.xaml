@@ -5,22 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TEC_Game"
         mc:Ignorable="d"
-        Title="GameWindow" Height="850" Width="1200" WindowState="Maximized">
+        Title="GameWindow" Height="850" Width="1200">
     <Window.Resources>
         <ControlTemplate TargetType="Button" x:Key="NodeTemplate">
             <Border CornerRadius="25"
                     Background="black" Height="25" Width="25">
-                    <ContentControl Content=""/>
+                <ContentControl VerticalAlignment="Center" Foreground="AliceBlue" Content="" HorizontalAlignment="Center"/>
             </Border>
         </ControlTemplate>
     </Window.Resources>
-    <Grid x:Name="GameGrid">
+    <Grid>
         <Button x:Name="ToMainMenuButton" Content="Меню" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ToMainMenuButton_Click" Width="50"/>
-        
-        <Grid HorizontalAlignment="Left" Height="780" Margin="10,3
-              0,0,0" VerticalAlignment="Top" Width="900" Background="#FFE4E4E4" >
-            <Border BorderThickness="2" BorderBrush="Black"/>
-        </Grid>
+
+        <Canvas x:Name="GameGrid" HorizontalAlignment="Left" Height="780" Margin="10,30,0,0" VerticalAlignment="Top" Width="900" Background="#FFE4E4E4" />
         <Grid Margin="925,0,0,0" Background="#FFE2E2E2">
             <Border BorderThickness="1,0,0,0" BorderBrush="Black"/>
             <TextBox HorizontalAlignment="Left" Height="99" Margin="25,20,0,0" TextWrapping="Wrap" Text="Выберите элемент" VerticalAlignment="Top" Width="217" FontSize="36" Background="{x:Null}"/>
@@ -28,5 +25,6 @@
             <CheckBox Content="Норратор" HorizontalAlignment="Left" Margin="25,200,0,0" VerticalAlignment="Top" FontSize="28" Height="50" Width="188"/>
             <Button Content="Применить" HorizontalAlignment="Left" Margin="25,325,0,0" VerticalAlignment="Top" Width="188" FontSize="36" Height="60" Background="#FFB8B8B8"/>
         </Grid>
+        <Canvas HorizontalAlignment="Left" Height="100" Margin="1415,445,-323,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>
