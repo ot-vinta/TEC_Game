@@ -24,5 +24,11 @@ namespace TEC_Game
         {
             InitializeComponent();
         }
+
+        private void ChooseLevelButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChooseLevelWindow levelWindow = new ChooseLevelWindow();
+            levelWindow.Show();
+        }
     }
 }

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\user\Documents\GitHub\TEC_Game\TEC_Game\obj\Debug\
+D:\Projects\TEC_Game\TEC_Game\obj\Debug\
 TEC_Game
 none
 false
 DEBUG;TRACE
-C:\Users\user\Documents\GitHub\TEC_Game\TEC_Game\App.xaml
-3-1712972847
+D:\Projects\TEC_Game\TEC_Game\App.xaml
+3-571145534
 
-211432149893
+18380530952
 13-1505183044
-PlayerWindow.xaml;GameWindow.xaml;MainWindow.xaml;
+ChooseLevelWindow.xaml;GameWindow.xaml;MainWindow.xaml;
 
 True
 
