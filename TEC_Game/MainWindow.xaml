@@ -5,9 +5,83 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TEC_Game"
         mc:Ignorable="d"
-        Title="MainWindow" Height="850" Width="1200">
-    <Grid>
-        <TextBox Height="63" TextWrapping="Wrap" Text="Схемы электрических цепей" Width="506" FontSize="38" Margin="0,0,0,75"/>
-        <Button x:Name="ChooseLevelButton" Content="Button" Width="181" FontSize="36" Height="60" Click="ChooseLevelButton_Click" Margin="0,75,0,0"/>
+        Title="MainWindow" Height="890" Width="1216">
+    <Window.Resources>
+        <ControlTemplate TargetType="Button" x:Key="ButtonTemplate">
+            <Border CornerRadius="24"
+                    Background="{TemplateBinding Background}" Height="48" Width="{TemplateBinding Width}" >
+                <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}" FontSize="24" />
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
+                </Border.Effect>
+            </Border>
+        </ControlTemplate>
+    </Window.Resources>
+    <Grid Background="#FFF5F5F6" Width="1200" Height="850">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="215*"/>
+            <RowDefinition Height="340*"/>
+            <RowDefinition Height="264*"/>
+        </Grid.RowDefinitions>
+        <Rectangle Fill="#FF00B2CC" HorizontalAlignment="Left" Height="140" VerticalAlignment="Top" Width="1200" Margin="0,-1,0,0">
+            <Rectangle.Effect>
+                <DropShadowEffect Opacity="0.5" RenderingBias="Quality"></DropShadowEffect>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Label Content="Добро Пожаловать&#xD;&#xA;Выберите уровень" Margin="100,0,0,0" VerticalAlignment="Top" FontSize="50" Width="1000" Height="140" HorizontalAlignment="Left" FontWeight="Bold" HorizontalContentAlignment="Center" Padding="0" UseLayoutRounding="False"/>
+        <Grid HorizontalAlignment="Left" Height="300" Margin="75,0,0,0" VerticalAlignment="Top" Width="300" Background="#FFE1E2E1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"></RowDefinition>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.Effect>
+                <DropShadowEffect Direction="270" Opacity="0.5" RenderingBias="Quality" ShadowDepth="4"></DropShadowEffect>
+            </Grid.Effect>
+            <Rectangle Grid.Row="0" Fill="#FF00E5FF">
+                <Rectangle.Effect>
+                    <DropShadowEffect Direction="270" Opacity="0.502" ShadowDepth="1.8"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Label Grid.Row="0" Padding="0" UseLayoutRounding="False" Content="Level 1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="24"></Label>
+            <Image Grid.Row="1" Source="Images/level1.png" Margin="0,5,0,0"/>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="300" Margin="450,0,0,0" VerticalAlignment="Top" Width="300" Background="#FFE1E2E1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"></RowDefinition>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.Effect>
+                <DropShadowEffect Direction="270" Opacity="0.5" RenderingBias="Quality" ShadowDepth="4"></DropShadowEffect>
+            </Grid.Effect>
+            <Rectangle Grid.Row="0" Fill="#FF00E5FF">
+                <Rectangle.Effect>
+                    <DropShadowEffect Direction="270" Opacity="0.502" ShadowDepth="1.8"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Label Grid.Row="0" Padding="0" UseLayoutRounding="False" Content="Level 2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="24"></Label>
+            <Image Grid.Row="1"></Image>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="300" Margin="825,0,0,0" VerticalAlignment="Top" Width="300" Background="#FFE1E2E1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"></RowDefinition>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.Effect>
+                <DropShadowEffect Direction="270" Opacity="0.5" RenderingBias="Quality" ShadowDepth="4"></DropShadowEffect>
+            </Grid.Effect>
+            <Rectangle Grid.Row="0" Fill="#FF00E5FF">
+                <Rectangle.Effect>
+                    <DropShadowEffect Direction="270" Opacity="0.502" ShadowDepth="1.8"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Label Grid.Row="0" Padding="0" UseLayoutRounding="False" Content="Level 3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="24"></Label>
+            <Image Grid.Row="1"></Image>
+        </Grid>
+        <Button x:Name="Level1ChooseButton" Template="{StaticResource ButtonTemplate}" Margin="75,0,0,0" Grid.Row="2" Height="48" Width="300" Background="#FFFF6E40" Content="Выбрать уровень 1" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Level1ChooseButton_Click"/>
+        <Button x:Name="Level2ChooseButton" Template="{StaticResource ButtonTemplate}" Margin="450,0,0,0" Grid.Row="2" Height="48" Width="300" Background="#FFFF6E40" Content="Выбрать уровень 2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button x:Name="Level3ChooseButton" Template="{StaticResource ButtonTemplate}" Margin="825,0,0,0" Grid.Row="2" Height="48" Width="300" Background="#FFFF6E40" Content="Выбрать уровень 3" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button x:Name="SettingsButton" Template="{StaticResource ButtonTemplate}" Margin="75,150,0,0" Grid.Row="2" Height="48" Width="300" Background="#FFFF6E40" Content="Настройки" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button x:Name="StatisticButton" Template="{StaticResource ButtonTemplate}" Margin="450,150,0,0" Grid.Row="2" Height="48" Width="300" Background="#FFFF6E40" Content="Статистика" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button x:Name="ExitButton" Template="{StaticResource ButtonTemplate}" Margin="825,150,0,0" Grid.Row="2" Height="48" Width="300" Background="#FFC53D13" Content="Выход" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Click="ExitButton_Click"/>
     </Grid>
 </Window>

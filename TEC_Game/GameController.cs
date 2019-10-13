@@ -138,6 +138,7 @@ namespace tec
                                 gameWindow.GameGrid.Children.Add(node2.GetButton());
                             }
                         }
+
                         //Этот формат показывает, что между 2 нодами есть несколько элементов
                         else if (format == "ff")
                         {

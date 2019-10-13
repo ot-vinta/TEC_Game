@@ -2,13 +2,11 @@ D:\Projects\TEC_Game\TEC_Game\obj\Debug\TEC_Game.csprojAssemblyReference.cache
 D:\Projects\TEC_Game\TEC_Game\bin\Debug\TEC_Game.exe.config
 D:\Projects\TEC_Game\TEC_Game\bin\Debug\TEC_Game.exe
 D:\Projects\TEC_Game\TEC_Game\bin\Debug\TEC_Game.pdb
-D:\Projects\TEC_Game\TEC_Game\obj\Debug\ChooseLevelWindow.g.cs
 D:\Projects\TEC_Game\TEC_Game\obj\Debug\GameWindow.g.cs
 D:\Projects\TEC_Game\TEC_Game\obj\Debug\MainWindow.g.cs
 D:\Projects\TEC_Game\TEC_Game\obj\Debug\App.g.cs
 D:\Projects\TEC_Game\TEC_Game\obj\Debug\TEC_Game_MarkupCompile.cache
 D:\Projects\TEC_Game\TEC_Game\obj\Debug\TEC_Game_MarkupCompile.lref
-D:\Projects\TEC_Game\TEC_Game\obj\Debug\ChooseLevelWindow.baml
 D:\Projects\TEC_Game\TEC_Game\obj\Debug\GameWindow.baml
 D:\Projects\TEC_Game\TEC_Game\obj\Debug\MainWindow.baml
 D:\Projects\TEC_Game\TEC_Game\obj\Debug\TEC_Game.g.resources
