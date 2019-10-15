@@ -10,7 +10,7 @@
         <ControlTemplate TargetType="Button" x:Key="NodeTemplate">
             <Border CornerRadius="25"
                     Background="black" Height="25" Width="25">
-                <ContentControl VerticalAlignment="Center" Foreground="AliceBlue" Content="" HorizontalAlignment="Center"/>
+                <ContentControl VerticalAlignment="Center" Foreground="AliceBlue" Content="{TemplateBinding Content}" HorizontalAlignment="Center"/>
             </Border>
         </ControlTemplate>
     </Window.Resources>
