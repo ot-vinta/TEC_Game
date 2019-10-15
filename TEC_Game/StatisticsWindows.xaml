@@ -1,0 +1,62 @@
+﻿<Window x:Class="TEC_Game.StatisticsWindows"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TEC_Game"
+        mc:Ignorable="d"
+        Title="StatisticsWindows" Height="450" Width="800">
+    <Window.Resources>
+        <ControlTemplate TargetType="Button"  x:Key="NodeTemplate">
+            <Border x:Name="Border" CornerRadius="25" Height="25" Width="25" Background="{TemplateBinding Background}">
+                <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="AliceBlue" Content="{TemplateBinding Content}"/>
+            </Border>
+        </ControlTemplate>
+        <ControlTemplate TargetType="Button" x:Key="ButtonTemplate">
+            <Border CornerRadius="24"
+                    Background="{TemplateBinding Background}" Height="48" Width="{TemplateBinding Width}" >
+                <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}" FontSize="24" />
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
+                </Border.Effect>
+            </Border>
+        </ControlTemplate>
+        <ControlTemplate x:Key="controlTemplate">
+            <Border CornerRadius="0, 0, 4, 4"
+                    Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" >
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
+                </Border.Effect>
+            </Border>
+        </ControlTemplate>
+    </Window.Resources>
+    <Grid Background="#FFF5F5F6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Button Template="{StaticResource ButtonTemplate}" Grid.Row="1" Background="#FFFF6E40" Width="250" Height="48" Content="Упростить схему" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="925,340,0,0" />
+
+        <ContentControl Template="{StaticResource controlTemplate}" HorizontalAlignment="Left" Height="250" VerticalAlignment="Top" Width="300" Margin="900,70,0,0" Background="#FF6EFFFF" Grid.Row="1"/>
+        <Label Width="300" Height="70" Content="Выберите элемент" FontSize="30" UseLayoutRounding="False" Padding="0" HorizontalContentAlignment="Center" Grid.Row="1" Margin="900,70,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
+        <Rectangle Fill="Black" Height="1" Width="300" Margin="900,140,0,0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button Template="{StaticResource ButtonTemplate}" Grid.Row="1" Background="#FFFF6E40" Width="250" Height="48" Content="Нуллатор" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="925,166,0,0" />
+        <Button Template="{StaticResource ButtonTemplate}" Grid.Row="1" Background="#FFFF6E40" Width="250" Height="48" Content="Норатор" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="925,242,0,0" />
+
+        <ContentControl Template="{StaticResource controlTemplate}" HorizontalAlignment="Left" Height="70" Grid.RowSpan="2" VerticalAlignment="Top" Width="300" Margin="900,70,0,0" Background="#FF00E5FF"/>
+        <Label Width="250" Height="70" Content="Выберите узлы" FontSize="30" UseLayoutRounding="False" Padding="0" HorizontalContentAlignment="Center" Grid.Row="1" Margin="925,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
+
+        <Rectangle Fill="#FF00B2CC" HorizontalAlignment="Left" Height="70" Grid.RowSpan="2" VerticalAlignment="Top" Width="1200">
+            <Rectangle.Effect>
+                <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4" RenderingBias="Quality"></DropShadowEffect>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Label Width="350" Height="70" Content="Статистика" FontSize="48" UseLayoutRounding="False" Padding="0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+        <Button Template="{StaticResource ButtonTemplate}" Width="100" Height="48" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,12,0,0" Background="#FFFF6E40" Content="Меню" Click="Button_Click"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="290" Margin="25,30,0,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Width="757"/>
+        <Label Content="Завершённых игр" HorizontalAlignment="Left" Margin="70,70,0,0" Grid.Row="1" VerticalAlignment="Top" Height="35" Width="147" FontSize="16"/>
+        <Label Content="Проигрышей" HorizontalAlignment="Left" Margin="70,105,0,0" Grid.Row="1" VerticalAlignment="Top" Height="35" Width="147" FontSize="16"/>
+        <Label x:Name="NumFinished" Content="Label" HorizontalAlignment="Left" Margin="272,70,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
