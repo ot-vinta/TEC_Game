@@ -7,10 +7,26 @@
         mc:Ignorable="d"
         Title="GameWindow" Height="890" Width="1216">
     <Window.Resources>
-        <ControlTemplate TargetType="Button" x:Key="NodeTemplate">
-            <Border CornerRadius="25"
-                    Background="black" Height="25" Width="25">
-                <ContentControl VerticalAlignment="Center" Foreground="AliceBlue" Content="{TemplateBinding Content}" HorizontalAlignment="Center"/>
+        <ControlTemplate TargetType="Button"  x:Key="NodeTemplate">
+            <Border x:Name="Border" CornerRadius="25" Height="25" Width="25" Background="{TemplateBinding Background}">
+                <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="AliceBlue" Content="{TemplateBinding Content}"/>
+            </Border>
+        </ControlTemplate>
+        <ControlTemplate TargetType="Button" x:Key="ButtonTemplate">
+            <Border CornerRadius="24"
+                    Background="{TemplateBinding Background}" Height="48" Width="{TemplateBinding Width}" >
+                <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}" FontSize="24" />
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
+                </Border.Effect>
+            </Border>
+        </ControlTemplate>
+        <ControlTemplate x:Key="controlTemplate">
+            <Border CornerRadius="0, 0, 4, 4"
+                    Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" >
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
+                </Border.Effect>
             </Border>
         </ControlTemplate>
     </Window.Resources>
