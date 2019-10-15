@@ -7,10 +7,36 @@
         mc:Ignorable="d"
         Title="GameWindow" Height="890" Width="1216">
     <Window.Resources>
-        <ControlTemplate TargetType="Button" x:Key="NodeTemplate">
-            <Border CornerRadius="25"
-                    Background="black" Height="25" Width="25">
-                <ContentControl VerticalAlignment="Center" Foreground="AliceBlue" Content="{TemplateBinding Content}" HorizontalAlignment="Center"/>
+        <ControlTemplate TargetType="Button"  x:Key="NodeTemplate">
+            <Border x:Name="Border" CornerRadius="25" Height="25" Width="25" Background="{TemplateBinding Background}">
+                <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="AliceBlue" Content="{TemplateBinding Content}"/>
+
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="MouseOver">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="Border"
+                                                Storyboard.TargetProperty="BorderBrush" To="Blue" />
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState Name="Normal">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="Border"
+                                                Storyboard.TargetProperty="Background" To="{TemplateBinding Background}" />
+                            </Storyboard>
+                        </VisualState>
+                        <VisualStateGroup.Transitions>
+                            <VisualTransition From="MouseOver" To="Normal"
+                                              GeneratedDuration="0:0:0.5">
+                                <Storyboard>
+                                    <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                                  Storyboard.TargetProperty="BorderBrush" FillBehavior="HoldEnd">
+                                    </ColorAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualTransition>
+                        </VisualStateGroup.Transitions>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
             </Border>
         </ControlTemplate>
         <ControlTemplate TargetType="Button" x:Key="ButtonTemplate">
