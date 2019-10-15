@@ -25,8 +25,9 @@ namespace tec
 
         public void InitializeScheme(String path)
         {
-            const int X_CENTER = 450;
-            const int Y_CENTER = 390;
+            //Константы центра поля
+            const int X_CENTER = 440;
+            const int Y_CENTER = 380;
             try
             {
                 using (StreamReader reader = new StreamReader(path))
@@ -104,26 +105,32 @@ namespace tec
                         //формат sh указывает на то, что между двумя нодами подключен только один элемент
                         if (format == "sh")
                         {
-                            double dx = -12, dy = 13;
+                            //Доп смещение
+                            double dx = -12, dy = 25;
 
+                            //Проверяем, нужно ли поворачивать изображение
                             if (node1X != node2X)
                             {
                                 RotateTransform rotate = new RotateTransform(90);
                                 element.GetImage().RenderTransform = rotate;
-                                dx = 212;
+                                //Если пвернули, то надо изменить смещение
+                                dx = 225;
                                 dy = -13;
                             }
 
-                            double x = X_CENTER - 200 * ((X_SIZE - 1) / 2 - node1X);
-                            double y = Y_CENTER - 200 * ((Y_SIZE - 1) / 2 - node1Y);
+                            //Определяем положение
+                            double x = X_CENTER - 225 * ((X_SIZE - 1) / 2 - node1X);
+                            double y = Y_CENTER - 225 * ((Y_SIZE - 1) / 2 - node1Y);
 
+                            //Устанавливаем изображение
                             element.GetImage().Margin = new Thickness(x + dx, y + dy, 0, 0);
                             gameWindow.GameGrid.Children.Add(element.GetImage());
 
+                            //Если узел уже был создан ранее, то не рисуем его заново
                             if (isNode1NotNull)
                             {
-                                double x1 = X_CENTER - 200 * ((X_SIZE - 1) / 2 - node1X);
-                                double y1 = Y_CENTER - 200 * ((Y_SIZE - 1) / 2 - node1Y);
+                                double x1 = X_CENTER - 225 * ((X_SIZE - 1) / 2 - node1X);
+                                double y1 = Y_CENTER - 225 * ((Y_SIZE - 1) / 2 - node1Y);
 
                                 node1.GetButton().Margin = new Thickness(x1, y1, 0, 0);
                                 gameWindow.GameGrid.Children.Add(node1.GetButton());
@@ -131,23 +138,27 @@ namespace tec
 
                             if (isNode2NotNull)
                             {
-                                double x2 = X_CENTER - 200 * ((X_SIZE - 1) / 2 - node2X);
-                                double y2 = Y_CENTER - 200 * ((Y_SIZE - 1) / 2 - node2Y);
+                                double x2 = X_CENTER - 225 * ((X_SIZE - 1) / 2 - node2X);
+                                double y2 = Y_CENTER - 225 * ((Y_SIZE - 1) / 2 - node2Y);
 
                                 node2.GetButton().Margin = new Thickness(x2, y2, 0, 0);
                                 gameWindow.GameGrid.Children.Add(node2.GetButton());
                             }
                         }
+
                         //Этот формат показывает, что между 2 нодами есть несколько элементов
                         else if (format == "ff")
                         {
-                            double dx = -12, dy = 13;
+                            //Доп смещение изображений и узлов
+                            double dx = -12, dy = 25;
                             double nodeDx = 0, nodeDy = 0;
                             double x = 0, y = 0;
                             int n = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
                             string direction = GetSubString(ref line, 1);
                             string isNodeNeeded = GetSubString(ref line, 1);
+                            string isStretch = GetSubString(ref line, 1);
 
+                            //Добавляется смещение в зависимости от того, как располагаются элементы относительно друг друга(это указывается в файле)
                             switch (direction)
                             {
                                 case "D":
@@ -168,14 +179,17 @@ namespace tec
                                     break;
                             }
 
+                            //Нужно ли добавить узел
                             if ((isNodeNeeded == "y") && (n != 0))
                             {
-                                double x1 = X_CENTER - 200 * ((X_SIZE - 1) / 2 - node1X) + 23;
-                                double y1 = Y_CENTER - 200 * ((Y_SIZE - 1) / 2 - node1Y) - 75;
-                                double x2 = X_CENTER - 200 * ((X_SIZE - 1) / 2 - node1X) + 23;
-                                double y2 = Y_CENTER - 200 * ((Y_SIZE - 1) / 2 - node1Y) - 75;
+                                double x1 = X_CENTER - 225 * ((X_SIZE - 1) / 2 - node1X) + 23;
+                                double y1 = Y_CENTER - 225 * ((Y_SIZE - 1) / 2 - node1Y) - 75;
+                                double x2 = X_CENTER - 225 * ((X_SIZE - 1) / 2 - node1X) + 23;
+                                double y2 = Y_CENTER - 225 * ((Y_SIZE - 1) / 2 - node1Y) - 75;
 
                                 string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
+
+                                //Добавляем доп провода
                                 Image wire1 = new Image();
                                 wire1.Source = new BitmapImage(new Uri(dir + @"Images\Wire.png"));
                                 wire1.Width = 3;
@@ -190,42 +204,58 @@ namespace tec
                                 wire2.HorizontalAlignment = HorizontalAlignment.Left;
                                 wire2.VerticalAlignment = VerticalAlignment.Top;
 
+                                //Повороты для доп проводов
                                 if (node1X == node2X)
                                 {
                                     RotateTransform rotate = new RotateTransform(90);
                                     wire1.RenderTransform = rotate;
                                     wire2.RenderTransform = rotate;
-                                    y2 += 200;
+                                    y2 += 225;
                                 }
                                 else
                                 {
-                                    x2 += 200;
+                                    x2 += 225;
                                 }
 
+                                //Рисуем провода
                                 wire1.Margin = new Thickness(x1 + dx, y1 + dy, 0, 0);
                                 gameWindow.GameGrid.Children.Add(wire1);
                                 wire2.Margin = new Thickness(x2 + dx, y2 + dy, 0, 0);
                                 gameWindow.GameGrid.Children.Add(wire2);
                             }
 
+                            //Повороты для изображений элементов
                             if (node1X != node2X)
                             {
                                 RotateTransform rotate = new RotateTransform(90);
                                 element.GetImage().RenderTransform = rotate;
-                                dx += 225;
-                                dy -= 26;
+                                dx += 237;
+                                dy -= 37;
+                                if (n >= 1) dy += 12;
                             }
 
-                            x = X_CENTER - 200 * ((X_SIZE - 1) / 2 - node1X);
-                            y = Y_CENTER - 200 * ((Y_SIZE - 1) / 2 - node1Y);
+                            //Определение положения элементов
+                            x = X_CENTER - 225 * ((X_SIZE - 1) / 2 - node1X);
+                            y = Y_CENTER - 225 * ((Y_SIZE - 1) / 2 - node1Y);
 
-                            element.GetImage().Margin = new Thickness(x + dx, y + dy, 0, 0);
+                            //Вывод изображения элемента на экран
+                            if (isStretch == "y")
+                            {
+                                element.GetImage().Height = 225;
+                                element.GetImage().Stretch = Stretch.Fill;
+                                element.GetImage().Margin = new Thickness(x + dx + 12, y + dy, 0, 0);
+                            }
+                            else
+                            {
+                                element.GetImage().Margin = new Thickness(x + dx, y + dy, 0, 0);
+                            }
                             gameWindow.GameGrid.Children.Add(element.GetImage());
 
+                            //Если узлы были добавлены раньше, то рисовать их нет смысла
                             if (isNode1NotNull)
                             {
-                                double x1 = X_CENTER - 200 * ((X_SIZE - 1) / 2 - node1X) + nodeDx;
-                                double y1 = Y_CENTER - 200 * ((Y_SIZE - 1) / 2 - node1Y) + nodeDy;
+                                double x1 = X_CENTER - 225 * ((X_SIZE - 1) / 2 - node1X) + nodeDx;
+                                double y1 = Y_CENTER - 225 * ((Y_SIZE - 1) / 2 - node1Y) + nodeDy;
 
                                 node1.GetButton().Margin = new Thickness(x1, y1, 0, 0);
                                 gameWindow.GameGrid.Children.Add(node1.GetButton());
@@ -233,8 +263,8 @@ namespace tec
 
                             if (isNode2NotNull)
                             {
-                                double x2 = X_CENTER - 200 * ((X_SIZE - 1) / 2 - node2X) + nodeDx;
-                                double y2 = Y_CENTER - 200 * ((Y_SIZE - 1) / 2 - node2Y) + nodeDy;
+                                double x2 = X_CENTER - 225 * ((X_SIZE - 1) / 2 - node2X) + nodeDx;
+                                double y2 = Y_CENTER - 225 * ((Y_SIZE - 1) / 2 - node2Y) + nodeDy;
 
                                 node2.GetButton().Margin = new Thickness(x2, y2, 0, 0);
                                 gameWindow.GameGrid.Children.Add(node2.GetButton());

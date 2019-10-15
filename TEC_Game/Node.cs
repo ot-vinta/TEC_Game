@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace tec
 {
@@ -22,6 +23,10 @@ namespace tec
 
             button.VerticalAlignment = VerticalAlignment.Top;
             button.HorizontalAlignment = HorizontalAlignment.Left;
+
+            button.Background = new SolidColorBrush(Colors.Black);
+
+            button.Background = new SolidColorBrush(Colors.Black);
 
             connectedElements = new List<BaseElement>();
             this.id = id;
