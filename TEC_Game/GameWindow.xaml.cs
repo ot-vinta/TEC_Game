@@ -28,5 +28,11 @@ namespace TEC_Game
         {
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Owner.Show();
+            this.Close();
+        }
     }
 }

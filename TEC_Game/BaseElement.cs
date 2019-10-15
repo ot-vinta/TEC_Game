@@ -11,7 +11,7 @@ namespace tec
 {
     abstract class BaseElement
     {
-        private Image image;
+        protected Image image;
         private Node node1, node2;
         private int id;
 
