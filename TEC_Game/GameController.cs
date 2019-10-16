@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TEC_Game;
@@ -14,6 +15,7 @@ namespace tec
 {
     class GameController
     {
+        private GameWindow gameWindow;
         private Scheme scheme;
         private Player player;
 
@@ -21,6 +23,13 @@ namespace tec
         {
             this.scheme = scheme;
             this.player = player;
+
+            //Находим объект игрового окна для добавления элементов в него
+            gameWindow = null;
+            foreach (Window window in Application.Current.Windows)
+                if (window is GameWindow) gameWindow = window as GameWindow;
+            gameWindow.addNoratorButton.Click += new RoutedEventHandler(OnNullorButtonClick);
+            gameWindow.addNullatorButton.Click += new RoutedEventHandler(OnNullorButtonClick);
         }
 
         public void InitializeScheme(String path)
@@ -89,14 +98,27 @@ namespace tec
                             scheme.AddElement(element);
                         }
 
-                        //Находим объект игрового окна для добавления элементов в него
-                        GameWindow gameWindow = null;
-                        foreach (Window window in Application.Current.Windows)
-                            if (window is GameWindow) gameWindow = window as GameWindow;
-
                         //Добавляем шаблон кнопкам
                         node1.GetButton().Template = gameWindow.FindResource("NodeTemplate") as ControlTemplate;
                         node2.GetButton().Template = gameWindow.FindResource("NodeTemplate") as ControlTemplate;
+
+                        //Если нажали на узел
+                        node1.GetButton().Click += new RoutedEventHandler(OnNodeClick);
+                        node2.GetButton().Click += new RoutedEventHandler(OnNodeClick);
+
+                        //|------|------|------|====|-|---|---------------------
+                        //|\-----|------|\-----|----|-|\--|\--------------------
+                        //|-\----|------|-\----|====|-|-\-|-\-------------------
+                        //|==\---|------|==\---|\-----|--\|--\------------------
+                        //|---\--|------|---\--|-\----|-------\-----------------
+                        //|----\-|_____-|----\-|--\---|--------\----------------
+                        //DOESN'T WORK REPAIR IT
+                        //Если курсор внутри узла
+                        //node1.GetButton().MouseEnter += new MouseEventHandler(OnNodeEnter);
+                        //node2.GetButton().MouseEnter += new MouseEventHandler(OnNodeEnter);
+                        //Если курсор вышел из узла
+                        //node1.GetButton().MouseLeave += new MouseEventHandler(OnNodeLeave);
+                        //node2.GetButton().MouseLeave += new MouseEventHandler(OnNodeLeave);
 
                         //Кнопкам узлов добавляем номер
                         node1.GetButton().Content = node1Id.ToString(); //НЕ РАБОТАЕТ
@@ -279,6 +301,77 @@ namespace tec
             {
                 Console.WriteLine(e.Message);
             }
+        }
+
+        private void OnNodeLeave(object sender, MouseEventArgs e)
+        {
+            Button button = sender as Button;
+            button.Background = Brushes.Black;
+        }
+
+        private void OnNodeEnter(object sender, MouseEventArgs e)
+        {
+            Button button = sender as Button;
+            button.Background = Brushes.Aqua;
+        }
+
+        private void OnNodeClick(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            if ((button.Background == Brushes.Black) && (!player.NodesChosen()))
+            {
+                button.Background = Brushes.Blue;
+
+                player.ChooseNode(button);
+
+                if (player.NodesChosen())
+                {
+                    //Here we need to add animations to slides
+                    gameWindow.addNoratorButton.IsEnabled = true;
+                    gameWindow.addNoratorButton.Background = new SolidColorBrush(Color.FromRgb(255, 110, 64));
+                    gameWindow.addNullatorButton.IsEnabled = true;
+                    gameWindow.addNullatorButton.Background = new SolidColorBrush(Color.FromRgb(255, 110, 64));
+                }
+            }
+            else if ((button.Background == Brushes.Black) && (player.NodesChosen()))
+            {
+                //Make text on screen
+                //print alarm on it
+            }
+            else if (button.Background == Brushes.Blue)
+            {
+                button.Background = Brushes.Black;
+
+                if (player.NodesChosen())
+                {
+                    //Here we need to add animations to slides
+                    gameWindow.addNoratorButton.IsEnabled = false;
+                    gameWindow.addNoratorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
+                    gameWindow.addNullatorButton.IsEnabled = false;
+                    gameWindow.addNullatorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
+                }
+
+                player.RemoveNode(button);
+            }
+
+            e.Handled = true;
+        }
+
+        private void OnNullorButtonClick(object sender, RoutedEventArgs e)
+        {
+            //Add Nullor on screen
+
+            player.GetNodeChosen1().Background = Brushes.Black;
+            player.GetNodeChosen2().Background = Brushes.Black;
+            player.RemoveNode(player.GetNodeChosen1());
+            player.RemoveNode(player.GetNodeChosen2());
+
+            gameWindow.addNoratorButton.IsEnabled = false;
+            gameWindow.addNoratorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
+            gameWindow.addNullatorButton.IsEnabled = false;
+            gameWindow.addNullatorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
+
+            e.Handled = true;
         }
 
         private string GetSubString(ref string line, int len)
