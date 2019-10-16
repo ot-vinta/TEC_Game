@@ -98,6 +98,9 @@ namespace tec
                         node1.GetButton().Template = gameWindow.FindResource("NodeTemplate") as ControlTemplate;
                         node2.GetButton().Template = gameWindow.FindResource("NodeTemplate") as ControlTemplate;
 
+                        node1.GetButton().Click += new RoutedEventHandler(OnNodeClick);
+                        node2.GetButton().Click += new RoutedEventHandler(OnNodeClick);
+
                         //Кнопкам узлов добавляем номер
                         node1.GetButton().Content = node1Id.ToString(); //НЕ РАБОТАЕТ
                         node2.GetButton().Content = node2Id.ToString();
@@ -278,6 +281,28 @@ namespace tec
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+        }
+
+        private void OnNodeClick(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            if (button.Background == Brushes.Black)
+            {
+                button.Background = Brushes.Blue;
+
+                player.ChooseNode(button);
+
+                if (player.NodesChosen())
+                {
+                    //Here we need to add animations to slides
+                }
+            }
+            else
+            {
+                button.Background = Brushes.Black;
+
+                player.RemoveNode(button);
             }
         }
 

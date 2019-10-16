@@ -24,9 +24,7 @@ namespace tec
             button.VerticalAlignment = VerticalAlignment.Top;
             button.HorizontalAlignment = HorizontalAlignment.Left;
 
-            button.Background = new SolidColorBrush(Colors.Black);
-
-            button.Background = new SolidColorBrush(Colors.Black);
+            button.Background = Brushes.Black;
 
             connectedElements = new List<BaseElement>();
             this.id = id;
