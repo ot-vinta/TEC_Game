@@ -327,7 +327,7 @@ __pycache__/
 
 .vs/
 .idea/
-.TEC_Game/bin/Debug/
+TEC_Game/bin/Debug/
 
 # OpenCover UI analysis results
 OpenCover/
