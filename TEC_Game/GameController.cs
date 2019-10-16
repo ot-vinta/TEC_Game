@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TEC_Game;
@@ -101,8 +102,23 @@ namespace tec
                         node1.GetButton().Template = gameWindow.FindResource("NodeTemplate") as ControlTemplate;
                         node2.GetButton().Template = gameWindow.FindResource("NodeTemplate") as ControlTemplate;
 
+                        //Если нажали на узел
                         node1.GetButton().Click += new RoutedEventHandler(OnNodeClick);
                         node2.GetButton().Click += new RoutedEventHandler(OnNodeClick);
+
+                        //|------|------|------|====|-|---|---------------------
+                        //|\-----|------|\-----|----|-|\--|\--------------------
+                        //|-\----|------|-\----|====|-|-\-|-\-------------------
+                        //|==\---|------|==\---|\-----|--\|--\------------------
+                        //|---\--|------|---\--|-\----|-------\-----------------
+                        //|----\-|_____-|----\-|--\---|--------\----------------
+                        //DOESN'T WORK REPAIR IT
+                        //Если курсор внутри узла
+                        //node1.GetButton().MouseEnter += new MouseEventHandler(OnNodeEnter);
+                        //node2.GetButton().MouseEnter += new MouseEventHandler(OnNodeEnter);
+                        //Если курсор вышел из узла
+                        //node1.GetButton().MouseLeave += new MouseEventHandler(OnNodeLeave);
+                        //node2.GetButton().MouseLeave += new MouseEventHandler(OnNodeLeave);
 
                         //Кнопкам узлов добавляем номер
                         node1.GetButton().Content = node1Id.ToString(); //НЕ РАБОТАЕТ
@@ -285,6 +301,18 @@ namespace tec
             {
                 Console.WriteLine(e.Message);
             }
+        }
+
+        private void OnNodeLeave(object sender, MouseEventArgs e)
+        {
+            Button button = sender as Button;
+            button.Background = Brushes.Black;
+        }
+
+        private void OnNodeEnter(object sender, MouseEventArgs e)
+        {
+            Button button = sender as Button;
+            button.Background = Brushes.Aqua;
         }
 
         private void OnNodeClick(object sender, RoutedEventArgs e)
