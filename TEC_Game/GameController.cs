@@ -14,6 +14,7 @@ namespace tec
 {
     class GameController
     {
+        private GameWindow gameWindow;
         private Scheme scheme;
         private Player player;
 
@@ -21,6 +22,13 @@ namespace tec
         {
             this.scheme = scheme;
             this.player = player;
+
+            //Находим объект игрового окна для добавления элементов в него
+            gameWindow = null;
+            foreach (Window window in Application.Current.Windows)
+                if (window is GameWindow) gameWindow = window as GameWindow;
+            gameWindow.addNoratorButton.Click += new RoutedEventHandler(OnNullorButtonClick);
+            gameWindow.addNullatorButton.Click += new RoutedEventHandler(OnNullorButtonClick);
         }
 
         public void InitializeScheme(String path)
@@ -88,11 +96,6 @@ namespace tec
                             element = new Conductor(node1, node2, scheme.GetElementsSize());
                             scheme.AddElement(element);
                         }
-
-                        //Находим объект игрового окна для добавления элементов в него
-                        GameWindow gameWindow = null;
-                        foreach (Window window in Application.Current.Windows)
-                            if (window is GameWindow) gameWindow = window as GameWindow;
 
                         //Добавляем шаблон кнопкам
                         node1.GetButton().Template = gameWindow.FindResource("NodeTemplate") as ControlTemplate;
@@ -287,7 +290,7 @@ namespace tec
         private void OnNodeClick(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            if (button.Background == Brushes.Black)
+            if ((button.Background == Brushes.Black) && (!player.NodesChosen()))
             {
                 button.Background = Brushes.Blue;
 
@@ -296,14 +299,51 @@ namespace tec
                 if (player.NodesChosen())
                 {
                     //Here we need to add animations to slides
+                    gameWindow.addNoratorButton.IsEnabled = true;
+                    gameWindow.addNoratorButton.Background = new SolidColorBrush(Color.FromRgb(255, 110, 64));
+                    gameWindow.addNullatorButton.IsEnabled = true;
+                    gameWindow.addNullatorButton.Background = new SolidColorBrush(Color.FromRgb(255, 110, 64));
                 }
             }
-            else
+            else if ((button.Background == Brushes.Black) && (player.NodesChosen()))
+            {
+                //Make text on screen
+                //print alarm on it
+            }
+            else if (button.Background == Brushes.Blue)
             {
                 button.Background = Brushes.Black;
 
+                if (player.NodesChosen())
+                {
+                    //Here we need to add animations to slides
+                    gameWindow.addNoratorButton.IsEnabled = false;
+                    gameWindow.addNoratorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
+                    gameWindow.addNullatorButton.IsEnabled = false;
+                    gameWindow.addNullatorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
+                }
+
                 player.RemoveNode(button);
             }
+
+            e.Handled = true;
+        }
+
+        private void OnNullorButtonClick(object sender, RoutedEventArgs e)
+        {
+            //Add Nullor on screen
+
+            player.GetNodeChosen1().Background = Brushes.Black;
+            player.GetNodeChosen2().Background = Brushes.Black;
+            player.RemoveNode(player.GetNodeChosen1());
+            player.RemoveNode(player.GetNodeChosen2());
+
+            gameWindow.addNoratorButton.IsEnabled = false;
+            gameWindow.addNoratorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
+            gameWindow.addNullatorButton.IsEnabled = false;
+            gameWindow.addNullatorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
+
+            e.Handled = true;
         }
 
         private string GetSubString(ref string line, int len)
