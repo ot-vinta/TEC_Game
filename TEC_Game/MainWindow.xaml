@@ -7,6 +7,20 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="890" Width="1216">
     <Window.Resources>
+        <Style TargetType="Button">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.1" To="294" AutoReverse="True" />
+                                <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.1" To="52" AutoReverse="True" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
         <ControlTemplate TargetType="Button" x:Key="ButtonTemplate">
             <Border CornerRadius="24"
                     Background="{TemplateBinding Background}" Height="48" Width="{TemplateBinding Width}" >
