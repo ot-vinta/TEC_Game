@@ -29,7 +29,8 @@
                     <EventTrigger.Actions>
                         <BeginStoryboard>
                             <Storyboard>
-                                
+                                <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.1" To="245" AutoReverse="True" />
+                                <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.1" To="52" AutoReverse="True" />
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger.Actions>
