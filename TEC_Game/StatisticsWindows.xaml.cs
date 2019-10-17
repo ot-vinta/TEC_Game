@@ -15,18 +15,25 @@ using System.Windows.Shapes;
 namespace TEC_Game
 {
     /// <summary>
-    /// Логика взаимодействия для ChooseLevelWindow.xaml
+    /// Логика взаимодействия для StatisticsWindows.xaml
     /// </summary>
-    public partial class ChooseLevelWindow : Window
+    public partial class StatisticsWindows : Window
     {
-        public ChooseLevelWindow()
+        public StatisticsWindows()
         {
             InitializeComponent();
+            SetNumFinished(NumFinished);
+        }
+        public void SetNumFinished(Label label)
+        {
+            int content = 23;
+            label.Content = content.ToString();
         }
 
-        private void GoBackButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
+            this.Owner.Show();
+            this.Close();
         }
     }
 }

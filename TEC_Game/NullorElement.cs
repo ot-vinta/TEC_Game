@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace tec
 {
@@ -22,6 +23,8 @@ namespace tec
         public void SetDirection(string newDirection)
         {
             direction = newDirection;
+            RotateTransform rotate = new RotateTransform(180);
+            image.RenderTransform = rotate;
         }
     }
 }

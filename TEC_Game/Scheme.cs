@@ -74,6 +74,11 @@ namespace tec
             return elements.Count();
         }
 
+        public int GetNodesCount()
+        {
+            return nodes.Count;
+        }
+
         public void AddElement(BaseElement element)
         {
             elements.Add(element);
@@ -84,6 +89,16 @@ namespace tec
         public void AddNode(Node node)
         {
             nodes.Add(node);
+        }
+
+        public Node GetNode(int id)
+        {
+            foreach (var node in nodes)
+            {
+                if (node.GetId() == id)
+                    return node;
+            }
+            return null;
         }
 
         public void RemoveElement(BaseElement element)
