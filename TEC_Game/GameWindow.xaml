@@ -86,6 +86,6 @@
         <Label Width="350" Height="70" Content="Уровень " FontSize="48" UseLayoutRounding="False" Padding="0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
         <Button Template="{StaticResource ButtonTemplate}" Width="100" Height="48" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,12,0,0" Background="#FFFF6E40" Content="Меню" Click="Button_Click"/>
 
-        <Canvas x:Name="GameGrid" HorizontalAlignment="Left" Height="760" Margin="10,80,0,0" VerticalAlignment="Top" Width="880" Background="#FFE1E2E1"/>
+        <Canvas x:Name="GameGrid" HorizontalAlignment="Left" Height="760" VerticalAlignment="Top" Width="880" Margin="10,10,0,0" Background="#FFE1E2E1" Grid.Row="1"/>
     </Grid>
 </Window>
