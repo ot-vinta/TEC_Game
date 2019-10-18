@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TEC_Game"
         mc:Ignorable="d"
-        Title="MainWindow" Height="890" Width="1216">
+        Title="MainWindow" Height="1000" Width="1200">
     <Window.Resources>
         <Style TargetType="Button">
             <Style.Triggers>
@@ -23,79 +23,88 @@
         </Style>
         <ControlTemplate TargetType="Button" x:Key="ButtonTemplate">
             <Border CornerRadius="24"
-                    Background="{TemplateBinding Background}" Height="48" Width="{TemplateBinding Width}" >
+                    Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" >
                 <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}" FontSize="24" />
                 <Border.Effect>
                     <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
                 </Border.Effect>
             </Border>
         </ControlTemplate>
+        <ControlTemplate TargetType="Label" x:Key="LabelTemplate">
+            <Border CornerRadius="0,0,4,4" Background="{TemplateBinding Background}" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}"/>
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
+                </Border.Effect>
+            </Border>
+        </ControlTemplate>
+        <ControlTemplate x:Key="UndefinedTemplate">
+            <Border CornerRadius="0,0,4,4" Background="{TemplateBinding Background}" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
+                </Border.Effect>
+            </Border>
+        </ControlTemplate>
     </Window.Resources>
-    <Grid Background="#FFF5F5F6" Width="1200" Height="850">
+    <Grid Background="#FFF5F5F6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="75*"/>
+            <ColumnDefinition Width="300*"/>
+            <ColumnDefinition Width="75*"/>
+            <ColumnDefinition Width="300*"/>
+            <ColumnDefinition Width="75*"/>
+            <ColumnDefinition Width="300*"/>
+            <ColumnDefinition Width="75*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="215*"/>
-            <RowDefinition Height="340*"/>
-            <RowDefinition Height="264*"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="130*"/>
+            <RowDefinition Height="336*"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="48*"/>
+            <RowDefinition Height="168*"/>
+            <RowDefinition Height="48*"/>
+            <RowDefinition Height="70*"/>
         </Grid.RowDefinitions>
-        <Rectangle Fill="#FF00B2CC" HorizontalAlignment="Left" Height="140" VerticalAlignment="Top" Width="1200" Margin="0,-1,0,0">
-            <Rectangle.Effect>
-                <DropShadowEffect Opacity="0.5" RenderingBias="Quality"></DropShadowEffect>
-            </Rectangle.Effect>
-        </Rectangle>
-        <Label Content="Добро Пожаловать&#xD;&#xA;Выберите уровень" Margin="100,0,0,0" VerticalAlignment="Top" FontSize="50" Width="1000" Height="140" HorizontalAlignment="Left" FontWeight="Bold" HorizontalContentAlignment="Center" Padding="0" UseLayoutRounding="False"/>
-        <Grid HorizontalAlignment="Left" Height="300" Margin="75,0,0,0" VerticalAlignment="Top" Width="300" Background="#FFE1E2E1" Grid.Row="1">
+        <Label Template="{StaticResource LabelTemplate}" Content="Добро пожаловать! Выберите уровень" Background="#FF00B2CC" FontSize="36" HorizontalContentAlignment="Center" Padding="0" UseLayoutRounding="False" VerticalContentAlignment="Center" Grid.ColumnSpan="7"/>
+
+        <Grid Grid.Column="1" Grid.Row="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="35"></RowDefinition>
-                <RowDefinition/>
+                <RowDefinition Height="36*"/>
+                <RowDefinition Height="300*"/>
             </Grid.RowDefinitions>
-            <Grid.Effect>
-                <DropShadowEffect Direction="270" Opacity="0.5" RenderingBias="Quality" ShadowDepth="4"></DropShadowEffect>
-            </Grid.Effect>
-            <Rectangle Grid.Row="0" Fill="#FF00E5FF">
-                <Rectangle.Effect>
-                    <DropShadowEffect Direction="270" Opacity="0.502" ShadowDepth="1.8"/>
-                </Rectangle.Effect>
-            </Rectangle>
-            <Label Grid.Row="0" Padding="0" UseLayoutRounding="False" Content="Level 1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="24"></Label>
-            <Image Grid.Row="1" Source="Images/level1.png" Margin="0,5,0,0"/>
+            <Label Template="{StaticResource LabelTemplate}" Content="Level 1" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC"/>
+            <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="1" Background="#FFE1E2E1"/>
+            <Image Grid.Row="1" Source="Images/level1.png"/>
         </Grid>
-        <Grid HorizontalAlignment="Left" Height="300" Margin="450,0,0,0" VerticalAlignment="Top" Width="300" Background="#FFE1E2E1" Grid.Row="1">
+
+        <Grid Grid.Column="3" Grid.Row="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="35"></RowDefinition>
-                <RowDefinition/>
+                <RowDefinition Height="36*"/>
+                <RowDefinition Height="300*"/>
             </Grid.RowDefinitions>
-            <Grid.Effect>
-                <DropShadowEffect Direction="270" Opacity="0.5" RenderingBias="Quality" ShadowDepth="4"></DropShadowEffect>
-            </Grid.Effect>
-            <Rectangle Grid.Row="0" Fill="#FF00E5FF">
-                <Rectangle.Effect>
-                    <DropShadowEffect Direction="270" Opacity="0.502" ShadowDepth="1.8"/>
-                </Rectangle.Effect>
-            </Rectangle>
-            <Label Grid.Row="0" Padding="0" UseLayoutRounding="False" Content="Level 2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="24"></Label>
-            <Image Grid.Row="1"></Image>
+            <Label Template="{StaticResource LabelTemplate}" Content="Level 2" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC"/>
+            <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="1" Background="#FFE1E2E1"/>
+            <Image Grid.Row="1" />
         </Grid>
-        <Grid HorizontalAlignment="Left" Height="300" Margin="825,0,0,0" VerticalAlignment="Top" Width="300" Background="#FFE1E2E1" Grid.Row="1">
+
+        <Grid Grid.Column="5" Grid.Row="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="35"></RowDefinition>
-                <RowDefinition/>
+                <RowDefinition Height="36*"/>
+                <RowDefinition Height="300*"/>
             </Grid.RowDefinitions>
-            <Grid.Effect>
-                <DropShadowEffect Direction="270" Opacity="0.5" RenderingBias="Quality" ShadowDepth="4"></DropShadowEffect>
-            </Grid.Effect>
-            <Rectangle Grid.Row="0" Fill="#FF00E5FF">
-                <Rectangle.Effect>
-                    <DropShadowEffect Direction="270" Opacity="0.502" ShadowDepth="1.8"/>
-                </Rectangle.Effect>
-            </Rectangle>
-            <Label Grid.Row="0" Padding="0" UseLayoutRounding="False" Content="Level 3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="24"></Label>
-            <Image Grid.Row="1"></Image>
+            <Label Template="{StaticResource LabelTemplate}" Content="Level 3" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC"/>
+            <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="1" Background="#FFE1E2E1"/>
+            <Image Grid.Row="1"/>
         </Grid>
-        <Button x:Name="Level1ChooseButton" Template="{StaticResource ButtonTemplate}" Margin="75,0,0,0" Grid.Row="2" Height="48" Width="300" Background="#FFFF6E40" Content="Выбрать уровень 1" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Level1ChooseButton_Click"/>
-        <Button x:Name="Level2ChooseButton" Template="{StaticResource ButtonTemplate}" Margin="450,0,0,0" Grid.Row="2" Height="48" Width="300" Background="#FFFF6E40" Content="Выбрать уровень 2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Button x:Name="Level3ChooseButton" Template="{StaticResource ButtonTemplate}" Margin="825,0,0,0" Grid.Row="2" Height="48" Width="300" Background="#FFFF6E40" Content="Выбрать уровень 3" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Button x:Name="SettingsButton" Template="{StaticResource ButtonTemplate}" Margin="75,150,0,0" Grid.Row="2" Height="48" Width="300" Background="#FFFF6E40" Content="Настройки" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Button x:Name="StatisticButton" Template="{StaticResource ButtonTemplate}" Margin="450,150,0,0" Grid.Row="2" Height="48" Width="300" Background="#FFFF6E40" Content="Статистика" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Button x:Name="ExitButton" Template="{StaticResource ButtonTemplate}" Margin="825,150,0,0" Grid.Row="2" Height="48" Width="300" Background="#FFC53D13" Content="Выход" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Click="ExitButton_Click"/>
+
+        <Button Content="Выбрать уровень 1" x:Name="Level1ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="1" Grid.Row="4" Background="#FFFF6E40" Click="Level1ChooseButton_Click"/>
+        <Button Content="Выбрать уровень 2" x:Name="Level2ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="4" Background="#FFFF6E40"/>
+        <Button Content="Выбрать уровень 3" x:Name="Level3ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="5" Grid.Row="4" Background="#FFFF6E40"/>
+        <Button Content="Настройки" Template="{StaticResource ButtonTemplate}" Grid.Column="1" Grid.Row="6" Background="#FFFF6E40"/>
+        <Button Content="Статистика" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="6" Background="#FFFF6E40"/>
+        <Button Content="Выход" x:Name="ExitButton" Template="{StaticResource ButtonTemplate}" Grid.Column="5" Grid.Row="6" Background="#FFC53D13" Click="ExitButton_Click"/>
+
     </Grid>
 </Window>
