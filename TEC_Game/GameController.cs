@@ -148,8 +148,7 @@ namespace tec
 
             if (direction == "R")
             {
-                RotateTransform rotate = new RotateTransform(90);
-                element.GetImage().RenderTransform = rotate;
+                element.ChangeImageDirectionToLand();
 
                 element.GetImage().SetValue(Grid.RowSpanProperty, 3);
                 element.GetImage().SetValue(Grid.ColumnSpanProperty, 9);
@@ -180,7 +179,7 @@ namespace tec
 
             if (direction == "R")
             {
-                wire.ChangeDirection();
+                wire.ChangeImageDirectionToLand();
                 wire.GetImage().SetValue(Grid.ColumnSpanProperty, 4);
             }
             else

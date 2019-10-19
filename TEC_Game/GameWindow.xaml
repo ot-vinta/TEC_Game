@@ -25,7 +25,7 @@
     <Window.Resources>
         <ControlTemplate TargetType="Button" x:Key="NodeTemplate">
             <Border CornerRadius="25"
-                    Background="Black" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" >
+                    Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" >
                 <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="AliceBlue" Content="{TemplateBinding Content}"/>
             </Border>
         </ControlTemplate>

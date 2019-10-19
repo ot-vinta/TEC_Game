@@ -21,6 +21,12 @@ namespace tec
             image.VerticalAlignment = VerticalAlignment.Stretch;
         }
 
+        public override void ChangeImageDirectionToLand()
+        {
+            string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
+            image.Source = new BitmapImage(new Uri(dir + @"Images\NoratorLand.png"));
+        }
+
         public override void Destroy()
         {
             //TO DO

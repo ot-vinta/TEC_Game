@@ -27,10 +27,10 @@ namespace TEC_Game
             image.Source = new BitmapImage(new Uri(dir + @"Images\Wire.png"));
         }
 
-        public void ChangeDirection()
+        public void ChangeImageDirectionToLand()
         {
-            RotateTransform rotate = new RotateTransform(90);
-            image.RenderTransform = rotate;
+            string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
+            image.Source = new BitmapImage(new Uri(dir + @"Images\WireLand.png"));
         }
 
         public Image GetImage()
