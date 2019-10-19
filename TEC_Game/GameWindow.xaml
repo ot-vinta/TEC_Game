@@ -33,7 +33,7 @@
             <Border CornerRadius="0,0,4,4" Background="{TemplateBinding Background}" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}"/>
                 <Border.Effect>
-                    <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
+                    <DropShadowEffect Direction="300" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
                 </Border.Effect>
             </Border>
         </ControlTemplate>
@@ -42,7 +42,7 @@
                     Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" >
                 <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}" FontSize="24" />
                 <Border.Effect>
-                    <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
+                    <DropShadowEffect Direction="300" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
                 </Border.Effect>
             </Border>
         </ControlTemplate>
@@ -50,7 +50,7 @@
             <Border CornerRadius="0,0,4,4" Background="{TemplateBinding Background}" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <Border.Effect>
-                    <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
+                    <DropShadowEffect Direction="300" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
                 </Border.Effect>
             </Border>
         </ControlTemplate>
