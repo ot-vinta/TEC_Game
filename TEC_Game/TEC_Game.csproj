@@ -66,6 +66,7 @@
     <Compile Include="StatisticsWindows.xaml.cs">
       <DependentUpon>StatisticsWindows.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Wire.cs" />
     <Page Include="GameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -130,6 +131,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\level1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ConductorLand.png" />
+    <Resource Include="Images\NoratorLand.png" />
+    <Resource Include="Images\NullatorLand.png" />
+    <Resource Include="Images\ResistorLand.png" />
+    <Resource Include="Images\WireLand.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

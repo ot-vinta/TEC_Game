@@ -327,7 +327,7 @@ __pycache__/
 
 .vs/
 .idea/
-TEC_Game/bin/Debug/
+
 
 # OpenCover UI analysis results
 OpenCover/
@@ -355,3 +355,5 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+TEC_Game/bin/Debug/TEC_Game.exe
+TEC_Game/bin/Debug/TEC_Game.pdb
