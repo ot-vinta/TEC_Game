@@ -15,11 +15,10 @@ namespace tec
         {
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
             image = new Image();
+            image.StretchDirection = StretchDirection.Both;
             image.Source = new BitmapImage(new Uri(dir + @"Images\Norator.png"));
-            image.Width = 50;
-            image.Height = 200;
-            image.HorizontalAlignment = HorizontalAlignment.Left;
-            image.VerticalAlignment = VerticalAlignment.Top;
+            image.HorizontalAlignment = HorizontalAlignment.Stretch;
+            image.VerticalAlignment = VerticalAlignment.Stretch;
         }
 
         public override void Destroy()

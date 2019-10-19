@@ -15,11 +15,11 @@ namespace tec
         {
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
             image = new Image();
+            image.StretchDirection = StretchDirection.Both;
+            //image.RenderTransformOrigin = new Point(0, 0.5);
             image.Source = new BitmapImage(new Uri(dir + @"Images\Resistor.png"));
-            image.Width = 50;
-            image.Height = 200;
-            image.HorizontalAlignment = HorizontalAlignment.Left;
-            image.VerticalAlignment = VerticalAlignment.Top;
+            image.HorizontalAlignment = HorizontalAlignment.Stretch;
+            image.VerticalAlignment = VerticalAlignment.Stretch;
         }
 
         public override void Destroy()
