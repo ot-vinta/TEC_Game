@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TEC_Game"
         mc:Ignorable="d"
-        Title="GameWindow" Height="1121" Width="1328">
+        Title="GameWindow" Height="1021" Width="1228">
 
 
     <Window.Triggers>
