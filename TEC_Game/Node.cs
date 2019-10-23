@@ -18,15 +18,11 @@ namespace tec
         public Node(Button button, int id, int X, int Y)
         {
             this.button = button;
-            button.Height = 25;
-            button.Width = 25;
 
-            button.VerticalAlignment = VerticalAlignment.Top;
-            button.HorizontalAlignment = HorizontalAlignment.Left;
+            button.VerticalAlignment = VerticalAlignment.Stretch;
+            button.HorizontalAlignment = HorizontalAlignment.Stretch;
 
-            button.Background = new SolidColorBrush(Colors.Black);
-
-            button.Background = new SolidColorBrush(Colors.Black);
+            button.Background = Brushes.Black;
 
             connectedElements = new List<BaseElement>();
             this.id = id;

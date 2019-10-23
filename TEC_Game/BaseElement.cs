@@ -44,5 +44,6 @@ namespace tec
         }
 
         public abstract void Destroy();
+        public abstract void ChangeImageDirectionToLand();
     }
 }
