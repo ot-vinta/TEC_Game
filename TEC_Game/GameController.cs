@@ -198,9 +198,7 @@ namespace tec
 
         public void OnNullorButtonClick(object sender, RoutedEventArgs e)
         {
-            int row = 0, column = 0;
-            string direction = "";
-
+            schemeController.PlaceNullor();
 
             player.GetNodeChosen1().Background = Brushes.Black;
             player.GetNodeChosen2().Background = Brushes.Black;

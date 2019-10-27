@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Annotations;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -126,6 +128,71 @@ namespace TEC_Game
             else
                 line = line.Substring(len + 1);
             return ans;
+        }
+
+        public void PlaceNullor()
+        {
+            Node node1 = gameController.scheme.GetNode(gameController.player.GetNodeChosen1());
+            Node node2 = gameController.scheme.GetNode(gameController.player.GetNodeChosen2());
+
+            List<Node> wayBetweenNodes = FindWay(node1, node2);
+
+            if ((node1.GetX() == node2.GetX()) && (node1.GetY() != node2.GetY()))
+            {
+
+            }
+            else if ((node1.GetX() != node2.GetX()) && (node1.GetY() == node2.GetY()))
+            {
+
+            }
+            else
+            {
+                
+            }
+        }
+
+        private List<Node> FindWay(Node node1, Node node2)
+        {
+            List<Node> ans = new List<Node>();
+            List<Node> markedNodes = new List<Node> {node1};
+
+            Queue<Way> queue = new Queue<Way>();
+
+            List<BaseElement> elements = node1.GetConnectedElements();
+            foreach (var element in elements)
+            {
+                Node elementNode1 = element.GetNode1();
+                Node elementNode2 = element.GetNode2();
+
+                queue.Enqueue(elementNode1 == node1
+                    ? new Way(new List<Node> {node1, elementNode2})
+                    : new Way(new List<Node> {node1, elementNode1}));
+            }
+
+            while (queue.Peek().GetFirstNode() != node2)
+            {
+                Node firstNode = queue.Dequeue().GetFirstNode();
+                elements = node1.GetConnectedElements();
+            }
+
+
+
+            return ans;
+        }
+
+        private class Way
+        {
+            private List<Node> nodes;
+
+            internal Way(List<Node> nodes)
+            {
+                this.nodes = nodes;
+            }
+
+            internal Node GetFirstNode()
+            {
+                return nodes[nodes.Count - 1];
+            }
         }
     }
 }
