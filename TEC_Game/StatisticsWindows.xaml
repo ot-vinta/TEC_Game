@@ -36,17 +36,6 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Button Template="{StaticResource ButtonTemplate}" Grid.Row="1" Background="#FFFF6E40" Width="250" Height="48" Content="Упростить схему" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="925,340,0,0" />
-
-        <ContentControl Template="{StaticResource controlTemplate}" HorizontalAlignment="Left" Height="250" VerticalAlignment="Top" Width="300" Margin="900,70,0,0" Background="#FF6EFFFF" Grid.Row="1"/>
-        <Label Width="300" Height="70" Content="Выберите элемент" FontSize="30" UseLayoutRounding="False" Padding="0" HorizontalContentAlignment="Center" Grid.Row="1" Margin="900,70,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
-        <Rectangle Fill="Black" Height="1" Width="300" Margin="900,140,0,0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Button Template="{StaticResource ButtonTemplate}" Grid.Row="1" Background="#FFFF6E40" Width="250" Height="48" Content="Нуллатор" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="925,166,0,0" />
-        <Button Template="{StaticResource ButtonTemplate}" Grid.Row="1" Background="#FFFF6E40" Width="250" Height="48" Content="Норатор" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="925,242,0,0" />
-
-        <ContentControl Template="{StaticResource controlTemplate}" HorizontalAlignment="Left" Height="70" Grid.RowSpan="2" VerticalAlignment="Top" Width="300" Margin="900,70,0,0" Background="#FF00E5FF"/>
-        <Label Width="250" Height="70" Content="Выберите узлы" FontSize="30" UseLayoutRounding="False" Padding="0" HorizontalContentAlignment="Center" Grid.Row="1" Margin="925,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
-
         <Rectangle Fill="#FF00B2CC" HorizontalAlignment="Left" Height="70" Grid.RowSpan="2" VerticalAlignment="Top" Width="1200">
             <Rectangle.Effect>
                 <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4" RenderingBias="Quality"></DropShadowEffect>
@@ -58,5 +47,6 @@
         <Label Content="Завершённых игр" HorizontalAlignment="Left" Margin="70,70,0,0" Grid.Row="1" VerticalAlignment="Top" Height="35" Width="147" FontSize="16"/>
         <Label Content="Проигрышей" HorizontalAlignment="Left" Margin="70,105,0,0" Grid.Row="1" VerticalAlignment="Top" Height="35" Width="147" FontSize="16"/>
         <Label x:Name="NumFinished" Content="Label" HorizontalAlignment="Left" Margin="272,70,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label x:Name="NumLose" Content="Label" HorizontalAlignment="Left" Margin="272,109,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="0.474,0.436"/>
     </Grid>
 </Window>

@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="Resistor.cs" />
     <Compile Include="Scheme.cs" />
+    <Compile Include="Statistics.cs" />
     <Compile Include="StatisticsWindows.xaml.cs">
       <DependentUpon>StatisticsWindows.xaml</DependentUpon>
     </Compile>
@@ -138,6 +139,9 @@
     <Resource Include="Images\NullatorLand.png" />
     <Resource Include="Images\ResistorLand.png" />
     <Resource Include="Images\WireLand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Stats.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
