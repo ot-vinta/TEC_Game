@@ -135,19 +135,20 @@ namespace TEC_Game
             Node node1 = gameController.scheme.GetNode(gameController.player.GetNodeChosen1());
             Node node2 = gameController.scheme.GetNode(gameController.player.GetNodeChosen2());
 
+            //Получаем путь между узлами
             List<Node> wayBetweenNodes = FindWay(node1, node2);
 
             if ((node1.GetX() == node2.GetX()) && (node1.GetY() != node2.GetY()))
             {
-
+                //Если элемент будет расположен горизонтально
             }
             else if ((node1.GetX() != node2.GetX()) && (node1.GetY() == node2.GetY()))
             {
-
+                //Если элемент будет расположен вертикально
             }
             else
             {
-                
+                //Если есть выбор
             }
         }
 
@@ -158,6 +159,7 @@ namespace TEC_Game
 
             Queue<Way> queue = new Queue<Way>();
 
+            //Заменить все на один метод, который внизу будет
             List<BaseElement> elements = node1.GetConnectedElements();
             foreach (var element in elements)
             {
@@ -173,12 +175,16 @@ namespace TEC_Game
             {
                 Node firstNode = queue.Dequeue().GetFirstNode();
                 elements = node1.GetConnectedElements();
+
+                //Заменить все на один метод, который внизу будет
             }
 
-
+            //Получить путь между узлами
 
             return ans;
         }
+
+        //Сделать метод для добавления новых путей в очередь
 
         private class Way
         {
