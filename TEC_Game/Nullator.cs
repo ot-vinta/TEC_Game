@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace tec
@@ -16,6 +17,7 @@ namespace tec
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
             image = new Image();
             image.StretchDirection = StretchDirection.Both;
+            image.Stretch = Stretch.Fill;
             image.Source = new BitmapImage(new Uri(dir + @"Images\Nullator.png"));
             image.HorizontalAlignment = HorizontalAlignment.Stretch;
             image.VerticalAlignment = VerticalAlignment.Stretch;

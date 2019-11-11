@@ -36,7 +36,7 @@ namespace TEC_Game
             GameWindow gameWindow = new GameWindow();
             gameWindow.Owner = this;
             this.Hide();
-            GameController controller = new GameController(new Scheme(), new Player());
+            GameController controller = new GameController(new Player(), new Scheme());
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
             controller.InitializeScheme(dir + "Level1.txt");
             gameWindow.Show();

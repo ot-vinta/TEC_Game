@@ -355,5 +355,5 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-TEC_Game/bin/Debug/TEC_Game.exe
-TEC_Game/bin/Debug/TEC_Game.pdb
+.vscode/launch.json
+.vscode/tasks.json

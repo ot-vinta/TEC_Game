@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace tec
 {
@@ -98,6 +99,18 @@ namespace tec
                 if (node.GetId() == id)
                     return node;
             }
+
+            return null;
+        }
+
+        public Node GetNode(Button button)
+        {
+            foreach (var node in nodes)
+            {
+                if (node.GetButton() == button)
+                    return node;
+            }
+
             return null;
         }
 

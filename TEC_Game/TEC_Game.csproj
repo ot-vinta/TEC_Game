@@ -63,9 +63,12 @@
     </Compile>
     <Compile Include="Resistor.cs" />
     <Compile Include="Scheme.cs" />
-    <Compile Include="Statistics.cs" />
+    <Compile Include="SchemeController.cs" />
     <Compile Include="StatisticsWindows.xaml.cs">
       <DependentUpon>StatisticsWindows.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="test.xaml.cs">
+      <DependentUpon>test.xaml</DependentUpon>
     </Compile>
     <Compile Include="Wire.cs" />
     <Page Include="GameWindow.xaml">
@@ -85,6 +88,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="StatisticsWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="test.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

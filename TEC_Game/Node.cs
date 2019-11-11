@@ -58,9 +58,24 @@ namespace tec
             return connectedElements.Count;
         }
 
+        public List<BaseElement> GetConnectedElements()
+        {
+            return connectedElements;
+        }
+
         public void RemoveElement(BaseElement element)
         {
             connectedElements.Remove(element);
+        }
+
+        public int GetX()
+        {
+            return X;
+        }
+
+        public int GetY()
+        {
+            return Y;
         }
 
         public int GetId()
