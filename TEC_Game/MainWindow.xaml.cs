@@ -41,5 +41,13 @@ namespace TEC_Game
             controller.InitializeScheme(dir + "Level1.txt");
             gameWindow.Show();
         }
+
+        private void StatisticsButton_Click(object sender, RoutedEventArgs e)
+        {
+            StatisticsWindows statWindow = new StatisticsWindows();
+            statWindow.Owner = this;
+            this.Hide();
+            statWindow.Show();
+        }
     }
 }
