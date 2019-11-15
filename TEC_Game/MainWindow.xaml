@@ -16,12 +16,17 @@
                 </Border.Effect>
             </Border>
         </ControlTemplate>
-        <ControlTemplate TargetType="Label" x:Key="LabelTemplate">
+        <ControlTemplate TargetType="Label" x:Key="BigLabelTemplate">
             <Border CornerRadius="0,0,4,4" Background="{TemplateBinding Background}" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}"/>
                 <Border.Effect>
                     <DropShadowEffect Direction="300" Opacity="0.5" ShadowDepth="4"></DropShadowEffect>
                 </Border.Effect>
+            </Border>
+        </ControlTemplate>
+        <ControlTemplate TargetType="Label" x:Key="SmallLabelTemplate">
+            <Border Background="{TemplateBinding Background}" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}"/>
             </Border>
         </ControlTemplate>
         <ControlTemplate x:Key="UndefinedTemplate">
@@ -53,15 +58,15 @@
             <RowDefinition Height="48*"/>
             <RowDefinition Height="70*"/>
         </Grid.RowDefinitions>
-        <Label Template="{StaticResource LabelTemplate}" Content="Добро пожаловать! Выберите уровень" Background="#FF00B2CC" FontSize="36" HorizontalContentAlignment="Center" Padding="0" UseLayoutRounding="False" VerticalContentAlignment="Center" Grid.ColumnSpan="7"/>
+        <Label Template="{StaticResource BigLabelTemplate}" Content="Добро пожаловать! Выберите уровень" Background="#FF00B2CC" FontSize="36" HorizontalContentAlignment="Center" Padding="0" UseLayoutRounding="False" VerticalContentAlignment="Center" Grid.ColumnSpan="7"/>
 
         <Grid Grid.Column="1" Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="36*"/>
                 <RowDefinition Height="300*"/>
             </Grid.RowDefinitions>
-            <Label Template="{StaticResource LabelTemplate}" Content="Level 1" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC"/>
-            <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="1" Background="#FFE1E2E1"/>
+            <Label Template="{StaticResource SmallLabelTemplate}" Content="Level 1" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC"/>
+            <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="0" Grid.RowSpan="2" Background="#FFE1E2E1"/>
             <Image Grid.Row="1" Source="Images/level1.png"/>
         </Grid>
 
@@ -70,8 +75,8 @@
                 <RowDefinition Height="36*"/>
                 <RowDefinition Height="300*"/>
             </Grid.RowDefinitions>
-            <Label Template="{StaticResource LabelTemplate}" Content="Level 2" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC"/>
-            <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="1" Background="#FFE1E2E1"/>
+            <Label Template="{StaticResource SmallLabelTemplate}" Content="Level 2" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC"/>
+            <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="0" Grid.RowSpan="2" Background="#FFE1E2E1"/>
             <Image Grid.Row="1" />
         </Grid>
 
@@ -80,13 +85,13 @@
                 <RowDefinition Height="36*"/>
                 <RowDefinition Height="300*"/>
             </Grid.RowDefinitions>
-            <Label Template="{StaticResource LabelTemplate}" Content="Level 3" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC"/>
-            <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="1" Background="#FFE1E2E1"/>
+            <Label Template="{StaticResource SmallLabelTemplate}" Content="Level 3" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC"/>
+            <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="0" Grid.RowSpan="2" Background="#FFE1E2E1"/>
             <Image Grid.Row="1"/>
         </Grid>
 
         <Button Content="Выбрать уровень 1" x:Name="Level1ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="1" Grid.Row="4" Background="#FFFF6E40" Click="Level1ChooseButton_Click"/>
-        <Button Content="Выбрать уровень 2" x:Name="Level2ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="4" Background="#FFFF6E40"/>
+        <Button Content="Выбрать уровень 2" x:Name="Level2ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="4" Background="#FFFF6E40" Click="Level2ChooseButton_Click"/>
         <Button Content="Выбрать уровень 3" x:Name="Level3ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="5" Grid.Row="4" Background="#FFFF6E40"/>
         <Button Content="Настройки" Template="{StaticResource ButtonTemplate}" Grid.Column="1" Grid.Row="6" Background="#FFFF6E40"/>
         <Button x:Name="StatisticsButton" Content="Статистика" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="6" Background="#FFFF6E40" Click="StatisticsButton_Click"/>

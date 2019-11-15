@@ -5,6 +5,8 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Xml.Serialization;
+using TEC_Game;
 
 namespace tec
 {
@@ -12,12 +14,13 @@ namespace tec
     {
         private List<BaseElement> elements;
         private List<Node> nodes;
-        //Нужен список проводов
+        private List<Wire> wires;
 
         public Scheme()
         {
             elements = new List<BaseElement>();
             nodes = new List<Node>();
+            wires = new List<Wire>();
         }
 
         public bool HasNullor()
@@ -92,6 +95,11 @@ namespace tec
             nodes.Add(node);
         }
 
+        public void AddWire(Wire wire)
+        {
+            wires.Add(wire);
+        }
+
         public Node GetNode(int id)
         {
             foreach (var node in nodes)
@@ -103,15 +111,46 @@ namespace tec
             return null;
         }
 
-        public Node GetNode(Button button)
+        public Node GetNode(int X, int Y)
         {
             foreach (var node in nodes)
             {
-                if (node.GetButton() == button)
+                if ((node.GetX() == X) && (node.GetY() == Y))
                     return node;
             }
 
             return null;
+        }
+
+        public Node GetRightNode(Node node)
+        {
+            int x = node.GetX();
+            while (true)
+            {
+                x++;
+                if (GetNode(x, node.GetY()) != null)
+                {
+                    return GetNode(x, node.GetY());
+                }
+            }
+        }
+
+        public Node GetDownNode(Node node)
+        {
+            int y = node.GetY();
+            while (true)
+            {
+                y++;
+                if (GetNode(node.GetX(), y) != null)
+                {
+                    return GetNode(node.GetX(), y);
+                }
+            }
+        }
+
+        public int GetWiresCount()
+        {
+            return wires.Count;
         }
 
         public void RemoveElement(BaseElement element)

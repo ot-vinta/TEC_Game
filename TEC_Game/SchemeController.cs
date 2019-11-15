@@ -29,21 +29,21 @@ namespace TEC_Game
             int row = Int32.Parse(GetSubString(ref line, line.IndexOf(' '))); //номер строки и столбца в grid для узла
             int column = Int32.Parse(GetSubString(ref line, line.Length));
 
-            Node node = new Node(new Button(), id, row, column);
+            Node node = new Node(id, column, row);
 
             gameController.scheme.AddNode(node); //Добавление узла в схему
 
-            node.GetButton().Template = gameController.gameWindow.FindResource("NodeTemplate") as ControlTemplate; //Задания шаблона для узла
+            node.Template = gameController.gameWindow.FindResource("NodeTemplate") as ControlTemplate; //Задания шаблона для узла
 
-            node.GetButton().Click += new RoutedEventHandler(gameController.OnNodeClick); //Добавление обработчика нажатия
+            node.Click += new RoutedEventHandler(gameController.OnNodeClick); //Добавление обработчика нажатия
 
-            node.GetButton().Content = id.ToString(); //Задание текста на узле
+            node.Content = id.ToString(); //Задание текста на узле
 
-            node.GetButton().SetValue(Grid.RowProperty, row); //Задание положения узла в grid
-            node.GetButton().SetValue(Grid.ColumnProperty, column);
-            node.GetButton().SetValue(Panel.ZIndexProperty, 2);
+            node.SetValue(Grid.RowProperty, row); //Задание положения узла в grid
+            node.SetValue(Grid.ColumnProperty, column);
+            node.SetValue(Panel.ZIndexProperty, 2);
 
-            gameController.gameWindow.GameGrid.Children.Add(node.GetButton()); //Добавление узла в grid
+            gameController.gameWindow.GameGrid.Children.Add(node); //Добавление узла в grid
         }
 
         public void PlaceElement(ref string line, string type)
@@ -63,14 +63,24 @@ namespace TEC_Game
 
             BaseElement element;
 
-            if (type == "Re")
+            switch (type)
             {
-                element = new Resistor(node1, node2, id);
+                case "Re":
+                    element = new Resistor(node1, node2, id);
+                    break;
+                case "No":
+                    element = new Norator(node1, node2, id);
+                    break;
+                case "Nu":
+                    element = new Nullator(node1, node2, id);
+                    break;
+                default:
+                    element = new Conductor(node1, node2, id);
+                    break;
+
             }
-            else
-            {
-                element = new Conductor(node1, node2, id);
-            }
+
+            gameController.scheme.AddElement(element);
 
             element.GetImage().SetValue(Grid.RowProperty, row);
             element.GetImage().SetValue(Grid.ColumnProperty, column);
@@ -96,25 +106,29 @@ namespace TEC_Game
         {
             int id = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
 
-            int row = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
-            int column = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
+            int startRow = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
+            int startColumn = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
+
+            int length = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
 
             string direction = GetSubString(ref line, 1);
 
-            Wire wire = new Wire(id, row, column);
+            Wire wire = new Wire(id, startRow, startColumn);
 
-            wire.GetImage().SetValue(Grid.RowProperty, row);
-            wire.GetImage().SetValue(Grid.ColumnProperty, column);
+            gameController.scheme.AddWire(wire);
+
+            wire.GetImage().SetValue(Grid.RowProperty, startRow);
+            wire.GetImage().SetValue(Grid.ColumnProperty, startColumn);
             wire.GetImage().SetValue(Panel.ZIndexProperty, 1);
 
             if (direction == "R")
             {
                 wire.ChangeImageDirectionToLand();
-                wire.GetImage().SetValue(Grid.ColumnSpanProperty, 4);
+                wire.GetImage().SetValue(Grid.ColumnSpanProperty, length);
             }
             else
             {
-                wire.GetImage().SetValue(Grid.RowSpanProperty, 4);
+                wire.GetImage().SetValue(Grid.RowSpanProperty, length);
             }
 
             gameController.gameWindow.GameGrid.Children.Add(wire.GetImage());
@@ -123,27 +137,93 @@ namespace TEC_Game
         public string GetSubString(ref string line, int len)
         {
             string ans = line.Substring(0, len);
-            if (line.Length <= len + 1)
-                line = "";
-            else
-                line = line.Substring(len + 1);
+            line = line.Length <= len + 1 
+                 ? "" 
+                 : line.Substring(len + 1);
             return ans;
         }
 
-        public void PlaceNullor()
+        public void FindPlaceAndCreateNullor(Node node1, Node node2, string type)
         {
-            Node node1 = gameController.scheme.GetNode(gameController.player.GetNodeChosen1());
-            Node node2 = gameController.scheme.GetNode(gameController.player.GetNodeChosen2());
+            List<BaseElement> blockingElements = FindBlockingElements(node1, node2);
 
-            //Получаем путь между узлами
-            List<Node> wayBetweenNodes = FindWay(node1, node2);
+            int row = 0;
+            int column = 0;
+            int id = gameController.scheme.GetElementsSize();
+            string line = "";
 
-            if ((node1.GetX() == node2.GetX()) && (node1.GetY() != node2.GetY()))
+            if (node1.GetX() < node2.GetX())
+                column = node1.GetX();
+            else
+                column = node2.GetX();
+
+            if (node1.GetY() < node2.GetY())
+                row = node1.GetY();
+            else
+                row = node2.GetY();
+
+            if ((node1.GetX() != node2.GetX()) && (node1.GetY() == node2.GetY()))
             {
+                if (blockingElements.Count == 0)
+                {
+                    int length = Math.Abs(node1.GetX() - node2.GetX());
+
+                    if (length > 8)
+                    {
+                        int wireId = gameController.scheme.GetWiresCount();
+                        line = wireId + " " + row + " " + (column + 8) + " " + (length - 7) + " R";
+
+                        PlaceWire(ref line);
+                        line = "";
+                    }
+
+                    if (type == "Nu")
+                    {
+                        line = id + " " + (row - 1) + " " + column + " R " + node1.GetId() + " " + node2.GetId();
+                    }
+                    else
+                    {
+                        line = id + " " + (row - 1) + " " + column + " R " + node1.GetId() + " " + node2.GetId();
+                    }
+
+                    PlaceElement(ref line, type);
+                }
+                else
+                {
+                    //TO DO
+                }
                 //Если элемент будет расположен горизонтально
             }
-            else if ((node1.GetX() != node2.GetX()) && (node1.GetY() == node2.GetY()))
+            else if ((node1.GetX() == node2.GetX()) && (node1.GetY() != node2.GetY()))
             {
+                if (blockingElements.Count == 0)
+                {
+                    int length = Math.Abs(node1.GetY() - node2.GetY());
+
+                    if (length > 8)
+                    {
+                        int wireId = gameController.scheme.GetWiresCount();
+                        line = wireId + " " + (row + 8) + " " + column + " " + (length - 7) + " D";
+
+                        PlaceWire(ref line);
+                        line = "";
+                    }
+
+                    if (type == "Nu")
+                    {
+                        line = id + " " + row + " " + (column - 1) + " D " + node1.GetId() + " " + node2.GetId();
+                    }
+                    else
+                    {
+                        line = id + " " + row + " " + (column - 1) + " D " + node1.GetId() + " " + node2.GetId();
+                    }
+
+                    PlaceElement(ref line, type);
+                }
+                else
+                {
+                    //TO DO
+                }
                 //Если элемент будет расположен вертикально
             }
             else
@@ -152,53 +232,69 @@ namespace TEC_Game
             }
         }
 
-        private List<Node> FindWay(Node node1, Node node2)
+        private List<BaseElement> FindBlockingElements(Node node1, Node node2)
         {
-            List<Node> ans = new List<Node>();
-            List<Node> markedNodes = new List<Node> {node1};
+            List<BaseElement> ans = new List<BaseElement>();
+            Node node = node1.Clone() as Node;
 
-            Queue<Way> queue = new Queue<Way>();
-
-            //Заменить все на один метод, который внизу будет
-            List<BaseElement> elements = node1.GetConnectedElements();
-            foreach (var element in elements)
+            while (node.GetX() != node2.GetX())
             {
-                Node elementNode1 = element.GetNode1();
-                Node elementNode2 = element.GetNode2();
+                if (FindRightElement(node) != null)
+                  ans.Add(FindRightElement(node));
 
-                queue.Enqueue(elementNode1 == node1
-                    ? new Way(new List<Node> {node1, elementNode2})
-                    : new Way(new List<Node> {node1, elementNode1}));
+                node = gameController.scheme.GetRightNode(node);
             }
 
-            while (queue.Peek().GetFirstNode() != node2)
+            while (node.GetY() != node2.GetY())
             {
-                Node firstNode = queue.Dequeue().GetFirstNode();
-                elements = node1.GetConnectedElements();
+                if (FindDownElement(node) != null)
+                    ans.Add(FindDownElement(node));
 
-                //Заменить все на один метод, который внизу будет
+                node = gameController.scheme.GetDownNode(node);
             }
 
-            //Получить путь между узлами
+            if ((node1.GetX() != node2.GetX()) && (node1.GetY() != node2.GetY()))
+            {
+                node = node1.Clone() as Node;
+
+                while (node.GetY() != node2.GetY())
+                {
+                    if (FindDownElement(node) != null)
+                        ans.Add(FindDownElement(node));
+
+                    node = gameController.scheme.GetDownNode(node);
+                }
+
+                while (node.GetX() != node2.GetX())
+                {
+                    if (FindRightElement(node) != null)
+                        ans.Add(FindRightElement(node));
+
+                    node = gameController.scheme.GetRightNode(node);
+                }
+            }
 
             return ans;
         }
 
-        //Сделать метод для добавления новых путей в очередь
-
-        private class Way
+        private BaseElement FindDownElement(Node node)
         {
-            private List<Node> nodes;
+            Node temp = gameController.scheme.GetDownNode(node);
 
-            internal Way(List<Node> nodes)
-            {
-                this.nodes = nodes;
-            }
+            foreach (var element in node.GetConnectedElements())
+                if ((element.GetNode1() == temp) || (element.GetNode2() == temp))
+                    return element;
+            return null;
+        }
 
-            internal Node GetFirstNode()
-            {
-                return nodes[nodes.Count - 1];
-            }
+        private BaseElement FindRightElement(Node node)
+        {
+            Node temp = gameController.scheme.GetRightNode(node);
+
+            foreach (var element in node.GetConnectedElements())
+                if ((element.GetNode1() == temp) || (element.GetNode2() == temp))
+                    return element;
+            return null;
         }
     }
 }
