@@ -115,6 +115,8 @@ namespace TEC_Game
 
             Wire wire = new Wire(id, startRow, startColumn);
 
+            gameController.scheme.AddWire(wire);
+
             wire.GetImage().SetValue(Grid.RowProperty, startRow);
             wire.GetImage().SetValue(Grid.ColumnProperty, startColumn);
             wire.GetImage().SetValue(Panel.ZIndexProperty, 1);
@@ -145,24 +147,35 @@ namespace TEC_Game
         {
             List<BaseElement> blockingElements = FindBlockingElements(node1, node2);
 
+            int row = 0;
+            int column = 0;
+            int id = gameController.scheme.GetElementsSize();
+            string line = "";
+
+            if (node1.GetX() < node2.GetX())
+                column = node1.GetX();
+            else
+                column = node2.GetX();
+
+            if (node1.GetY() < node2.GetY())
+                row = node1.GetY();
+            else
+                row = node2.GetY();
+
             if ((node1.GetX() != node2.GetX()) && (node1.GetY() == node2.GetY()))
             {
                 if (blockingElements.Count == 0)
                 {
-                    int row = 0;
-                    int column = 0;
-                    int id = gameController.scheme.GetElementsSize();
-                    string line = "";
+                    int length = Math.Abs(node1.GetX() - node2.GetX());
 
-                    if (node1.GetX() < node2.GetX())
-                        column = node1.GetX();
-                    else
-                        column = node2.GetX();
+                    if (length > 8)
+                    {
+                        int wireId = gameController.scheme.GetWiresCount();
+                        line = wireId + " " + row + " " + (column + 8) + " " + (length - 7) + " R";
 
-                    if (node1.GetY() < node2.GetY())
-                        row = node1.GetY();
-                    else
-                        row = node2.GetY();
+                        PlaceWire(ref line);
+                        line = "";
+                    }
 
                     if (type == "Nu")
                     {
@@ -183,6 +196,34 @@ namespace TEC_Game
             }
             else if ((node1.GetX() == node2.GetX()) && (node1.GetY() != node2.GetY()))
             {
+                if (blockingElements.Count == 0)
+                {
+                    int length = Math.Abs(node1.GetY() - node2.GetY());
+
+                    if (length > 8)
+                    {
+                        int wireId = gameController.scheme.GetWiresCount();
+                        line = wireId + " " + (row + 8) + " " + column + " " + (length - 7) + " D";
+
+                        PlaceWire(ref line);
+                        line = "";
+                    }
+
+                    if (type == "Nu")
+                    {
+                        line = id + " " + row + " " + (column - 1) + " D " + node1.GetId() + " " + node2.GetId();
+                    }
+                    else
+                    {
+                        line = id + " " + row + " " + (column - 1) + " D " + node1.GetId() + " " + node2.GetId();
+                    }
+
+                    PlaceElement(ref line, type);
+                }
+                else
+                {
+                    //TO DO
+                }
                 //Если элемент будет расположен вертикально
             }
             else

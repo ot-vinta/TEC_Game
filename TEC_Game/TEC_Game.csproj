@@ -64,6 +64,7 @@
     <Compile Include="Resistor.cs" />
     <Compile Include="Scheme.cs" />
     <Compile Include="SchemeController.cs" />
+    <Compile Include="Statistics.cs" />
     <Compile Include="StatisticsWindows.xaml.cs">
       <DependentUpon>StatisticsWindows.xaml</DependentUpon>
     </Compile>

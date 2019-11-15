@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Xml.Serialization;
+using TEC_Game;
 
 namespace tec
 {
@@ -13,12 +14,13 @@ namespace tec
     {
         private List<BaseElement> elements;
         private List<Node> nodes;
-        //Нужен список проводов
+        private List<Wire> wires;
 
         public Scheme()
         {
             elements = new List<BaseElement>();
             nodes = new List<Node>();
+            wires = new List<Wire>();
         }
 
         public bool HasNullor()
@@ -93,6 +95,11 @@ namespace tec
             nodes.Add(node);
         }
 
+        public void AddWire(Wire wire)
+        {
+            wires.Add(wire);
+        }
+
         public Node GetNode(int id)
         {
             foreach (var node in nodes)
@@ -139,6 +146,11 @@ namespace tec
                     return GetNode(node.GetX(), y);
                 }
             }
+        }
+
+        public int GetWiresCount()
+        {
+            return wires.Count;
         }
 
         public void RemoveElement(BaseElement element)
