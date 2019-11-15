@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Xml.Serialization;
 
 namespace tec
 {
@@ -103,15 +104,41 @@ namespace tec
             return null;
         }
 
-        public Node GetNode(Button button)
+        public Node GetNode(int X, int Y)
         {
             foreach (var node in nodes)
             {
-                if (node.GetButton() == button)
+                if ((node.GetX() == X) && (node.GetY() == Y))
                     return node;
             }
 
             return null;
+        }
+
+        public Node GetRightNode(Node node)
+        {
+            int x = node.GetX();
+            while (true)
+            {
+                x++;
+                if (GetNode(x, node.GetY()) != null)
+                {
+                    return GetNode(x, node.GetY());
+                }
+            }
+        }
+
+        public Node GetDownNode(Node node)
+        {
+            int y = node.GetY();
+            while (true)
+            {
+                y++;
+                if (GetNode(node.GetX(), y) != null)
+                {
+                    return GetNode(node.GetX(), y);
+                }
+            }
         }
 
         public void RemoveElement(BaseElement element)

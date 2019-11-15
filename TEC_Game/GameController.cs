@@ -34,8 +34,8 @@ namespace tec
             MakeGrid();
 
             //Обработчики для кнопок, добавляющих нуллор
-            gameWindow.addNoratorButton.Click += new RoutedEventHandler(OnNullorButtonClick);
-            gameWindow.addNullatorButton.Click += new RoutedEventHandler(OnNullorButtonClick);
+            gameWindow.addNoratorButton.Click += new RoutedEventHandler(OnNoratorButtonClick);
+            gameWindow.addNullatorButton.Click += new RoutedEventHandler(OnNullatorButtonClick);
         }
 
         private void MakeGrid()
@@ -49,9 +49,11 @@ namespace tec
                 gameWindow.GameGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
-            ContentControl control = new ContentControl();
-            control.Template = gameWindow.FindResource("UndefinedTemplate") as ControlTemplate;
-            control.Background = new SolidColorBrush(Color.FromRgb(225, 226, 225));
+            ContentControl control = new ContentControl
+            {
+                Template = gameWindow.FindResource("UndefinedTemplate") as ControlTemplate,
+                Background = new SolidColorBrush(Color.FromRgb(225, 226, 225))
+            };
 
             control.SetValue(Grid.RowSpanProperty, 40);
             control.SetValue(Grid.ColumnSpanProperty, 40);
@@ -96,50 +98,7 @@ namespace tec
 
         public void StartElimination()
         {
-            if (!scheme.SchemeIsConnected())
-            {
-                //Print warning
-                scheme.RemoveElement(scheme.FindNullator());
-                scheme.RemoveElement(scheme.FindNorator());
-            }
-            else
-            {
-                //Добавляем в очередь ноды, соединенные с нуллором
-                Queue<Node> queue = new Queue<Node>();
-                queue.Enqueue(scheme.FindNullator().GetNode1());
-                queue.Enqueue(scheme.FindNullator().GetNode2());
-                queue.Enqueue(scheme.FindNorator().GetNode1());
-                queue.Enqueue(scheme.FindNorator().GetNode2());
-
-                //Из схемы можно убрать нуллор, он больше не нужен
-                scheme.RemoveElement(scheme.FindNorator());
-                scheme.RemoveElement(scheme.FindNullator());
-                while (queue.Count > 0)
-                {
-                    Node node = queue.Dequeue();
-                    Resistor aloneElement = node.GetResistor();
-
-                    //Если подключен только один резистор, его можно убрать
-                    if ((scheme.GetNodeConnectionsCount(node) == 1) && (aloneElement != null))
-                    {
-                        if (node.GetId() == aloneElement.GetNode1().GetId())
-                            queue.Enqueue(aloneElement.GetNode2());
-                        else
-                            queue.Enqueue(aloneElement.GetNode1());
-                        scheme.RemoveElement(aloneElement);
-                    }
-                    //В случае, когда к узлу подключено много элементов, есть смысл убирать только проводимости
-                    else if ((scheme.GetNodeConnectionsCount(node) > 1) && (node.GetConductor() != null))
-                    {
-                        Conductor conductor = node.GetConductor();
-                        while (conductor != null)
-                        {
-                            scheme.RemoveElement(conductor);
-                            conductor = node.GetConductor();
-                        }
-                    }
-                }
-            }
+            //TO DO
         }
 
         private void OnNodeLeave(object sender, MouseEventArgs e)
@@ -156,12 +115,12 @@ namespace tec
 
         public void OnNodeClick(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            if ((button.Background == Brushes.Black) && (!player.NodesChosen()))
+            Node node = sender as Node;
+            if ((node.Background == Brushes.Black) && (!player.NodesChosen()))
             {
-                button.Background = Brushes.Blue;
+                node.Background = Brushes.Blue;
 
-                player.ChooseNode(button);
+                player.ChooseNode(node);
 
                 if (player.NodesChosen())
                 {
@@ -172,14 +131,14 @@ namespace tec
                     gameWindow.addNullatorButton.Background = new SolidColorBrush(Color.FromRgb(255, 110, 64));
                 }
             }
-            else if ((button.Background == Brushes.Black) && (player.NodesChosen()))
+            else if ((node.Background == Brushes.Black) && (player.NodesChosen()))
             {
                 //Make text on screen
                 //print alarm on it
             }
-            else if (button.Background == Brushes.Blue)
+            else if (node.Background == Brushes.Blue)
             {
-                button.Background = Brushes.Black;
+                node.Background = Brushes.Black;
 
                 if (player.NodesChosen())
                 {
@@ -190,15 +149,32 @@ namespace tec
                     gameWindow.addNullatorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
                 }
 
-                player.RemoveNode(button);
+                player.RemoveNode(node);
             }
 
             e.Handled = true;
         }
 
-        public void OnNullorButtonClick(object sender, RoutedEventArgs e)
+        public void OnNoratorButtonClick(object sender, RoutedEventArgs e)
         {
-            schemeController.PlaceNullor();
+            schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "No");
+
+            player.GetNodeChosen1().Background = Brushes.Black;
+            player.GetNodeChosen2().Background = Brushes.Black;
+            player.RemoveNode(player.GetNodeChosen1());
+            player.RemoveNode(player.GetNodeChosen2());
+
+            gameWindow.addNoratorButton.IsEnabled = false;
+            gameWindow.addNoratorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
+            gameWindow.addNullatorButton.IsEnabled = false;
+            gameWindow.addNullatorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
+
+            e.Handled = true;
+        }
+
+        public void OnNullatorButtonClick(object sender, RoutedEventArgs e)
+        {
+            schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "Nu");
 
             player.GetNodeChosen1().Background = Brushes.Black;
             player.GetNodeChosen2().Background = Brushes.Black;
