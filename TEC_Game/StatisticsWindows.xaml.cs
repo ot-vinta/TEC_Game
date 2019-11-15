@@ -23,10 +23,18 @@ namespace TEC_Game
         {
             InitializeComponent();
             SetNumFinished(NumFinished);
+            SetNumLose(NumLose);
         }
         public void SetNumFinished(Label label)
         {
-            int content = 23;
+            Statistics stats = new Statistics();
+            int content = stats.GetWin();
+            label.Content = content.ToString();
+        }
+        public void SetNumLose(Label label)
+        {
+            Statistics stats = new Statistics();
+            int content = stats.GetLose();
             label.Content = content.ToString();
         }
 

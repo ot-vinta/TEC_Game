@@ -94,7 +94,7 @@
         <Button Content="Выбрать уровень 2" x:Name="Level2ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="4" Background="#FFFF6E40" Click="Level2ChooseButton_Click"/>
         <Button Content="Выбрать уровень 3" x:Name="Level3ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="5" Grid.Row="4" Background="#FFFF6E40"/>
         <Button Content="Настройки" Template="{StaticResource ButtonTemplate}" Grid.Column="1" Grid.Row="6" Background="#FFFF6E40"/>
-        <Button Content="Статистика" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="6" Background="#FFFF6E40"/>
+        <Button x:Name="StatisticsButton" Content="Статистика" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="6" Background="#FFFF6E40" Click="StatisticsButton_Click"/>
         <Button Content="Выход" x:Name="ExitButton" Template="{StaticResource ButtonTemplate}" Grid.Column="5" Grid.Row="6" Background="#FFC53D13" Click="ExitButton_Click"/>
 
     </Grid>
