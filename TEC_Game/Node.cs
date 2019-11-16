@@ -9,22 +9,17 @@ using System.Windows.Media;
 
 namespace tec
 {
-    class Node
+    class Node : Button, ICloneable
     {
-        private Button button;
         private int id, X, Y;
         private List<BaseElement> connectedElements;
 
-        public Node(Button button, int id, int X, int Y)
+        public Node(int id, int X, int Y) : base()
         {
-            this.button = button;
-            button.Height = 25;
-            button.Width = 25;
+            VerticalAlignment = VerticalAlignment.Stretch;
+            HorizontalAlignment = HorizontalAlignment.Stretch;
 
-            button.VerticalAlignment = VerticalAlignment.Top;
-            button.HorizontalAlignment = HorizontalAlignment.Left;
-
-            button.Background = Brushes.Black;
+            Background = Brushes.Black;
 
             connectedElements = new List<BaseElement>();
             this.id = id;
@@ -60,9 +55,24 @@ namespace tec
             return connectedElements.Count;
         }
 
+        public List<BaseElement> GetConnectedElements()
+        {
+            return connectedElements;
+        }
+
         public void RemoveElement(BaseElement element)
         {
             connectedElements.Remove(element);
+        }
+
+        public int GetX()
+        {
+            return X;
+        }
+
+        public int GetY()
+        {
+            return Y;
         }
 
         public int GetId()
@@ -70,9 +80,9 @@ namespace tec
             return id;
         }
 
-        public Button GetButton()
+        public object Clone()
         {
-            return button;
+            return new Node(id, X, Y) { id = this.id, X = this.X, Y = this.Y, connectedElements = this.connectedElements};
         }
     }
 }
