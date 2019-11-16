@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -145,136 +146,150 @@ namespace TEC_Game
 
         public void FindPlaceAndCreateNullor(Node node1, Node node2, string type)
         {
-            List<BaseElement> blockingElements = FindBlockingElements(node1, node2);
-
+            string line = "";
+            string direction = "";
             int row = 0;
             int column = 0;
             int id = gameController.scheme.GetElementsSize();
-            string line = "";
+
+            List<BaseElement> blockingElements = FindBlockingElements(node1, node2, ref direction);
+            
+            column = node1.GetX() < node2.GetX() ? node1.GetX() : node2.GetX();
 
             if (node1.GetX() < node2.GetX())
-                column = node1.GetX();
-            else
-                column = node2.GetX();
-
-            if (node1.GetY() < node2.GetY())
+                row = node1.GetY();
+            else if (node1.GetX() > node2.GetX())
+                row = node2.GetY();
+            else if (node1.GetY() < node2.GetY())
                 row = node1.GetY();
             else
                 row = node2.GetY();
 
-            if ((node1.GetX() != node2.GetX()) && (node1.GetY() == node2.GetY()))
+            if (!blockingElements.Any())
             {
-                if (blockingElements.Count == 0)
-                {
-                    int length = Math.Abs(node1.GetX() - node2.GetX());
+                int length = direction == "R" 
+                    ? Math.Abs(node1.GetX() - node2.GetX())
+                    : Math.Abs(node1.GetY() - node2.GetY());
 
-                    if (length > 8)
+                //Если элемент слишком короткий(т.е. он не дотягивается до второго узла), то лучше пририсовать ему провод, чтобы нормально все выглядело
+                if (length > 8)
+                {
+                    int wireId = gameController.scheme.GetWiresCount();
+                    line = direction == "R"
+                        ? wireId + " " + row + " " + (column + 8) + " " + (length - 7) + " R"
+                        : wireId + " " + (row + 8) + " " + column + " " + (length - 7) + " D";
+
+                    PlaceWire(ref line);
+                    line = "";
+                }
+
+                //Если у узлов не совпадают ни X, ни Y (здесь нужен будет еще один провод)
+                if ((node1.GetX() != node2.GetX()) && (node1.GetY() != node2.GetY()))
+                {
+                    int elementFarX = direction == "R" ? column + 8 : column;
+                    int elementFarY = direction == "R" ? row : row + 8;
+                    int FarX = node1.GetX() > node2.GetX() ? node1.GetX() : node2.GetX();
+                    int FarY = node1.GetX() > node2.GetX() ? node1.GetY() : node2.GetY();
+
+                    if ((elementFarX != FarX) || (elementFarY != FarY))
                     {
                         int wireId = gameController.scheme.GetWiresCount();
-                        line = wireId + " " + row + " " + (column + 8) + " " + (length - 7) + " R";
+                        int wireRow = 0;
+                        int wireColumn = 0;
+
+                        length = elementFarX != FarX
+                            ? Math.Abs(elementFarX - FarX) + 1
+                            : Math.Abs(elementFarY - FarY) + 1;
+
+                        wireRow = direction == "R" ? Math.Min(elementFarY, FarY) : elementFarY;
+                        wireColumn = direction == "R" ? elementFarX : Math.Min(elementFarX, FarX);
+
+                        line = direction == "R"
+                            ? wireId + " " + wireRow + " " + wireColumn + " " + length + " D"
+                            : wireId + " " + wireRow + " " + wireColumn + " " + length + " R";
 
                         PlaceWire(ref line);
                         line = "";
                     }
-
-                    if (type == "Nu")
-                    {
-                        line = id + " " + (row - 1) + " " + column + " R " + node1.GetId() + " " + node2.GetId();
-                    }
-                    else
-                    {
-                        line = id + " " + (row - 1) + " " + column + " R " + node1.GetId() + " " + node2.GetId();
-                    }
-
-                    PlaceElement(ref line, type);
                 }
-                else
-                {
-                    //TO DO
-                }
-                //Если элемент будет расположен горизонтально
-            }
-            else if ((node1.GetX() == node2.GetX()) && (node1.GetY() != node2.GetY()))
-            {
-                if (blockingElements.Count == 0)
-                {
-                    int length = Math.Abs(node1.GetY() - node2.GetY());
 
-                    if (length > 8)
-                    {
-                        int wireId = gameController.scheme.GetWiresCount();
-                        line = wireId + " " + (row + 8) + " " + column + " " + (length - 7) + " D";
+                line = direction == "R"
+                    ? id + " " + (row - 1) + " " + column + " R " + node1.GetId() + " " + node2.GetId()
+                    : id + " " + row + " " + (column - 1) + " D " + node1.GetId() + " " + node2.GetId();
 
-                        PlaceWire(ref line);
-                        line = "";
-                    }
-
-                    if (type == "Nu")
-                    {
-                        line = id + " " + row + " " + (column - 1) + " D " + node1.GetId() + " " + node2.GetId();
-                    }
-                    else
-                    {
-                        line = id + " " + row + " " + (column - 1) + " D " + node1.GetId() + " " + node2.GetId();
-                    }
-
-                    PlaceElement(ref line, type);
-                }
-                else
-                {
-                    //TO DO
-                }
-                //Если элемент будет расположен вертикально
+                PlaceElement(ref line, type);
             }
             else
             {
-                //Если есть выбор
+                //Если есть блокирующие элементы и нужно как-то считать положение элемента
+                //TO DO
             }
         }
 
-        private List<BaseElement> FindBlockingElements(Node node1, Node node2)
+        private List<BaseElement> FindBlockingElements(Node node1, Node node2, ref string direction)
         {
+            List<BaseElement> elements = new List<BaseElement>();
             List<BaseElement> ans = new List<BaseElement>();
             Node node = node1.Clone() as Node;
 
             while (node.GetX() != node2.GetX())
             {
-                if (FindRightElement(node) != null)
-                  ans.Add(FindRightElement(node));
+                direction = "R";
 
-                node = gameController.scheme.GetRightNode(node);
+                if (gameController.scheme.GetRightNode(node) == null)
+                    return new List<BaseElement>();
+
+                if (FindRightElement(node) != null)
+                  elements.Add(FindRightElement(node));
+
+                if (gameController.scheme.GetRightNode(node) != null)
+                    node = gameController.scheme.GetRightNode(node);
             }
 
             while (node.GetY() != node2.GetY())
             {
                 if (FindDownElement(node) != null)
-                    ans.Add(FindDownElement(node));
+                    elements.Add(FindDownElement(node));
+
+                direction = "D";
 
                 node = gameController.scheme.GetDownNode(node);
             }
 
+            ans.AddRange(elements);
+
             if ((node1.GetX() != node2.GetX()) && (node1.GetY() != node2.GetY()))
             {
+                elements.Clear();
                 node = node1.Clone() as Node;
 
                 while (node.GetY() != node2.GetY())
                 {
-                    if (FindDownElement(node) != null)
-                        ans.Add(FindDownElement(node));
+                    direction = "D";
 
-                    node = gameController.scheme.GetDownNode(node);
+                    if (gameController.scheme.GetDownNode(node) == null)
+                        return new List<BaseElement>();
+
+                    if (FindDownElement(node) != null)
+                        elements.Add(FindDownElement(node));
+
+                    if (gameController.scheme.GetDownNode(node) != null)
+                        node = gameController.scheme.GetDownNode(node);
                 }
 
                 while (node.GetX() != node2.GetX())
                 {
                     if (FindRightElement(node) != null)
-                        ans.Add(FindRightElement(node));
+                        elements.Add(FindRightElement(node));
 
                     node = gameController.scheme.GetRightNode(node);
                 }
-            }
 
-            return ans;
+                direction = !ans.Any() ? "R" : "D";
+            }
+            
+
+            return !ans.Any() ? ans : elements;
         }
 
         private BaseElement FindDownElement(Node node)

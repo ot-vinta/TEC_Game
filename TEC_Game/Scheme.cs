@@ -125,7 +125,7 @@ namespace tec
         public Node GetRightNode(Node node)
         {
             int x = node.GetX();
-            while (true)
+            while (x <= 40)
             {
                 x++;
                 if (GetNode(x, node.GetY()) != null)
@@ -133,12 +133,14 @@ namespace tec
                     return GetNode(x, node.GetY());
                 }
             }
+
+            return null;
         }
 
         public Node GetDownNode(Node node)
         {
             int y = node.GetY();
-            while (true)
+            while (y <= 40)
             {
                 y++;
                 if (GetNode(node.GetX(), y) != null)
@@ -146,6 +148,8 @@ namespace tec
                     return GetNode(node.GetX(), y);
                 }
             }
+
+            return null;
         }
 
         public int GetWiresCount()
