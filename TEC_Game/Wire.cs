@@ -24,6 +24,7 @@ namespace TEC_Game
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
             image = new Image();
             image.StretchDirection = StretchDirection.Both;
+            image.Stretch = Stretch.Fill;
             image.Source = new BitmapImage(new Uri(dir + @"Images\Wire.png"));
         }
 

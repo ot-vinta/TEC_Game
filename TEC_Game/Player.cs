@@ -9,7 +9,7 @@ namespace tec
 {
     class Player
     {
-        private Button nodeChosen1, nodeChosen2;
+        private Node nodeChosen1, nodeChosen2;
 
         public Player()
         {
@@ -17,7 +17,7 @@ namespace tec
             nodeChosen2 = null;
         }
 
-        public void ChooseNode(Button node)
+        public void ChooseNode(Node node)
         {
             if (nodeChosen1 == null)
                 nodeChosen1 = node;
@@ -25,7 +25,7 @@ namespace tec
                 nodeChosen2 = node;
         }
 
-        public void RemoveNode(Button node)
+        public void RemoveNode(Node node)
         {
             if (nodeChosen1 == node)
             {
@@ -37,12 +37,12 @@ namespace tec
             }
         }
 
-        public Button GetNodeChosen1()
+        public Node GetNodeChosen1()
         {
             return nodeChosen1;
         }
 
-        public Button GetNodeChosen2()
+        public Node GetNodeChosen2()
         {
             return nodeChosen2;
         }
