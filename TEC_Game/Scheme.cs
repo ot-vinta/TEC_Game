@@ -122,30 +122,36 @@ namespace tec
             return null;
         }
 
-        public Node GetRightNode(Node node)
+        public Node GetHorizontalNode(Node node, int step)
         {
+            step = step < 0 ? 1 : -1;
             int x = node.GetX();
-            while (true)
+            while ((x <= 40) && (x >= 0))
             {
-                x++;
+                x += step;
                 if (GetNode(x, node.GetY()) != null)
                 {
                     return GetNode(x, node.GetY());
                 }
             }
+
+            return null;
         }
 
-        public Node GetDownNode(Node node)
+        public Node GetVerticalNode(Node node, int step)
         {
+            step = step < 0 ? 1 : -1;
             int y = node.GetY();
-            while (true)
+            while ((y <= 40) && (y >= 0))
             {
-                y++;
+                y += step;
                 if (GetNode(node.GetX(), y) != null)
                 {
                     return GetNode(node.GetX(), y);
                 }
             }
+
+            return null;
         }
 
         public int GetWiresCount()
