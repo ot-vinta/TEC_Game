@@ -147,13 +147,13 @@ namespace TEC_Game
         public void FindPlaceAndCreateNullor(Node node1, Node node2, string type)
         {
             string line = "";
-            string direction = "";
             int row = 0;
             int column = 0;
             int id = gameController.scheme.GetElementsSize();
+            string direction = "";
 
-            List<BaseElement> blockingElements = FindBlockingElements(node1, node2, ref direction);
-            
+            var blockingElements = FindBlockingElements(node1, node2, ref direction);
+
             column = node1.GetX() < node2.GetX() ? node1.GetX() : node2.GetX();
 
             if (node1.GetX() < node2.GetX())
@@ -211,6 +211,10 @@ namespace TEC_Game
                         PlaceWire(ref line);
                         line = "";
                     }
+
+                    line = gameController.scheme.GetNodesCount() + " " + elementFarY + " " + elementFarX;
+                    PlaceNode(ref line);
+                    node2 = gameController.scheme.GetNode(gameController.scheme.GetNodesCount() - 1);
                 }
 
                 line = direction == "R"
@@ -226,75 +230,86 @@ namespace TEC_Game
             }
         }
 
-        private List<BaseElement> FindBlockingElements(Node node1, Node node2, ref string direction)
+        private List<object> FindBlockingElements(Node node1, Node node2, ref string direction)
         {
-            List<BaseElement> elements = new List<BaseElement>();
-            List<BaseElement> ans = new List<BaseElement>();
-            Node node = node1.Clone() as Node;
+            List<object> ans = new List<object>();
+            List<object> tempList = new List<object>();
+            int x = node1.GetX();
+            int y = node1.GetY();
+            int xStep = node1.GetX() - node2.GetX() > 0 ? -1 : 1;
+            int yStep = node1.GetY() - node2.GetY() > 0 ? -1 : 1;
 
-            while (node.GetX() != node2.GetX())
+            if (x != node2.GetX())
             {
-                direction = "R";
-
-                if (gameController.scheme.GetRightNode(node) == null)
-                    return new List<BaseElement>();
-
-                if (FindRightElement(node) != null)
-                  elements.Add(FindRightElement(node));
-
-                if (gameController.scheme.GetRightNode(node) != null)
-                    node = gameController.scheme.GetRightNode(node);
-            }
-
-            while (node.GetY() != node2.GetY())
-            {
-                if (FindDownElement(node) != null)
-                    elements.Add(FindDownElement(node));
-
-                direction = "D";
-
-                node = gameController.scheme.GetDownNode(node);
-            }
-
-            ans.AddRange(elements);
-
-            if ((node1.GetX() != node2.GetX()) && (node1.GetY() != node2.GetY()))
-            {
-                elements.Clear();
-                node = node1.Clone() as Node;
-
-                while (node.GetY() != node2.GetY())
+                while (x != node2.GetX())
                 {
-                    direction = "D";
+                    x += xStep;
 
-                    if (gameController.scheme.GetDownNode(node) == null)
-                        return new List<BaseElement>();
-
-                    if (FindDownElement(node) != null)
-                        elements.Add(FindDownElement(node));
-
-                    if (gameController.scheme.GetDownNode(node) != null)
-                        node = gameController.scheme.GetDownNode(node);
+                    if (gameController.scheme.GetNode(x, y) != null)
+                    {
+                        if (gameController.scheme.GetNode(x, y) != node2)
+                            ans.Add(gameController.scheme.GetNode(x, y));
+                        if (FindHorizontalElement(gameController.scheme.GetNode(x, y), -xStep) != null)
+                            ans.Add(FindHorizontalElement(gameController.scheme.GetNode(x, y), -xStep));
+                    }
                 }
 
-                while (node.GetX() != node2.GetX())
+                while (y != node2.GetY())
                 {
-                    if (FindRightElement(node) != null)
-                        elements.Add(FindRightElement(node));
+                    y += yStep;
 
-                    node = gameController.scheme.GetRightNode(node);
+                    if (gameController.scheme.GetNode(x, y) != null)
+                    {
+                        if (gameController.scheme.GetNode(x, y) != node2)
+                            ans.Add(gameController.scheme.GetNode(x, y));
+                        if (FindVerticalElement(gameController.scheme.GetNode(x, y), -yStep) != null)
+                            ans.Add(FindVerticalElement(gameController.scheme.GetNode(x, y), -yStep));
+                    }
                 }
 
-                direction = !ans.Any() ? "R" : "D";
+                if (!ans.Any())
+                {
+                    direction = "R";
+                    return ans;
+                }
             }
-            
 
-            return !ans.Any() ? ans : elements;
+            x = node1.GetX();
+            y = node1.GetY();
+
+            while (y != node2.GetY())
+            {
+                y += yStep;
+
+                if (gameController.scheme.GetNode(x, y) != null)
+                {
+                    if (gameController.scheme.GetNode(x, y) != node2)
+                        tempList.Add(gameController.scheme.GetNode(x, y));
+                    if (FindVerticalElement(gameController.scheme.GetNode(x, y), -yStep) != null)
+                        tempList.Add(FindVerticalElement(gameController.scheme.GetNode(x, y), -yStep));
+                }
+            }
+
+            while (x != node2.GetX())
+            {
+                x += xStep;
+
+                if (gameController.scheme.GetNode(x, y) != null)
+                {
+                    if (gameController.scheme.GetNode(x, y) != node2)
+                        tempList.Add(gameController.scheme.GetNode(x, y));
+                    if (FindHorizontalElement(gameController.scheme.GetNode(x, y), -xStep) != null)
+                        tempList.Add(FindHorizontalElement(gameController.scheme.GetNode(x, y), -xStep));
+                }
+            }
+
+            direction = "D";
+            return tempList;
         }
 
-        private BaseElement FindDownElement(Node node)
+        private BaseElement FindVerticalElement(Node node, int yStep)
         {
-            Node temp = gameController.scheme.GetDownNode(node);
+            Node temp = gameController.scheme.GetVerticalNode(node, yStep);
 
             foreach (var element in node.GetConnectedElements())
                 if ((element.GetNode1() == temp) || (element.GetNode2() == temp))
@@ -302,9 +317,9 @@ namespace TEC_Game
             return null;
         }
 
-        private BaseElement FindRightElement(Node node)
+        private BaseElement FindHorizontalElement(Node node, int xStep)
         {
-            Node temp = gameController.scheme.GetRightNode(node);
+            Node temp = gameController.scheme.GetHorizontalNode(node, xStep);
 
             foreach (var element in node.GetConnectedElements())
                 if ((element.GetNode1() == temp) || (element.GetNode2() == temp))
