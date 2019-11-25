@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TEC_Game"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1200">
+        WindowStyle="None"   
+        WindowState="Maximized">
     <Window.Resources>
         <ControlTemplate TargetType="Button" x:Key="ButtonTemplate">
             <Border CornerRadius="24"
@@ -58,14 +59,14 @@
             <RowDefinition Height="48*"/>
             <RowDefinition Height="70*"/>
         </Grid.RowDefinitions>
-        <Label Template="{StaticResource BigLabelTemplate}" Content="Добро пожаловать! Выберите уровень" Background="#FF00B2CC" FontSize="36" HorizontalContentAlignment="Center" Padding="0" UseLayoutRounding="False" VerticalContentAlignment="Center" Grid.ColumnSpan="7"/>
+        <Label Template="{StaticResource BigLabelTemplate}" Content="Добро пожаловать! Выберите уровень" Background="#FF00B2CC" FontSize="36" HorizontalContentAlignment="Center" Padding="0" UseLayoutRounding="False" VerticalContentAlignment="Center" Grid.ColumnSpan="7" Foreground="Black"/>
 
         <Grid Grid.Column="1" Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="36*"/>
                 <RowDefinition Height="300*"/>
             </Grid.RowDefinitions>
-            <Label Template="{StaticResource SmallLabelTemplate}" Content="Level 1" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC"/>
+            <Label Template="{StaticResource SmallLabelTemplate}" Content="Level 1" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC" Foreground="Black"/>
             <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="0" Grid.RowSpan="2" Background="#FFE1E2E1"/>
             <Image Grid.Row="1" Source="Images/level1.png"/>
         </Grid>
@@ -75,7 +76,7 @@
                 <RowDefinition Height="36*"/>
                 <RowDefinition Height="300*"/>
             </Grid.RowDefinitions>
-            <Label Template="{StaticResource SmallLabelTemplate}" Content="Level 2" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC"/>
+            <Label Template="{StaticResource SmallLabelTemplate}" Content="Level 2" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC" Foreground="Black"/>
             <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="0" Grid.RowSpan="2" Background="#FFE1E2E1"/>
             <Image Grid.Row="1" />
         </Grid>
@@ -85,17 +86,17 @@
                 <RowDefinition Height="36*"/>
                 <RowDefinition Height="300*"/>
             </Grid.RowDefinitions>
-            <Label Template="{StaticResource SmallLabelTemplate}" Content="Level 3" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC"/>
+            <Label Template="{StaticResource SmallLabelTemplate}" Content="Level 3" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC" Foreground="Black"/>
             <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="0" Grid.RowSpan="2" Background="#FFE1E2E1"/>
             <Image Grid.Row="1"/>
         </Grid>
 
-        <Button Content="Выбрать уровень 1" x:Name="Level1ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="1" Grid.Row="4" Background="#FFFF6E40" Click="Level1ChooseButton_Click"/>
-        <Button Content="Выбрать уровень 2" x:Name="Level2ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="4" Background="#FFFF6E40" Click="Level2ChooseButton_Click"/>
-        <Button Content="Выбрать уровень 3" x:Name="Level3ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="5" Grid.Row="4" Background="#FFFF6E40"/>
-        <Button Content="Настройки" Template="{StaticResource ButtonTemplate}" Grid.Column="1" Grid.Row="6" Background="#FFFF6E40"/>
-        <Button x:Name="StatisticsButton" Content="Статистика" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="6" Background="#FFFF6E40" Click="StatisticsButton_Click"/>
-        <Button Content="Выход" x:Name="ExitButton" Template="{StaticResource ButtonTemplate}" Grid.Column="5" Grid.Row="6" Background="#FFC53D13" Click="ExitButton_Click"/>
+        <Button Content="Выбрать уровень 1" x:Name="Level1ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="1" Grid.Row="4" Background="#FFFF6E40" Click="Level1ChooseButton_Click" Foreground="Black"/>
+        <Button Content="Выбрать уровень 2" x:Name="Level2ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="4" Background="#FFFF6E40" Click="Level2ChooseButton_Click" Foreground="Black"/>
+        <Button Content="Выбрать уровень 3" x:Name="Level3ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="5" Grid.Row="4" Background="#FFFF6E40" Foreground="Black"/>
+        <Button Content="Настройки" Template="{StaticResource ButtonTemplate}" Grid.Column="1" Grid.Row="6" Background="#FFFF6E40" Foreground="Black"/>
+        <Button x:Name="StatisticsButton" Content="Статистика" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="6" Background="#FFFF6E40" Click="StatisticsButton_Click" Foreground="Black"/>
+        <Button Content="Выход" x:Name="ExitButton" Template="{StaticResource ButtonTemplate}" Grid.Column="5" Grid.Row="6" Background="#FFC53D13" Click="ExitButton_Click" Foreground="Black"/>
 
     </Grid>
 </Window>

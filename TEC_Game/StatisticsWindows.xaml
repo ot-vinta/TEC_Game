@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TEC_Game"
         mc:Ignorable="d"
-        Title="StatisticsWindows" Height="450" Width="800">
+        WindowStyle="None"   
+        WindowState="Maximized">
+
     <Window.Resources>
         <ControlTemplate TargetType="Button"  x:Key="NodeTemplate">
             <Border x:Name="Border" CornerRadius="25" Height="25" Width="25" Background="{TemplateBinding Background}">
@@ -41,12 +43,12 @@
                 <DropShadowEffect Direction="270" Opacity="0.5" ShadowDepth="4" RenderingBias="Quality"></DropShadowEffect>
             </Rectangle.Effect>
         </Rectangle>
-        <Label Width="350" Height="70" Content="Статистика" FontSize="48" UseLayoutRounding="False" Padding="0" HorizontalContentAlignment="Center" FontWeight="Bold"/>
-        <Button Template="{StaticResource ButtonTemplate}" Width="100" Height="48" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,12,0,0" Background="#FFFF6E40" Content="Меню" Click="Button_Click"/>
+        <Label Width="350" Height="70" Content="Статистика" FontSize="48" UseLayoutRounding="False" Padding="0" HorizontalContentAlignment="Center" FontWeight="Bold" Foreground="Black"/>
+        <Button Template="{StaticResource ButtonTemplate}" Width="100" Height="48" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,12,0,0" Background="#FFFF6E40" Content="Меню" Click="Button_Click" Foreground="Black"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="290" Margin="25,30,0,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Width="757"/>
-        <Label Content="Завершённых игр" HorizontalAlignment="Left" Margin="70,70,0,0" Grid.Row="1" VerticalAlignment="Top" Height="35" Width="147" FontSize="16"/>
-        <Label Content="Проигрышей" HorizontalAlignment="Left" Margin="70,105,0,0" Grid.Row="1" VerticalAlignment="Top" Height="35" Width="147" FontSize="16"/>
-        <Label x:Name="NumFinished" Content="Label" HorizontalAlignment="Left" Margin="272,70,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label x:Name="NumLose" Content="Label" HorizontalAlignment="Left" Margin="272,109,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="0.474,0.436"/>
+        <Label Content="Завершённых игр" HorizontalAlignment="Left" Margin="70,70,0,0" Grid.Row="1" VerticalAlignment="Top" Height="35" Width="147" FontSize="16" Foreground="Black"/>
+        <Label Content="Проигрышей" HorizontalAlignment="Left" Margin="70,105,0,0" Grid.Row="1" VerticalAlignment="Top" Height="35" Width="147" FontSize="16" Foreground="Black"/>
+        <Label x:Name="NumFinished" Content="Label" HorizontalAlignment="Left" Margin="272,70,0,0" Grid.Row="1" VerticalAlignment="Top" Foreground="Black"/>
+        <Label x:Name="NumLose" Content="Label" HorizontalAlignment="Left" Margin="272,109,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="0.474,0.436" Foreground="Black"/>
     </Grid>
 </Window>
