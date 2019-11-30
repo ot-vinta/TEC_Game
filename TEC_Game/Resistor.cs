@@ -28,10 +28,5 @@ namespace tec
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
             image.Source = new BitmapImage(new Uri(dir + @"Images\ResistorLand.png"));
         }
-
-        public override void Destroy()
-        {
-            //TO DO
-        }
     }
 }

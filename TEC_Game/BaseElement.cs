@@ -43,7 +43,10 @@ namespace tec
             return id;
         }
 
-        public abstract void Destroy();
+        public void Destroy()
+        {
+            image = null;
+        }
         public abstract void ChangeImageDirectionToLand();
     }
 }

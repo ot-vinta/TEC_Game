@@ -142,12 +142,14 @@ namespace tec
                             /**
                              * Если норатор/нуллатор и проводимость(она же conductor) соединены друг с другом в двух узлах
                              * */
+                            scheme.RemoveElement(a);
                         }
                         if (b is Conductor && (a is Nullator || a is Norator))
                         {
                             /**
                               * Если норатор/нуллатор и проводимость(она же conductor) соединены друг с другом в двух узлах
                               * */
+                            scheme.RemoveElement(b);
                         }
                     }
                 }
@@ -179,12 +181,14 @@ namespace tec
                         /**
                          *  Если норатор/нуллатор с резистором соединены одним узлом и при этом к этому узлу больше никто не подключен
                          * */
+                        scheme.RemoveElement(a);
                     }
                     if (b is Resistor && (a is Nullator || a is Norator))
                     {
                         /**
                           *  Если норатор/нуллатор с резистором соединены одним узлом и при этом к этому узлу больше никто не подключе
                           * */
+                        scheme.RemoveElement(b);
                     }
                 }
             }
