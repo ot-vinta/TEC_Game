@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -21,6 +21,11 @@ namespace tec
             elements = new List<BaseElement>();
             nodes = new List<Node>();
             wires = new List<Wire>();
+        }
+
+        public Node getRoot()
+        {
+            return nodes.Count > 0 ? nodes[0] : throw new Exception("Sorry not sorry");
         }
 
         public bool HasNullor()
