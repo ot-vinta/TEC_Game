@@ -36,6 +36,8 @@ namespace tec
             //Обработчики для кнопок, добавляющих нуллор
             gameWindow.addNoratorButton.Click += new RoutedEventHandler(OnNoratorButtonClick);
             gameWindow.addNullatorButton.Click += new RoutedEventHandler(OnNullatorButtonClick);
+
+            gameWindow.simplifyButton.Click += new RoutedEventHandler(OnSimplifyClicked);
         }
 
         private void MakeGrid()
@@ -96,10 +98,98 @@ namespace tec
             }
         }
 
-        public void StartElimination()
+
+        HashSet<BaseElement> used = new HashSet<BaseElement>();
+
+        private void dfs(BaseElement v)
         {
-            //TO DO
+            var elements = new List<BaseElement>();
+            elements.AddRange(v.GetNode1().GetConnectedElements());
+            elements.AddRange(v.GetNode2().GetConnectedElements());
+
+            foreach (var element in elements)
+            {
+                var a = element.GetNode1();
+                var b = element.GetNode2();
+                if (!used.Contains(element))
+                {
+                    used.Add(element);
+                    dfs(element);
+                }
+            }
         }
+
+        public void OnSimplifyClicked(object sender, RoutedEventArgs e)
+        {
+            var root = scheme.getRoot();
+
+            foreach (var v in root.GetConnectedElements())
+            {
+                dfs(v);
+            }
+
+            foreach (var a in used)
+            {
+                foreach (var b in used)
+                {
+                    if (a == b) continue;
+
+                    if ((a.GetNode1().GetId() == b.GetNode1().GetId() && a.GetNode2().GetId() == b.GetNode2().GetId()) ||
+                        (a.GetNode1().GetId() == b.GetNode2().GetId() && a.GetNode2().GetId() == b.GetNode1().GetId()))
+                    {
+                        if (a is Conductor && (b is Nullator || b is Norator))
+                        {
+                            /**
+                             * Если норатор/нуллатор и проводимость(она же conductor) соединены друг с другом в двух узлах
+                             * */
+                        }
+                        if (b is Conductor && (a is Nullator || a is Norator))
+                        {
+                            /**
+                              * Если норатор/нуллатор и проводимость(она же conductor) соединены друг с другом в двух узлах
+                              * */
+                        }
+                    }
+                }
+            }
+
+            foreach (var a in used)
+            {
+                foreach (var b in used)
+                {
+                    if (a == b) continue;
+
+                    Node common = null;
+
+                    if (a.GetNode1().GetId() == b.GetNode1().GetId()) common = a.GetNode1();
+                    if (a.GetNode2().GetId() == b.GetNode2().GetId()) common = a.GetNode2();
+                    if (a.GetNode1().GetId() == b.GetNode2().GetId()) common = a.GetNode1();
+
+                    int count = 0;
+                    foreach (var k in used)
+                    {
+                        if (k.GetNode1() == common || k.GetNode2() == common)
+                            count++;
+                    }
+                    if (count != 2)
+                        continue;
+
+                    if (a is Resistor && (b is Nullator || b is Norator))
+                    {
+                        /**
+                         *  Если норатор/нуллатор с резистором соединены одним узлом и при этом к этому узлу больше никто не подключен
+                         * */
+                    }
+                    if (b is Resistor && (a is Nullator || a is Norator))
+                    {
+                        /**
+                          *  Если норатор/нуллатор с резистором соединены одним узлом и при этом к этому узлу больше никто не подключе
+                          * */
+                    }
+                }
+            }
+        }
+
 
         private void OnNodeLeave(object sender, MouseEventArgs e)
         {
@@ -191,7 +281,7 @@ namespace tec
 
         public void ChangeNullorDirection(NullorElement element)
         {
-            if (element.GetDirection() == "right") 
+            if (element.GetDirection() == "right")
                 element.SetDirection("left");
             else
                 element.SetDirection("right");
