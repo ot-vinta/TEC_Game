@@ -44,7 +44,7 @@ namespace tec
             {
                 gameWindow.GameGrid.RowDefinitions.Add(new RowDefinition());
             }
-            for (int i = 0; i < 40; i++)
+            for (int i = 0; i < 57; i++)
             {
                 gameWindow.GameGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
@@ -56,7 +56,7 @@ namespace tec
             };
 
             control.SetValue(Grid.RowSpanProperty, 40);
-            control.SetValue(Grid.ColumnSpanProperty, 40);
+            control.SetValue(Grid.ColumnSpanProperty, 57);
             control.SetValue(Panel.ZIndexProperty, 0);
 
             gameWindow.GameGrid.Children.Add(control);
