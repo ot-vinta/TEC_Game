@@ -1,0 +1,250 @@
+Constructor is called
+Constructor is called
+Constructor is called
+A wire is created. It starts at (17, 17), its direction is R, length is9
+A wire is added to the scheme
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to TEC_Game.PaddedGrid
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Упростить схему
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to TEC_Game.PaddedGrid
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Выберите узлы
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Уровень
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Меню
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.ContentControl
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Выберите элемент
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Нуллатор
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Норатор
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.ContentControl
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 1
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 2
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 3
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 4
+A wire is created. It starts at (17, 9), its direction is R, length is9
+A wire is added to the scheme
+Constructor is called
+Constructor is called
+Constructor is called
+A wire is created. It starts at (17, 17), its direction is R, length is9
+A wire is added to the scheme
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to TEC_Game.PaddedGrid
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Упростить схему
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to TEC_Game.PaddedGrid
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Выберите узлы
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Уровень
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Меню
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.ContentControl
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Выберите элемент
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Нуллатор
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Норатор
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.ContentControl
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 1
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 2
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 3
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 4
+A wire is created. It starts at (9, 17), its direction is D, length is9
+A wire is added to the scheme
+Constructor is called
+Constructor is called
+Constructor is called
+A wire is created. It starts at (17, 17), its direction is R, length is9
+A wire is added to the scheme
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to TEC_Game.PaddedGrid
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Упростить схему
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to TEC_Game.PaddedGrid
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Выберите узлы
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Уровень
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Меню
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.ContentControl
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Выберите элемент
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Нуллатор
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Норатор
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.ContentControl
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 1
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 2
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 3
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 4
+A wire is created. It starts at (17, 9), its direction is R, length is9
+A wire is added to the scheme
+Constructor is called
+Constructor is called
+Constructor is called
+A wire is created. It starts at (17, 17), its direction is R, length is9
+A wire is added to the scheme
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to TEC_Game.PaddedGrid
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Упростить схему
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to TEC_Game.PaddedGrid
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Выберите узлы
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Уровень
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Меню
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.ContentControl
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Выберите элемент
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Нуллатор
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Норатор
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.ContentControl
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 1
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 2
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 3
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 4
+A wire is created. It starts at (17, 9), its direction is R, length is9
+A wire is added to the scheme
+Constructor is called
+Constructor is called
+Constructor is called
+A wire is created. It starts at (17, 17), its direction is R, length is9
+A wire is added to the scheme
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to TEC_Game.PaddedGrid
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Упростить схему
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to TEC_Game.PaddedGrid
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Выберите узлы
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Уровень
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Меню
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.ContentControl
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Label: Выберите элемент
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Нуллатор
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Button: Норатор
+PaddedGrid_Loaded is called
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.ContentControl
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to System.Windows.Controls.Image
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 1
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 2
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 3
+GetMarginProperty is called
+margin property in PaddedGrid_Loaded is binded to tec.Node: 4
+A wire is created. It starts at (17, 9), its direction is R, length is9
+A wire is added to the scheme

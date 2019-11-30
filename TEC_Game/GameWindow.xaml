@@ -63,8 +63,9 @@
     </Window.Resources>
 
 
-    <Grid Background="#FFF5F5F6">
-        <Grid.ColumnDefinitions>
+
+    <local:PaddedGrid Background="#FFF5F5F6">
+        <local:PaddedGrid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="100*"/>
@@ -73,8 +74,8 @@
             <ColumnDefinition Width="25*"/>
             <ColumnDefinition Width="250*"/>
             <ColumnDefinition Width="25*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
+        </local:PaddedGrid.ColumnDefinitions>
+        <local:PaddedGrid.RowDefinitions>
             <RowDefinition Height="11*"/>
             <RowDefinition Height="48*"/>
             <RowDefinition Height="11*"/>
@@ -85,35 +86,37 @@
             <RowDefinition Height="48*"/>
             <RowDefinition Height="617*"/>
             <RowDefinition Height="10*"/>
-        </Grid.RowDefinitions>
-        <Label Template="{StaticResource BigLabelTemplate}" Background="#FF00B2CC" Content="Уровень" FontSize="42" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8" Grid.RowSpan="3" Panel.ZIndex="2" Foreground="Black"/>
-        <Button x:Name="ToMainMenuButton" Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Меню" Grid.Row="1" Grid.Column="2" Panel.ZIndex="3" Click="ToMainMenuButton_Click" Foreground="Black"/>
+
+        </local:PaddedGrid.RowDefinitions>
+        <Label Template="{StaticResource BigLabelTemplate}" Background="#FF00B2CC" Content="Уровень" FontSize="42" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8" Grid.RowSpan="3" Panel.ZIndex="2"/>
+        <Button x:Name="ToMainMenuButton" Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Меню" Grid.Row="1" Grid.Column="2" Panel.ZIndex="3" Click="ToMainMenuButton_Click"/>
 
         <Label Template="{StaticResource BigLabelTemplate}" Background="#00e5ff" Content="Выберите узлы" FontSize="30" Grid.Row="3" Grid.Column="5" Grid.RowSpan="2" Grid.ColumnSpan="3" Panel.ZIndex="1" Foreground="Black"/>
 
-        <Grid Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="3">
-            <Grid.ColumnDefinitions>
+        <local:PaddedGrid Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="3">
+            <local:PaddedGrid.ColumnDefinitions>
                 <ColumnDefinition Width="25*"/>
                 <ColumnDefinition Width="250*"/>
                 <ColumnDefinition Width="25*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
+            </local:PaddedGrid.ColumnDefinitions>
+            <local:PaddedGrid.RowDefinitions>
                 <RowDefinition Height="70*"/>
                 <RowDefinition Height="28*"/>
                 <RowDefinition Height="48*"/>
                 <RowDefinition Height="28*"/>
                 <RowDefinition Height="48*"/>
                 <RowDefinition Height="28*"/>
-            </Grid.RowDefinitions>
+            </local:PaddedGrid.RowDefinitions>
 
             <ContentControl Template="{StaticResource UndefinedTemplate}" Background="#6effff" Grid.RowSpan="6" Grid.ColumnSpan="3"/>
-            <Label Template="{StaticResource BigLabelTemplate}" Background="#00e5ff" Content="Выберите элемент" FontSize="30" Grid.ColumnSpan="3" Foreground="Black"/>
-            <Button x:Name="addNullatorButton" Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Нуллатор" Grid.Row="2" Grid.Column="1" Foreground="Black"/>
-            <Button x:Name="addNoratorButton"  Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Норатор" Grid.Row="4" Grid.Column="1" Foreground="Black"/>
-        </Grid>
+
+            <Label Template="{StaticResource BigLabelTemplate}" Background="#00e5ff" Content="Выберите элемент" FontSize="30" Grid.ColumnSpan="3"/>
+            <Button x:Name="addNullatorButton" Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Нуллатор" Grid.Row="2" Grid.Column="1"/>
+            <Button x:Name="addNoratorButton"  Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Норатор" Grid.Row="4" Grid.Column="1"/>
+        </local:PaddedGrid>
 
         <Button x:Name="simplifyButton" Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Упростить схему" Grid.Row="7" Grid.Column="6" Foreground="Black"/>
 
-        <Grid x:Name="GameGrid" Grid.Row="3" Grid.Column="1" Grid.RowSpan="6" Grid.ColumnSpan="3" Margin="0,8,2,2"/>
-    </Grid>
+        <local:PaddedGrid x:Name="GameGrid" Grid.Row="3" Grid.Column="1" Grid.RowSpan="6" Grid.ColumnSpan="3" Margin="0,8,2,2"/>
+    </local:PaddedGrid>
 </Window>
