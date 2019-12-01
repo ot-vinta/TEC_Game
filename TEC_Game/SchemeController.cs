@@ -123,47 +123,30 @@ namespace TEC_Game
             wire.GetImage().SetValue(Grid.RowProperty, startRow);
             wire.GetImage().SetValue(Grid.ColumnProperty, startColumn);
             wire.GetImage().SetValue(Panel.ZIndexProperty, 1);
-
-            //gameController.gameWindow.GameGrid
+            
 
             if (direction == "R")
             {
                 wire.ChangeImageDirectionToLand();
                 wire.GetImage().SetValue(Grid.ColumnSpanProperty, length);
-                //wire.GetImage().Margin = new Thickness(5, 0, 5, 0);
             }
             else
             {
                 wire.GetImage().SetValue(Grid.RowSpanProperty, length);
-                //wire.GetImage().Margin = new Thickness(0, 5, 0, 5);
             }
-            {
-                //debug
-                string Path = Environment.CurrentDirectory.Replace(@"bin\Debug", "") + "\\log.txt";
-                using (StreamWriter writer = File.AppendText(Path))
-                    writer.WriteLine("A wire is created. It starts at (" + startRow.ToString() + ", " + startColumn.ToString() + "), its direction is " + direction + ", length is" + length.ToString());
-                //end debug
-            }
+            
             gameController.gameWindow.GameGrid.Children.Add(wire.GetImage());
-            //gameController.gameWindow.GameGrid.updateMargin(wire.GetImage());
-
-            {
-                //debug
-                string Path = Environment.CurrentDirectory.Replace(@"bin\Debug", "") + "\\log.txt";
-                using (StreamWriter writer = File.AppendText(Path))
-                    writer.WriteLine("A wire is added to the scheme");
-                //end debug
-            }
             
             if (direction == "R")
             {
-                wire.GetImage().Margin = new Thickness(25, 0, 25, 0);
-//                wire.GetImage().SetCurrentValue(Grid.MarginProperty, new Thickness(5, 0, 5, 0)); //Попытка добавить marginProperty к ячейке, в которой записана картинка
+                
+                double marginDistance = gameController.gameWindow.GameGrid.ActualWidth / 40 / 2;
+                wire.GetImage().Margin = new Thickness(marginDistance, 0, marginDistance, 0); //Попытка добавить marginProperty к ячейке, в которой записана картинка
             }
             else
             {
-                //wire.GetImage().SetCurrentValue(Grid.MarginProperty, new Thickness(0, 5, 0, 5)); //Попытка добавить marginProperty к ячейке, в которой записана картинка
-                wire.GetImage().Margin = new Thickness(0, 25, 0, 25);
+                double marginDistance = gameController.gameWindow.GameGrid.ActualHeight / 40 / 2; 
+                wire.GetImage().Margin = new Thickness(0, marginDistance, 0, marginDistance); //Попытка добавить marginProperty к ячейке, в которой записана картинка
             }
         }
 

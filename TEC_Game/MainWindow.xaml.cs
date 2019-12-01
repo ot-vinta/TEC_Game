@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,24 +36,22 @@ namespace TEC_Game
         {
             GameWindow gameWindow = new GameWindow();
             gameWindow.Owner = this;
-            gameWindow.Show();
             this.Hide();
             GameController controller = new GameController(new Player(), new Scheme());
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
+            gameWindow.Show();
             controller.InitializeScheme(dir + "Level1.txt");
-            
         }
 
         private void Level2ChooseButton_Click(object sender, RoutedEventArgs e)
         {
             GameWindow gameWindow = new GameWindow();
             gameWindow.Owner = this;
-            gameWindow.Show();
             this.Hide();
             GameController controller = new GameController(new Player(), new Scheme());
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
+            gameWindow.Show();
             controller.InitializeScheme(dir + "Level2.txt");
-            
         }
 
         private void StatisticsButton_Click(object sender, RoutedEventArgs e)

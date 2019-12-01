@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using TEC_Game;
 
@@ -19,6 +20,8 @@ namespace tec
         public Scheme scheme;
         public Player player;
         private SchemeController schemeController;
+
+        HashSet<BaseElement> AllElementsSet = new HashSet<BaseElement>();
 
         public GameController(Player player, Scheme scheme)
         {
@@ -99,9 +102,8 @@ namespace tec
         }
 
 
-        HashSet<BaseElement> used = new HashSet<BaseElement>();
 
-        private void dfs(BaseElement v)
+        private void Dfs(BaseElement v)
         {
             var elements = new List<BaseElement>();
             elements.AddRange(v.GetNode1().GetConnectedElements());
@@ -111,19 +113,30 @@ namespace tec
             {
                 var a = element.GetNode1();
                 var b = element.GetNode2();
-                if (!used.Contains(element))
+                if (!AllElementsSet.Contains(element))
                 {
-                    used.Add(element);
-                    dfs(element);
+                    AllElementsSet.Add(element);
+                    Dfs(element);
                 }
             }
         }
 
-        private void Eliminate()
+        void RecalcElementsList()
         {
-            foreach (var a in used)
+            AllElementsSet.Clear();
+            var root = scheme.getRoot();
+            foreach (var v in root.GetConnectedElements())
             {
-                foreach (var b in used)
+                Dfs(v);
+            }
+        }
+
+        public void OnSimplifyClicked(object sender, RoutedEventArgs e)
+        {
+            RecalcElementsList();
+            foreach (var a in AllElementsSet)
+            {
+                foreach (var b in AllElementsSet)
                 {
                     if (a == b) continue;
 
@@ -172,9 +185,9 @@ namespace tec
                 }
             }
 
-            foreach (var a in used)
+            foreach (var a in AllElementsSet)
             {
-                foreach (var b in used)
+                foreach (var b in AllElementsSet)
                 {
                     if (a == b) continue;
 
@@ -185,7 +198,7 @@ namespace tec
                     if (a.GetNode1().GetId() == b.GetNode2().GetId()) common = a.GetNode1();
 
                     int count = 0;
-                    foreach (var k in used)
+                    foreach (var k in AllElementsSet)
                     {
                         if (k.GetNode1() == common || k.GetNode2() == common)
                             count++;
@@ -263,6 +276,23 @@ namespace tec
             button.Background = Brushes.Aqua;
         }
 
+        public void SetSimplifyStatus()
+        {
+            RecalcElementsList();
+            if (AllElementsSet.OfType<Nullator>().Count() != 0 && AllElementsSet.OfType<Norator>().Count() != 0)
+            {
+                if (!gameWindow.simplifyButton.IsEnabled)
+                    opacityAnimation(gameWindow.simplifyButton, GetFadeInAnimation());
+                gameWindow.simplifyButton.IsEnabled = true;
+            }
+            else
+            {
+                if (gameWindow.simplifyButton.IsEnabled)
+                    opacityAnimation(gameWindow.simplifyButton, GetFadeInAnimation());
+                gameWindow.simplifyButton.IsEnabled = false;
+            }
+        }
+
         public void OnNodeClick(object sender, RoutedEventArgs e)
         {
             Node node = sender as Node;
@@ -303,6 +333,62 @@ namespace tec
             }
 
             e.Handled = true;
+
+            if (player.NodesChosen())
+            {
+                gameWindow.addNullatorButton.OpacityMask = null;
+                gameWindow.addNoratorButton.OpacityMask = null;
+
+                if (gameWindow.addNullatorButton.Opacity == 0)
+                    opacityAnimation(gameWindow.addNullatorButton, GetFadeInAnimation());
+                if (gameWindow.addNoratorButton.Opacity == 0)
+                    opacityAnimation(gameWindow.addNoratorButton, GetFadeInAnimation());
+
+                gameWindow.addNullatorButton.IsEnabled = true;
+                gameWindow.addNoratorButton.IsEnabled = true;
+            }
+            else
+            {
+                if (gameWindow.addNullatorButton.Opacity == 1)
+                    opacityAnimation(gameWindow.addNullatorButton, GetFadeOutAnimation());
+                if (gameWindow.addNoratorButton.Opacity == 1)
+                    opacityAnimation(gameWindow.addNoratorButton, GetFadeOutAnimation());
+
+                gameWindow.addNullatorButton.IsEnabled = false;
+                gameWindow.addNoratorButton.IsEnabled = false;
+            }
+        }
+
+        DoubleAnimation GetFadeAnimation(Double fromValue, Double toValue)
+        {
+            var anim = new DoubleAnimation();
+            anim.From = fromValue;
+            anim.FillBehavior = FillBehavior.HoldEnd;
+            anim.To = toValue;
+            anim.Duration = TimeSpan.FromSeconds(0.6);
+            return anim;
+        }
+
+        DoubleAnimation GetFadeInAnimation()
+        {
+            return GetFadeAnimation(0, 1);
+        }
+
+        DoubleAnimation GetFadeOutAnimation()
+        {
+            return GetFadeAnimation(1, 0);
+        }
+
+        void opacityAnimation(DependencyObject view, DoubleAnimation animation)
+        {
+
+            Storyboard.SetTarget(animation, view);
+            var f = animation.TargetPropertyType.Name;
+            Storyboard.SetTargetProperty(animation, new PropertyPath("(Opacity)"));
+
+            var storyboard = new Storyboard();
+            storyboard.Children = new TimelineCollection { animation };
+            storyboard.Begin();
         }
 
         public void OnNoratorButtonClick(object sender, RoutedEventArgs e)
@@ -313,13 +399,9 @@ namespace tec
             player.GetNodeChosen2().Background = Brushes.Black;
             player.RemoveNode(player.GetNodeChosen1());
             player.RemoveNode(player.GetNodeChosen2());
-
-            gameWindow.addNoratorButton.IsEnabled = false;
-            gameWindow.addNoratorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
-            gameWindow.addNullatorButton.IsEnabled = false;
-            gameWindow.addNullatorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
-
+            SetSimplifyStatus();
             e.Handled = true;
+            DisableNullatorAndNoratorBtn();
         }
 
         public void OnNullatorButtonClick(object sender, RoutedEventArgs e)
@@ -330,13 +412,22 @@ namespace tec
             player.GetNodeChosen2().Background = Brushes.Black;
             player.RemoveNode(player.GetNodeChosen1());
             player.RemoveNode(player.GetNodeChosen2());
-
-            gameWindow.addNoratorButton.IsEnabled = false;
-            gameWindow.addNoratorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
-            gameWindow.addNullatorButton.IsEnabled = false;
-            gameWindow.addNullatorButton.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
-
+            SetSimplifyStatus();
             e.Handled = true;
+            DisableNullatorAndNoratorBtn();
+        }
+
+        void DisableNullatorAndNoratorBtn()
+        {
+            SolidColorBrush grayBrush = new SolidColorBrush(Colors.Gray);
+            grayBrush.Opacity = 0;
+            gameWindow.addNullatorButton.OpacityMask = grayBrush;
+            gameWindow.addNoratorButton.OpacityMask = grayBrush;
+
+            gameWindow.addNullatorButton.Opacity = 0.0;
+            gameWindow.addNoratorButton.Opacity = 0.0;
+            gameWindow.addNullatorButton.IsEnabled = false;
+            gameWindow.addNoratorButton.IsEnabled = false;
         }
 
         public void ChangeNullorDirection(NullorElement element)
