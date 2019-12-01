@@ -9,17 +9,6 @@
 
 
     <Window.Triggers>
-
-        <EventTrigger RoutedEvent="Loaded">
-            <EventTrigger.Actions>
-                <BeginStoryboard>
-                    <Storyboard TargetProperty="Opacity" TargetName="simplifyButton">
-                        <DoubleAnimation From="0" To="1"/>
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger.Actions>
-        </EventTrigger>
-
     </Window.Triggers>
     <!--Анимация нажатия на кнопку-->
     <Window.Resources>
@@ -108,11 +97,11 @@
 
             <ContentControl Template="{StaticResource UndefinedTemplate}" Background="#6effff" Grid.RowSpan="6" Grid.ColumnSpan="3"/>
             <Label Template="{StaticResource BigLabelTemplate}" Background="#00e5ff" Content="Выберите элемент" FontSize="30" Grid.ColumnSpan="3"/>
-            <Button x:Name="addNullatorButton" Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Нуллатор" Grid.Row="2" Grid.Column="1"/>
-            <Button x:Name="addNoratorButton"  Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Норатор" Grid.Row="4" Grid.Column="1"/>
+            <Button x:Name="addNullatorButton" Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Нуллатор" Grid.Row="2" Grid.Column="1" Opacity="0" IsEnabled="False"/>
+            <Button x:Name="addNoratorButton"  Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Норатор" Grid.Row="4" Grid.Column="1" Opacity="0" IsEnabled="False"/>
         </local:PaddedGrid>
 
-        <Button x:Name="simplifyButton" Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Упростить схему" Grid.Row="7" Grid.Column="6"/>
+        <Button x:Name="simplifyButton" Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Упростить схему" Grid.Row="7" Grid.Column="6" Opacity="0" IsEnabled="False"/>
 
         <local:PaddedGrid x:Name="GameGrid" Grid.Row="3" Grid.Column="1" Grid.RowSpan="6" Grid.ColumnSpan="3" Margin="0,8,2,2"/>
     </local:PaddedGrid>
