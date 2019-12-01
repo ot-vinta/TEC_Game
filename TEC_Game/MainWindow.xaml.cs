@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,19 +39,33 @@ namespace TEC_Game
             this.Hide();
             GameController controller = new GameController(new Player(), new Scheme());
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
-            controller.InitializeScheme(dir + "Level1.txt");
             gameWindow.Show();
+            controller.InitializeScheme(dir + "Level1.txt");
         }
 
         private void Level2ChooseButton_Click(object sender, RoutedEventArgs e)
         {
+            {
+                //debug
+                string Path = Environment.CurrentDirectory.Replace(@"bin\Debug", "") + "\\log.txt";
+                using (StreamWriter writer = File.AppendText(Path))
+                    writer.WriteLine("Level 2 is chosen");
+                //end debug
+            }
             GameWindow gameWindow = new GameWindow();
             gameWindow.Owner = this;
             this.Hide();
             GameController controller = new GameController(new Player(), new Scheme());
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
-            controller.InitializeScheme(dir + "Level2.txt");
+            {
+                //debug
+                string Path = Environment.CurrentDirectory.Replace(@"bin\Debug", "") + "\\log.txt";
+                using (StreamWriter writer = File.AppendText(Path))
+                    writer.WriteLine("Initializaton of the scheme for level2 is called in MainWindow");
+                //end debug
+            }
             gameWindow.Show();
+            controller.InitializeScheme(dir + "Level2.txt");
         }
 
         private void StatisticsButton_Click(object sender, RoutedEventArgs e)

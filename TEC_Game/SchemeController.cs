@@ -156,13 +156,22 @@ namespace TEC_Game
             
             if (direction == "R")
             {
-                wire.GetImage().Margin = new Thickness(25, 0, 25, 0);
+                {
+                    //debug
+                    string Path = Environment.CurrentDirectory.Replace(@"bin\Debug", "") + "\\log.txt";
+                    using (StreamWriter writer = File.AppendText(Path))
+                        writer.WriteLine("Wire length is " + (gameController.gameWindow.GameGrid.ActualWidth / 40 * (length - 1) / 2) + ". Grid width = " + gameController.gameWindow.GameGrid.ActualWidth.ToString());
+                    //end debug
+                }
+                double marginDistance = gameController.gameWindow.GameGrid.ActualWidth / 40 / 2;
+                wire.GetImage().Margin = new Thickness(marginDistance, 0, marginDistance, 0);
 //                wire.GetImage().SetCurrentValue(Grid.MarginProperty, new Thickness(5, 0, 5, 0)); //Попытка добавить marginProperty к ячейке, в которой записана картинка
             }
             else
             {
+                double marginDistance = gameController.gameWindow.GameGrid.ActualHeight / 40 / 2;
                 //wire.GetImage().SetCurrentValue(Grid.MarginProperty, new Thickness(0, 5, 0, 5)); //Попытка добавить marginProperty к ячейке, в которой записана картинка
-                wire.GetImage().Margin = new Thickness(0, 25, 0, 25);
+                wire.GetImage().Margin = new Thickness(0, marginDistance, 0, marginDistance);
             }
         }
 
