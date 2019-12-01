@@ -22,14 +22,6 @@ namespace tec
 
         public GameController(Player player, Scheme scheme)
         {
-
-            {
-                //debug
-                string Path = Environment.CurrentDirectory.Replace(@"bin\Debug", "") + "\\log.txt";
-                using (StreamWriter writer = File.AppendText(Path))
-                    writer.WriteLine("GameController constructor is called");
-                //end debug
-            }
             this.player = player;
             this.scheme = scheme;
             schemeController = new SchemeController(this);

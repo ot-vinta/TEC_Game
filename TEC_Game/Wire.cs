@@ -17,8 +17,6 @@ namespace TEC_Game
     {
         private Image image;
         private int id, row, column;
-        private Binding binding;
-        //public static readonly DependencyProperty TextProperty;
 
         public Wire(int id, int row, int column)
         {
@@ -30,11 +28,6 @@ namespace TEC_Game
             image.StretchDirection = StretchDirection.Both;
             image.Stretch = Stretch.Fill;
             image.Source = new BitmapImage(new Uri(dir + @"Images\Wire.png"));
-            /*
-            this.binding = new Binding();
-            binding.Path = new System.Windows.PropertyPath("");
-            */
-            //this.binding = BindingOperations.GetBinding(, Grid.ActualHeightProperty);
         }
 
 
