@@ -80,6 +80,11 @@ namespace tec
             return id;
         }
 
+        public void SetId(int id)
+        {
+            this.id = id;
+        }
+
         public object Clone()
         {
             return new Node(id, X, Y) { id = this.id, X = this.X, Y = this.Y, connectedElements = this.connectedElements};

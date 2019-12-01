@@ -164,30 +164,45 @@ namespace tec
             return wires.Count;
         }
 
-        public void RemoveNullor()
+        public void RemoveNullor(Grid gameGrid)
         {
             while (FindNorator() != null)
             {
-                RemoveElement(FindNorator());
+                RemoveElement(FindNorator(), gameGrid);
             }
 
             while (FindNullator() != null)
             {
-                RemoveElement(FindNullator());
+                RemoveElement(FindNullator(), gameGrid);
             }
         }
 
-        public void RemoveElement(BaseElement element)
+        public void RemoveElement(BaseElement element, Grid gameGrid)
         {
             elements.Remove(element);
             nodes[element.GetNode1().GetId() - 1].RemoveElement(element);
             nodes[element.GetNode2().GetId() - 1].RemoveElement(element);
+            if (nodes[element.GetNode1().GetId() - 1].GetConnectedElementsCount() == 0)
+            {
+                gameGrid?.Children.Remove(nodes[element.GetNode1().GetId() - 1]);
+                RemoveNode(nodes[element.GetNode1().GetId() - 1]);
+            }
+
+            if (nodes[element.GetNode2().GetId() - 1].GetConnectedElementsCount() == 0)
+            {
+                gameGrid?.Children.Remove(nodes[element.GetNode2().GetId() - 1]);
+                RemoveNode(nodes[element.GetNode2().GetId() - 1]);
+            }
             element.Destroy();
             element = null;
         }
 
         public void RemoveNode(Node node)
         {
+            for (int i = node.GetId(); i < nodes.Count; i++)
+            {
+                nodes[i].SetId(i);
+            }
             nodes.Remove(node);
             node = null;
         }

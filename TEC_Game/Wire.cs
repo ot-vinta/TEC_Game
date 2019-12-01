@@ -30,22 +30,6 @@ namespace TEC_Game
             image.Source = new BitmapImage(new Uri(dir + @"Images\Wire.png"));
         }
 
-
-        public void AddConnectedObject(object obj)
-        {
-            connectedObjects.Add(obj);
-        }
-
-        public void RemoveConnectedObject(object obj)
-        {
-            connectedObjects.Remove(obj);
-        }
-
-        public int ConnectedObjectsCount()
-        {
-            return connectedObjects.Count;
-        }
-
         public void ChangeImageDirectionToLand()
         {
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
