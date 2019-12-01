@@ -242,7 +242,7 @@ namespace TEC_Game
                         ? (gameController.scheme.GetNodesCount() + 1) + " " + node1.GetY() + " " + node2.GetX()
                         : (gameController.scheme.GetNodesCount() + 1) + " " + node2.GetY() + " " + node1.GetX();
                     PlaceNode(ref line);
-                    node2 = gameController.scheme.GetNode(gameController.scheme.GetNodesCount() - 1);
+                    node2 = gameController.scheme.GetNode(gameController.scheme.GetNodesCount());
                 }
 
                 line = (direction == "R") || (direction == "L")

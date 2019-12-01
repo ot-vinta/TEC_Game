@@ -23,6 +23,16 @@ namespace tec
             image.VerticalAlignment = VerticalAlignment.Stretch;
         }
 
+        public override void Destroy()
+        {
+            try
+            {
+                image.Source = null;
+                image = null;
+            }
+            catch(NullReferenceException) {}
+        }
+
         public override void ChangeImageDirectionToLand()
         {
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");

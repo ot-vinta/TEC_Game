@@ -119,15 +119,8 @@ namespace tec
             }
         }
 
-        public void OnSimplifyClicked(object sender, RoutedEventArgs e)
+        private void Eliminate()
         {
-            var root = scheme.getRoot();
-
-            foreach (var v in root.GetConnectedElements())
-            {
-                dfs(v);
-            }
-
             foreach (var a in used)
             {
                 foreach (var b in used)
@@ -143,6 +136,18 @@ namespace tec
                              * Если норатор/нуллатор и проводимость(она же conductor) соединены друг с другом в двух узлах
                              * */
                             scheme.RemoveElement(a);
+                            gameWindow.GameGrid.Children.Remove(a.GetImage());
+
+                            if (b.GetNode1().GetConnectedElementsCount() == 0)
+                            {
+                                scheme.RemoveNode(b.GetNode1());
+                                gameWindow.GameGrid.Children.Remove(b.GetNode1());
+                            }
+                            if (b.GetNode2().GetConnectedElementsCount() == 0)
+                            {
+                                scheme.RemoveNode(b.GetNode2());
+                                gameWindow.GameGrid.Children.Remove(b.GetNode2());
+                            }
                         }
                         if (b is Conductor && (a is Nullator || a is Norator))
                         {
@@ -150,6 +155,18 @@ namespace tec
                               * Если норатор/нуллатор и проводимость(она же conductor) соединены друг с другом в двух узлах
                               * */
                             scheme.RemoveElement(b);
+                            gameWindow.GameGrid.Children.Remove(b.GetImage());
+
+                            if (a.GetNode1().GetConnectedElementsCount() == 0)
+                            {
+                                scheme.RemoveNode(a.GetNode1());
+                                gameWindow.GameGrid.Children.Remove(a.GetNode1());
+                            }
+                            if (a.GetNode2().GetConnectedElementsCount() == 0)
+                            {
+                                scheme.RemoveNode(a.GetNode2());
+                                gameWindow.GameGrid.Children.Remove(a.GetNode2());
+                            }
                         }
                     }
                 }
@@ -182,6 +199,19 @@ namespace tec
                          *  Если норатор/нуллатор с резистором соединены одним узлом и при этом к этому узлу больше никто не подключен
                          * */
                         scheme.RemoveElement(a);
+                        gameWindow.GameGrid.Children.Remove(a.GetImage());
+
+                        if (b.GetNode1().GetConnectedElementsCount() == 0)
+                        {
+                            scheme.RemoveNode(b.GetNode1());
+                            gameWindow.GameGrid.Children.Remove(b.GetNode1());
+                        }
+
+                        if (b.GetNode2().GetConnectedElementsCount() == 0)
+                        {
+                            scheme.RemoveNode(b.GetNode2());
+                            gameWindow.GameGrid.Children.Remove(b.GetNode2());
+                        }
                     }
                     if (b is Resistor && (a is Nullator || a is Norator))
                     {
@@ -189,9 +219,35 @@ namespace tec
                           *  Если норатор/нуллатор с резистором соединены одним узлом и при этом к этому узлу больше никто не подключе
                           * */
                         scheme.RemoveElement(b);
+                        gameWindow.GameGrid.Children.Remove(b.GetImage());
+
+                        if (a.GetNode1().GetConnectedElementsCount() == 0)
+                        {
+                            scheme.RemoveNode(a.GetNode1());
+                            gameWindow.GameGrid.Children.Remove(a.GetNode1());
+                        }
+                        if (a.GetNode2().GetConnectedElementsCount() == 0)
+                        {
+                            scheme.RemoveNode(a.GetNode2());
+                            gameWindow.GameGrid.Children.Remove(a.GetNode2());
+                        }
                     }
                 }
             }
+        }
+
+        public void OnSimplifyClicked(object sender, RoutedEventArgs e)
+        {
+            var root = scheme.getRoot();
+
+            foreach (var v in root.GetConnectedElements())
+            {
+                dfs(v);
+            }
+
+            scheme.RemoveNullor();
+
+            Eliminate();
         }
 
 
@@ -289,23 +345,6 @@ namespace tec
                 element.SetDirection("left");
             else
                 element.SetDirection("right");
-        }
-
-        public void AddNullator(Node node1, Node node2)
-        {
-            Nullator nullator = new Nullator(node1, node2, scheme.GetElementsSize());
-            scheme.AddElement(nullator);
-        }
-
-        public void AddNorator(Node node1, Node node2)
-        {
-            Norator norator = new Norator(node1, node2, scheme.GetElementsSize());
-            scheme.AddElement(norator);
-        }
-
-        public void DestroyElement(BaseElement element)
-        {
-            scheme.RemoveElement(element);
         }
     }
 }

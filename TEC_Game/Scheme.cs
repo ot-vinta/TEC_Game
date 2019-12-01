@@ -164,6 +164,19 @@ namespace tec
             return wires.Count;
         }
 
+        public void RemoveNullor()
+        {
+            while (FindNorator() != null)
+            {
+                RemoveElement(FindNorator());
+            }
+
+            while (FindNullator() != null)
+            {
+                RemoveElement(FindNullator());
+            }
+        }
+
         public void RemoveElement(BaseElement element)
         {
             elements.Remove(element);
@@ -171,6 +184,19 @@ namespace tec
             nodes[element.GetNode2().GetId() - 1].RemoveElement(element);
             element.Destroy();
             element = null;
+        }
+
+        public void RemoveNode(Node node)
+        {
+            nodes.Remove(node);
+            node = null;
+        }
+
+        public void RemoveWire(Wire wire)
+        {
+            wires.Remove(wire);
+            wire.Destroy();
+            wire = null;
         }
     }
 }
