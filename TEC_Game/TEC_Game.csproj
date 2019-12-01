@@ -61,6 +61,7 @@
     <Compile Include="GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PaddedGrid.cs" />
     <Compile Include="Resistor.cs" />
     <Compile Include="Scheme.cs" />
     <Compile Include="SchemeController.cs" />

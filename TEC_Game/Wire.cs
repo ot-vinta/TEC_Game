@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Data;
+using System.Windows;
+using System.ComponentModel;
 
 namespace TEC_Game
 {
@@ -20,13 +23,13 @@ namespace TEC_Game
             this.id = id;
             this.row = row;
             this.column = column;
-
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
             image = new Image();
             image.StretchDirection = StretchDirection.Both;
             image.Stretch = Stretch.Fill;
             image.Source = new BitmapImage(new Uri(dir + @"Images\Wire.png"));
         }
+
 
         public void ChangeImageDirectionToLand()
         {

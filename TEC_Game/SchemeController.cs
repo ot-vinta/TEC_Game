@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Annotations;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using tec;
@@ -121,6 +122,7 @@ namespace TEC_Game
             wire.GetImage().SetValue(Grid.RowProperty, startRow);
             wire.GetImage().SetValue(Grid.ColumnProperty, startColumn);
             wire.GetImage().SetValue(Panel.ZIndexProperty, 1);
+            
 
             if (direction == "R")
             {
@@ -131,8 +133,20 @@ namespace TEC_Game
             {
                 wire.GetImage().SetValue(Grid.RowSpanProperty, length);
             }
-
+            
             gameController.gameWindow.GameGrid.Children.Add(wire.GetImage());
+            
+            if (direction == "R")
+            {
+                
+                double marginDistance = gameController.gameWindow.GameGrid.ActualWidth / 40 / 2;
+                wire.GetImage().Margin = new Thickness(marginDistance, 0, marginDistance, 0); //Попытка добавить marginProperty к ячейке, в которой записана картинка
+            }
+            else
+            {
+                double marginDistance = gameController.gameWindow.GameGrid.ActualHeight / 40 / 2; 
+                wire.GetImage().Margin = new Thickness(0, marginDistance, 0, marginDistance); //Попытка добавить marginProperty к ячейке, в которой записана картинка
+            }
         }
 
         public string GetSubString(ref string line, int len)
