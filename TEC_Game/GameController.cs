@@ -131,77 +131,109 @@ namespace tec
             }
         }
 
+        private void Eliminate(HashSet<Node> usedNodes, HashSet<BaseElement> usedElements)
+        {
+            var deletedElements = 1;
+            while (true)
+            {
+                var norator = scheme.FindNorator();
+                var nullator = scheme.FindNullator();
+
+                if (deletedElements != 0)
+                {
+                    deletedElements = 0;
+
+                    foreach (var elem in usedNodes.SelectMany(node => node.GetConnectedElements()))
+                    {
+                        usedElements.Add(elem);
+                    }
+
+                    usedElements.Remove(norator);
+                    usedElements.Remove(nullator);
+
+                    HashSet<BaseElement> elementsToDelete = new HashSet<BaseElement>();
+
+                    foreach (var element in usedElements)
+                    {
+                        var eNode1 = element.GetNode1();
+                        var eNode2 = element.GetNode2();
+                        var norNode1 = norator.GetNode1();
+                        var norNode2 = norator.GetNode2();
+                        var nullNode1 = nullator.GetNode1();
+                        var nullNode2 = nullator.GetNode2();
+
+                        switch (element)
+                        {
+                            case Conductor _ when (eNode1 == norNode1 && eNode2 == norNode2 || 
+                                                   eNode1 == norNode2 && eNode2 == norNode1 || 
+                                                   eNode1 == nullNode1 && eNode2 == nullNode2 || 
+                                                   eNode1 == nullNode2 && eNode2 == nullNode1):
+                                elementsToDelete.Add(element);
+                                deletedElements++;
+                                break;
+                            case Resistor _:
+                            {
+                                if (eNode1 == norNode1 && eNode2 != norNode2 &&
+                                    eNode1.GetConnectedElements().Count == 2 ||
+                                    eNode1 == norNode2 && eNode2 != norNode1 &&
+                                    eNode1.GetConnectedElements().Count == 2 ||
+                                    eNode1 == nullNode1 && eNode2 != nullNode2 &&
+                                    eNode1.GetConnectedElements().Count == 2 ||
+                                    eNode1 == nullNode2 && eNode2 != nullNode1 &&
+                                    eNode1.GetConnectedElements().Count == 2)
+                                {
+                                    elementsToDelete.Add(element);
+                                    deletedElements++;
+                                    usedNodes.Add(eNode2);
+                                }
+                                else if (eNode1 != norNode1 && eNode2 == norNode2 &&
+                                         eNode2.GetConnectedElements().Count == 2 ||
+                                         eNode1 != norNode2 && eNode2 == norNode1 &&
+                                         eNode2.GetConnectedElements().Count == 2 ||
+                                         eNode1 != nullNode1 && eNode2 == nullNode2 &&
+                                         eNode2.GetConnectedElements().Count == 2 ||
+                                         eNode1 != nullNode2 && eNode2 == nullNode1 &&
+                                         eNode2.GetConnectedElements().Count == 2)
+                                {
+                                    elementsToDelete.Add(element);
+                                    deletedElements++;
+                                    usedNodes.Add(eNode1);
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    foreach (var element in elementsToDelete) SayGoodBye(element, ref usedElements);
+                    continue;
+                }
+
+                break;
+            }
+        }
+
+        private void SayGoodBye(BaseElement element, ref HashSet<BaseElement> usedElements)
+        {
+            usedElements.Remove(element);
+            scheme.RemoveElement(element, gameWindow.GameGrid);
+            gameWindow.GameGrid.Children.Remove(element.GetImage());
+        }
+
         public void OnSimplifyClicked(object sender, RoutedEventArgs e)
         {
-            RecalcElementsList();
-            foreach (var a in AllElementsSet)
-            {
-                foreach (var b in AllElementsSet)
-                {
-                    if (a == b) continue;
+            HashSet<BaseElement> usedElements = new HashSet<BaseElement>();
+            HashSet<Node> usedNodes = new HashSet<Node>();
 
-                    if ((a.GetNode1().GetId() == b.GetNode1().GetId() && a.GetNode2().GetId() == b.GetNode2().GetId()) ||
-                        (a.GetNode1().GetId() == b.GetNode2().GetId() && a.GetNode2().GetId() == b.GetNode1().GetId()))
-                    {
-                        if (a is Conductor && (b is Nullator || b is Norator))
-                        {
-                            /**
-                             * Если норатор/нуллатор и проводимость(она же conductor) соединены друг с другом в двух узлах
-                             * */
-                            scheme.RemoveElement(a, gameWindow.GameGrid);
-                            gameWindow.GameGrid.Children.Remove(a.GetImage());
-                        }
-                        if (b is Conductor && (a is Nullator || a is Norator))
-                        {
-                            /**
-                              * Если норатор/нуллатор и проводимость(она же conductor) соединены друг с другом в двух узлах
-                              * */
-                            scheme.RemoveElement(b, gameWindow.GameGrid);
-                            gameWindow.GameGrid.Children.Remove(b.GetImage());
-                        }
-                    }
-                }
-            }
+            var norator = scheme.FindNorator();
+            var nullator = scheme.FindNullator();
 
-            foreach (var a in AllElementsSet)
-            {
-                foreach (var b in AllElementsSet)
-                {
-                    if (a == b) continue;
+            usedNodes.Add(norator.GetNode1());
+            usedNodes.Add(norator.GetNode2());
+            usedNodes.Add(nullator.GetNode1());
+            usedNodes.Add(nullator.GetNode2());
 
-                    Node common = null;
-
-                    if (a.GetNode1().GetId() == b.GetNode1().GetId()) common = a.GetNode1();
-                    if (a.GetNode2().GetId() == b.GetNode2().GetId()) common = a.GetNode2();
-                    if (a.GetNode1().GetId() == b.GetNode2().GetId()) common = a.GetNode1();
-
-                    int count = 0;
-                    foreach (var k in AllElementsSet)
-                    {
-                        if (k.GetNode1() == common || k.GetNode2() == common)
-                            count++;
-                    }
-                    if (count != 2)
-                        continue;
-
-                    if (a is Resistor && (b is Nullator || b is Norator))
-                    {
-                        /**
-                         *  Если норатор/нуллатор с резистором соединены одним узлом и при этом к этому узлу больше никто не подключен
-                         * */
-                        scheme.RemoveElement(a, gameWindow.GameGrid);
-                        gameWindow.GameGrid.Children.Remove(a.GetImage());
-                    }
-                    if (b is Resistor && (a is Nullator || a is Norator))
-                    {
-                        /**
-                          *  Если норатор/нуллатор с резистором соединены одним узлом и при этом к этому узлу больше никто не подключе
-                          * */
-                        scheme.RemoveElement(b, gameWindow.GameGrid);
-                        gameWindow.GameGrid.Children.Remove(b.GetImage());
-                    }
-                }
-            }
+            Eliminate(usedNodes, usedElements);
 
             scheme.RemoveNullor(gameWindow.GameGrid);
         }
@@ -239,6 +271,8 @@ namespace tec
         public void OnNodeClick(object sender, RoutedEventArgs e)
         {
             Node node = sender as Node;
+            HideAlarm();
+
             if ((node.Background == Brushes.Black) && (!player.NodesChosen()))
             {
                 node.Background = Brushes.Blue;
@@ -336,28 +370,49 @@ namespace tec
 
         public void OnNoratorButtonClick(object sender, RoutedEventArgs e)
         {
-            schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "No");
+            if (scheme.FindNorator() == null)
+            {
+                HideAlarm();
+                schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "No");
 
-            player.GetNodeChosen1().Background = Brushes.Black;
-            player.GetNodeChosen2().Background = Brushes.Black;
-            player.RemoveNode(player.GetNodeChosen1());
-            player.RemoveNode(player.GetNodeChosen2());
-            SetSimplifyStatus();
-            e.Handled = true;
-            DisableNullatorAndNoratorBtn();
+                player.GetNodeChosen1().Background = Brushes.Black;
+                player.GetNodeChosen2().Background = Brushes.Black;
+                player.RemoveNode(player.GetNodeChosen1());
+                player.RemoveNode(player.GetNodeChosen2());
+                SetSimplifyStatus();
+                e.Handled = true;
+                DisableNullatorAndNoratorBtn();
+            }
+            else Alarm("Норатор уже есть!");
         }
 
         public void OnNullatorButtonClick(object sender, RoutedEventArgs e)
         {
-            schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "Nu");
+            if (scheme.FindNullator() == null)
+            {
+                HideAlarm();
+                schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "Nu");
 
-            player.GetNodeChosen1().Background = Brushes.Black;
-            player.GetNodeChosen2().Background = Brushes.Black;
-            player.RemoveNode(player.GetNodeChosen1());
-            player.RemoveNode(player.GetNodeChosen2());
-            SetSimplifyStatus();
-            e.Handled = true;
-            DisableNullatorAndNoratorBtn();
+                player.GetNodeChosen1().Background = Brushes.Black;
+                player.GetNodeChosen2().Background = Brushes.Black;
+                player.RemoveNode(player.GetNodeChosen1());
+                player.RemoveNode(player.GetNodeChosen2());
+                SetSimplifyStatus();
+                e.Handled = true;
+                DisableNullatorAndNoratorBtn();
+            }
+            else Alarm("Нуллатор уже есть!");
+        }
+
+        private void Alarm(string text)
+        {
+            gameWindow.alarmText.Visibility = Visibility.Visible;
+            gameWindow.alarmText.Text = text;
+        }
+
+        private void HideAlarm()
+        {
+            gameWindow.alarmText.Visibility = Visibility.Hidden;
         }
 
         void DisableNullatorAndNoratorBtn()

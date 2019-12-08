@@ -106,6 +106,8 @@
 
         <Button x:Name="simplifyButton" Template="{StaticResource ButtonTemplate}" Background="#FFFF6E40" Content="Упростить схему" Grid.Row="7" Grid.Column="6" Opacity="0" IsEnabled="False"/>
 
+        <TextBox x:Name="alarmText" Grid.Row="8" Grid.Column="6" FontSize="32" TextWrapping="Wrap" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" AllowDrop="False" Focusable="False" Background="#00000000" BorderThickness="0"/>
+
         <local:PaddedGrid x:Name="GameGrid" Grid.Row="3" Grid.Column="1" Grid.RowSpan="6" Grid.ColumnSpan="3" Margin="0,8,2,2"/>
     </local:PaddedGrid>
 </Window>

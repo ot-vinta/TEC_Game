@@ -129,9 +129,8 @@ namespace tec
 
         public Node GetHorizontalNode(Node node, int step)
         {
-            step = step < 0 ? 1 : -1;
             int x = node.GetX();
-            while ((x <= 40) && (x >= 0))
+            while ((x <= 70) && (x >= 0))
             {
                 x += step;
                 if (GetNode(x, node.GetY()) != null)
@@ -145,9 +144,8 @@ namespace tec
 
         public Node GetVerticalNode(Node node, int step)
         {
-            step = step < 0 ? 1 : -1;
             int y = node.GetY();
-            while ((y <= 40) && (y >= 0))
+            while ((y <= 50) && (y >= 0))
             {
                 y += step;
                 if (GetNode(node.GetX(), y) != null)
@@ -182,16 +180,32 @@ namespace tec
             elements.Remove(element);
             nodes[element.GetNode1().GetId() - 1].RemoveElement(element);
             nodes[element.GetNode2().GetId() - 1].RemoveElement(element);
-            if (nodes[element.GetNode1().GetId() - 1].GetConnectedElementsCount() == 0)
+
+            if (elements.Count > 1)
             {
-                gameGrid?.Children.Remove(nodes[element.GetNode1().GetId() - 1]);
-                RemoveNode(nodes[element.GetNode1().GetId() - 1]);
+                if (element.GetNode1().GetConnectedElements()[0] is NullorElement &&
+                    element.GetNode1().GetConnectedElementsCount() == 1)
+                {
+                    element.GetNode1().GetConnectedElements()[0].ChangeNode(element.GetNode1(), element.GetNode2());
+                }
+
+                if (element.GetNode2().GetConnectedElements()[0] is NullorElement &&
+                    element.GetNode2().GetConnectedElementsCount() == 1)
+                {
+                    element.GetNode2().GetConnectedElements()[0].ChangeNode(element.GetNode2(), element.GetNode1());
+                }
             }
 
-            if (nodes[element.GetNode2().GetId() - 1].GetConnectedElementsCount() == 0)
+            if (element.GetNode1().GetConnectedElementsCount() == 0)
             {
-                gameGrid?.Children.Remove(nodes[element.GetNode2().GetId() - 1]);
-                RemoveNode(nodes[element.GetNode2().GetId() - 1]);
+                gameGrid?.Children.Remove(element.GetNode1());
+                RemoveNode(element.GetNode1());
+            }
+
+            if (element.GetNode2().GetConnectedElementsCount() == 0)
+            {
+                gameGrid?.Children.Remove(element.GetNode2());
+                RemoveNode(element.GetNode2());
             }
             element.Destroy();
             element = null;

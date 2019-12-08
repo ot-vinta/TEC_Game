@@ -140,12 +140,12 @@ namespace TEC_Game
             if (direction == "R")
             {
                 
-                double marginDistance = gameController.gameWindow.GameGrid.ActualWidth / 40 / 2;
+                double marginDistance = gameController.gameWindow.GameGrid.ActualWidth / 70 / 2;
                 wire.GetImage().Margin = new Thickness(marginDistance, 0, marginDistance, 0); //Попытка добавить marginProperty к ячейке, в которой записана картинка
             }
             else
             {
-                double marginDistance = gameController.gameWindow.GameGrid.ActualHeight / 40 / 2; 
+                double marginDistance = gameController.gameWindow.GameGrid.ActualHeight / 50 / 2; 
                 wire.GetImage().Margin = new Thickness(0, marginDistance, 0, marginDistance); //Попытка добавить marginProperty к ячейке, в которой записана картинка
             }
         }
@@ -168,6 +168,7 @@ namespace TEC_Game
             string direction = "";
 
             var blockingElements = FindBlockingElements(node1, node2, ref direction);
+            if (blockingElements.Contains(node1)) blockingElements.Remove(node1);
 
             row = direction == "U" ? node2.GetY() : node1.GetY();
             column = direction == "L" ? node2.GetX() : node1.GetX();
@@ -239,23 +240,51 @@ namespace TEC_Game
             {
                 //Если есть блокирующие элементы и нужно как-то считать положение элемента
                 //TO DO
-                /*direction = node1.GetX() == node2.GetX() ? "U" : "R";
+                if (direction == "R" && node1.GetY() > node2.GetY())
+                {
+                    var temp = node1;
+                    node1 = node2;
+                    node2 = temp;
+                }
+                if (direction == "D" && node1.GetX() > node2.GetX())
+                {
+                    var temp = node1;
+                    node1 = node2;
+                    node2 = temp;
+                }
+                direction = node1.GetY() == node2.GetY() ? "R" : "D";
                 id = gameController.scheme.GetElementsSize() + 1;
-                line = direction == "U" 
+                line = direction == "R" 
                     ? id + " " + (node1.GetY() - 4) + " " + (node1.GetX() + 4) + " R " + node1.GetId() + " " + node2.GetId()
-                    : id + " " + (node1.GetY() + 4) + " " + (node1.GetX() + 4) + " D " + node1.GetId() + " " + node2.GetId();
+                    : id + " " + (node1.GetY() + 4) + " " + (node1.GetX() + 2) + " D " + node1.GetId() + " " + node2.GetId();
                 PlaceElement(ref line, type);
 
                 id = gameController.scheme.GetWiresCount() + 1;
-                line = direction == "U"
-                    ? id + " " + node1.GetX() + " " + (node1.GetY() - 3) + " 6 R"
-                    : id + " " + (node1.GetX() + 3) + " " + node1.GetY() + " 6 D";
+                line = direction == "R"
+                    ? id + " " + (node1.GetY() - 3) + " " + node1.GetX() + " 6 R"
+                    : id + " " + node1.GetY() + " " + (node1.GetX() + 3) + " 6 D";
                 PlaceWire(ref line);
                 id++;
-                line = direction == "U"
-                    ? id + " " + (node1.GetX() + ) + " " + (node1.GetY() - 3) + " 6 R"
-                    : id + " " + (node1.GetX() + 3) + " " + node1.GetY() + " 6 D";
-                PlaceWire(ref line);*/
+                line = direction == "R"
+                    ? id + " " + (node1.GetY() - 3) + " " + (node1.GetX() + 12) + " 6 R"
+                    : id + " " + (node1.GetY() + 12) + " " + (node1.GetX() + 3) + " 6 D";
+                PlaceWire(ref line);
+                if (!HasAdditionalWire(direction, node1))
+                {
+                    id++;
+                    line = direction == "R"
+                        ? id + " " + (node1.GetY() - 3) + " " + node1.GetX() + " 6 D"
+                        : id + " " + node1.GetY() + " " + (node1.GetX() + 3) + " 6 R";
+                    PlaceWire(ref line);
+                }
+                if (!HasAdditionalWire(direction, node2))
+                {
+                    id++;
+                    line = direction == "R"
+                        ? id + " " + (node2.GetY() - 3) + " " + node2.GetX() + " 6 D"
+                        : id + " " + node2.GetY() + " " + (node2.GetX() + 3) + " 6 R";
+                    PlaceWire(ref line);
+                }
             }
         }
 
@@ -272,8 +301,6 @@ namespace TEC_Game
             {
                 while (x != node2.GetX())
                 {
-                    x += xStep;
-
                     if (gameController.scheme.GetNode(x, y) != null)
                     {
                         if (gameController.scheme.GetNode(x, y) != node2)
@@ -281,12 +308,12 @@ namespace TEC_Game
                         if (FindHorizontalElement(gameController.scheme.GetNode(x, y), xStep) != null)
                             ans.Add(FindHorizontalElement(gameController.scheme.GetNode(x, y), xStep));
                     }
+
+                    x += xStep;
                 }
 
                 while (y != node2.GetY())
-                {
-                    y += yStep;
-
+                { 
                     if (gameController.scheme.GetNode(x, y) != null)
                     {
                         if (gameController.scheme.GetNode(x, y) != node2)
@@ -294,6 +321,8 @@ namespace TEC_Game
                         if (FindVerticalElement(gameController.scheme.GetNode(x, y), yStep) != null)
                             ans.Add(FindVerticalElement(gameController.scheme.GetNode(x, y), yStep));
                     }
+
+                    y += yStep;
                 }
 
                 if (!ans.Any())
@@ -311,8 +340,6 @@ namespace TEC_Game
 
             while (y != node2.GetY())
             {
-                y += yStep;
-
                 if (gameController.scheme.GetNode(x, y) != null)
                 {
                     if (gameController.scheme.GetNode(x, y) != node2)
@@ -320,12 +347,12 @@ namespace TEC_Game
                     if (FindVerticalElement(gameController.scheme.GetNode(x, y), yStep) != null)
                         tempList.Add(FindVerticalElement(gameController.scheme.GetNode(x, y), yStep));
                 }
+
+                y += yStep;
             }
 
             while (x != node2.GetX())
             {
-                x += xStep;
-
                 if (gameController.scheme.GetNode(x, y) != null)
                 {
                     if (gameController.scheme.GetNode(x, y) != node2)
@@ -333,6 +360,8 @@ namespace TEC_Game
                     if (FindHorizontalElement(gameController.scheme.GetNode(x, y), xStep) != null)
                         tempList.Add(FindHorizontalElement(gameController.scheme.GetNode(x, y), xStep));
                 }
+
+                x += xStep;
             }
 
             if (yStep < 0)
@@ -360,6 +389,32 @@ namespace TEC_Game
                 if ((element.GetNode1() == temp) || (element.GetNode2() == temp))
                     return element;
             return null;
+        }
+
+        private bool HasAdditionalWire(string direction, Node node)
+        {
+            if (direction == "R")
+            {
+                int y = node.GetY();
+                while (y > 0)
+                {
+                    y--;
+                    if (gameController.scheme.GetNode(node.GetX(), y) != null)
+                        return true;
+                }
+            }
+            else
+            {
+                int x = node.GetX();
+                while (x <= 70)
+                {
+                    x++;
+                    if (gameController.scheme.GetNode(x, node.GetY()) != null)
+                        return true;
+                }
+            }
+
+            return false;
         }
     }
 }

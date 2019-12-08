@@ -23,6 +23,23 @@ namespace tec
             this.id = id;
         }
 
+        public void ChangeNode(Node oldNode, Node newNode)
+        {
+            if (oldNode == node1)
+            {
+                node1.RemoveElement(this);
+                node1 = newNode;
+                node1.AddConnectedElement(this);
+            }
+
+            if (oldNode == node2)
+            {
+                node2.RemoveElement(this);
+                node2 = newNode;
+                node2.AddConnectedElement(this);
+            }
+        }
+
         public Node GetNode1()
         {
             return node1;
