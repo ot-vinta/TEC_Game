@@ -23,17 +23,6 @@ namespace TEC_Game
         public GameWindow()
         {
             InitializeComponent();
-
-        }
-        private void Window_Loaded(object sender,RoutedEventArgs e)
-        {
-            //Rectangle rectangle = new Rectangle();
-            //rectangle.Width = 300;
-            //rectangle.Height = 70;
-            //rectangle.Fill = Brushes.Blue;
-            //Canvas.SetLeft(rectangle, 900);
-            //Canvas.SetTop(rectangle, 70);
-            //elem1.Children.Insert(0, rectangle);
         }
 
         private void ToMainMenuButton_Click(object sender, RoutedEventArgs e)

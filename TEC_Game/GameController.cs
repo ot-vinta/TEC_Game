@@ -45,11 +45,11 @@ namespace tec
 
         private void MakeGrid()
         {
-            for (int i = 0; i < 40; i++)
+            for (int i = 0; i < 50; i++)
             {
                 gameWindow.GameGrid.RowDefinitions.Add(new RowDefinition());
             }
-            for (int i = 0; i < 57; i++)
+            for (int i = 0; i < 70; i++)
             {
                 gameWindow.GameGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
@@ -60,8 +60,8 @@ namespace tec
                 Background = new SolidColorBrush(Color.FromRgb(225, 226, 225))
             };
 
-            control.SetValue(Grid.RowSpanProperty, 40);
-            control.SetValue(Grid.ColumnSpanProperty, 57);
+            control.SetValue(Grid.RowSpanProperty, 50);
+            control.SetValue(Grid.ColumnSpanProperty, 70);
             control.SetValue(Panel.ZIndexProperty, 0);
 
             gameWindow.GameGrid.Children.Add(control);

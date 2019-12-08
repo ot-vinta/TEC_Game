@@ -234,10 +234,28 @@ namespace TEC_Game
 
                 PlaceElement(ref line, type);
             }
-            else
+            else if (blockingElements.Count == 1 && 
+                     (node1.GetNullorElement() == null || node2.GetNullorElement() == null))
             {
                 //Если есть блокирующие элементы и нужно как-то считать положение элемента
                 //TO DO
+                /*direction = node1.GetX() == node2.GetX() ? "U" : "R";
+                id = gameController.scheme.GetElementsSize() + 1;
+                line = direction == "U" 
+                    ? id + " " + (node1.GetY() - 4) + " " + (node1.GetX() + 4) + " R " + node1.GetId() + " " + node2.GetId()
+                    : id + " " + (node1.GetY() + 4) + " " + (node1.GetX() + 4) + " D " + node1.GetId() + " " + node2.GetId();
+                PlaceElement(ref line, type);
+
+                id = gameController.scheme.GetWiresCount() + 1;
+                line = direction == "U"
+                    ? id + " " + node1.GetX() + " " + (node1.GetY() - 3) + " 6 R"
+                    : id + " " + (node1.GetX() + 3) + " " + node1.GetY() + " 6 D";
+                PlaceWire(ref line);
+                id++;
+                line = direction == "U"
+                    ? id + " " + (node1.GetX() + ) + " " + (node1.GetY() - 3) + " 6 R"
+                    : id + " " + (node1.GetX() + 3) + " " + node1.GetY() + " 6 D";
+                PlaceWire(ref line);*/
             }
         }
 
