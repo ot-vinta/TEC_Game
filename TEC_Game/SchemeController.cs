@@ -116,7 +116,37 @@ namespace TEC_Game
 
             string direction = GetSubString(ref line, 1);
 
+            int id1 = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
+            string type1 = GetSubString(ref line, 1);
+            object obj1 = null;
+            if (type1 == "N")
+            {
+                obj1 = gameController.scheme.GetNode(id1);
+            }
+            else
+            {
+                obj1 = gameController.scheme.GetElement(id1);
+            }
+
+            object obj2 = null;
+            if (line != "")
+            {
+                int id2 = Int32.Parse(GetSubString(ref line, line.IndexOf(' ')));
+                string type2 = GetSubString(ref line, 1);
+                if (type2 == "N")
+                {
+                    obj2 = gameController.scheme.GetNode(id2);
+                }
+                else
+                {
+                    obj2 = gameController.scheme.GetElement(id2);
+                }
+            }
+
             Wire wire = new Wire(id, startRow, startColumn);
+
+            gameController.scheme.AddWireToObject(wire, obj1);
+            gameController.scheme.AddWireToObject(wire, obj2);
 
             gameController.scheme.AddWire(wire);
 
@@ -164,17 +194,35 @@ namespace TEC_Game
             string line = "";
             int row = 0;
             int column = 0;
-            int id = gameController.scheme.GetElementsSize();
+            int id = gameController.scheme.GetElementMaxId() + 1;
             string direction = "";
 
             var blockingElements = FindBlockingElements(node1, node2, ref direction);
-            if (blockingElements.Contains(node1)) blockingElements.Remove(node1);
+            blockingElements.Remove(node1);
+            blockingElements.Remove(node2);
+
+            Norator norator = null;
+            Nullator nullator = null;
+            foreach (var elem in blockingElements)
+            {
+                if (elem is Norator) norator = (Norator) elem;
+                if (elem is Nullator) nullator = (Nullator) elem;
+            }
+
+            blockingElements.Remove(norator);
+            blockingElements.Remove(nullator);
 
             row = direction == "U" ? node2.GetY() : node1.GetY();
             column = direction == "L" ? node2.GetX() : node1.GetX();
 
             if (!blockingElements.Any())
             {
+                line = (direction == "R") || (direction == "L")
+                    ? id + " " + (row - 1) + " " + column + " R " + node1.GetId() + " " + node2.GetId()
+                    : id + " " + row + " " + (column - 1) + " D " + node1.GetId() + " " + node2.GetId();
+
+                PlaceElement(ref line, type);
+
                 int length = (direction == "R") || (direction == "L")
                     ? Math.Abs(node1.GetX() - node2.GetX())
                     : Math.Abs(node1.GetY() - node2.GetY());
@@ -182,11 +230,13 @@ namespace TEC_Game
                 //Если элемент слишком короткий(т.е. он не дотягивается до второго узла), то лучше пририсовать ему провод, чтобы нормально все выглядело
                 if (length > 8)
                 {
-                    int wireId = gameController.scheme.GetWiresCount();
+                    int wireId = gameController.scheme.GetWireMaxId();
+
+                    int id1 = direction == "U" || direction == "L" ? node2.GetId() : node1.GetId();
 
                     line = (direction == "R") || (direction == "L") 
-                        ? wireId + " " + row + " " + (column + 8) + " " + (length - 7) + " R"
-                        : wireId + " " + (row + 8) + " " + column + " " + (length - 7) + " D";
+                        ? wireId + " " + row + " " + (column + 8) + " " + (length - 7) + " R " + id1 + " N " + id + " E"
+                        : wireId + " " + (row + 8) + " " + column + " " + (length - 7) + " D " + id1 + " N " + id + " E";
 
                     PlaceWire(ref line);
                     line = "";
@@ -195,7 +245,7 @@ namespace TEC_Game
                 //Если у узлов не совпадают ни X, ни Y (здесь нужен будет еще один провод)
                 if ((node1.GetX() != node2.GetX()) && (node1.GetY() != node2.GetY()))
                 {
-                    int wireId = gameController.scheme.GetWiresCount();
+                    int wireId = gameController.scheme.GetWireMaxId();
 
                     int wireRow = 0;
                     int wireColumn = 0;
@@ -216,27 +266,20 @@ namespace TEC_Game
                              : Math.Abs(node1.GetX() - node2.GetX());
 
                     line = (direction == "R") || (direction == "L")
-                        ? (wireId + 1) + " " + wireRow + " " + wireColumn + " " + length + " D"
-                        : (wireId + 1) + " " + wireRow + " " + wireColumn + " " + length + " R";
+                        ? (wireId + 1) + " " + wireRow + " " + wireColumn + " " + length + " D " + node1.GetId() + " N " + node2.GetId() + " N"
+                        : (wireId + 1) + " " + wireRow + " " + wireColumn + " " + length + " R " + node1.GetId() + " N " + node2.GetId() + " N";
 
                     PlaceWire(ref line);
                     line = "";
 
                     line = (direction == "R") || (direction == "L")
-                        ? (gameController.scheme.GetNodesCount() + 1) + " " + node1.GetY() + " " + node2.GetX()
-                        : (gameController.scheme.GetNodesCount() + 1) + " " + node2.GetY() + " " + node1.GetX();
+                        ? (gameController.scheme.GetNodeMaxId() + 1) + " " + node1.GetY() + " " + node2.GetX()
+                        : (gameController.scheme.GetNodeMaxId() + 1) + " " + node2.GetY() + " " + node1.GetX();
                     PlaceNode(ref line);
-                    node2 = gameController.scheme.GetNode(gameController.scheme.GetNodesCount());
+                    node2 = gameController.scheme.GetNode(gameController.scheme.GetNodeMaxId());
                 }
-
-                line = (direction == "R") || (direction == "L")
-                    ? (id + 1) + " " + (row - 1) + " " + column + " R " + node1.GetId() + " " + node2.GetId()
-                    : (id + 1) + " " + row + " " + (column - 1) + " D " + node1.GetId() + " " + node2.GetId();
-
-                PlaceElement(ref line, type);
             }
-            else if (blockingElements.Count == 1 && 
-                     (node1.GetNullorElement() == null || node2.GetNullorElement() == null))
+            else if (blockingElements.Count == 1)
             {
                 //Если есть блокирующие элементы и нужно как-то считать положение элемента
                 //TO DO
@@ -253,45 +296,52 @@ namespace TEC_Game
                     node2 = temp;
                 }
                 direction = node1.GetY() == node2.GetY() ? "R" : "D";
-                id = gameController.scheme.GetElementsSize() + 1;
+                id = gameController.scheme.GetElementMaxId() + 1;
                 line = direction == "R" 
                     ? id + " " + (node1.GetY() - 4) + " " + (node1.GetX() + 4) + " R " + node1.GetId() + " " + node2.GetId()
                     : id + " " + (node1.GetY() + 4) + " " + (node1.GetX() + 2) + " D " + node1.GetId() + " " + node2.GetId();
                 PlaceElement(ref line, type);
 
-                id = gameController.scheme.GetWiresCount() + 1;
+                int wireId = gameController.scheme.GetWireMaxId() + 1;
                 line = direction == "R"
-                    ? id + " " + (node1.GetY() - 3) + " " + node1.GetX() + " 6 R"
-                    : id + " " + node1.GetY() + " " + (node1.GetX() + 3) + " 6 D";
+                    ? wireId + " " + (node1.GetY() - 3) + " " + node1.GetX() + " 6 R " + id + " E"
+                    : wireId + " " + node1.GetY() + " " + (node1.GetX() + 3) + " 6 D " + id + " E";
                 PlaceWire(ref line);
-                id++;
+
+                Wire wire1 = gameController.scheme.GetWire(wireId);
+
+                wireId++;
                 line = direction == "R"
-                    ? id + " " + (node1.GetY() - 3) + " " + (node1.GetX() + 12) + " 6 R"
-                    : id + " " + (node1.GetY() + 12) + " " + (node1.GetX() + 3) + " 6 D";
+                    ? wireId + " " + (node1.GetY() - 3) + " " + (node1.GetX() + 12) + " 6 R " + id + " E"
+                    : wireId + " " + (node1.GetY() + 12) + " " + (node1.GetX() + 3) + " 6 D " + id + " E";
                 PlaceWire(ref line);
-                if (!HasAdditionalWire(direction, node1))
-                {
-                    id++;
-                    line = direction == "R"
-                        ? id + " " + (node1.GetY() - 3) + " " + node1.GetX() + " 6 D"
-                        : id + " " + node1.GetY() + " " + (node1.GetX() + 3) + " 6 R";
-                    PlaceWire(ref line);
-                }
-                if (!HasAdditionalWire(direction, node2))
-                {
-                    id++;
-                    line = direction == "R"
-                        ? id + " " + (node2.GetY() - 3) + " " + node2.GetX() + " 6 D"
-                        : id + " " + node2.GetY() + " " + (node2.GetX() + 3) + " 6 R";
-                    PlaceWire(ref line);
-                }
+
+                Wire wire2 = gameController.scheme.GetWire(wireId);
+
+                wireId++;
+                line = direction == "R"
+                    ? wireId + " " + (node1.GetY() - 3) + " " + node1.GetX() + " 4 D " + node1.GetId() + " N"
+                    : wireId + " " + node1.GetY() + " " + node1.GetX() + " 4 R " + node1.GetId() + " N";
+                PlaceWire(ref line);
+
+                Wire wire3 = gameController.scheme.GetWire(wireId);
+                gameController.scheme.AddWireToObject(wire1, wire3);
+
+                wireId++;
+                line = direction == "R"
+                    ? wireId + " " + (node2.GetY() - 3) + " " + node2.GetX() + " 4 D " + node2.GetId() + " N"
+                    : wireId + " " + node2.GetY() + " " + node2.GetX() + " 4 R " + node2.GetId() + " N";
+                PlaceWire(ref line);
+
+                Wire wire4 = gameController.scheme.GetWire(wireId);
+                gameController.scheme.AddWireToObject(wire2, wire4);
             }
         }
 
-        private List<object> FindBlockingElements(Node node1, Node node2, ref string direction)
+        private HashSet<object> FindBlockingElements(Node node1, Node node2, ref string direction)
         {
-            List<object> ans = new List<object>();
-            List<object> tempList = new List<object>();
+            HashSet<object> ans = new HashSet<object>();
+            HashSet<object> tempList = new HashSet<object>();
             int x = node1.GetX();
             int y = node1.GetY();
             int xStep = node1.GetX() - node2.GetX() > 0 ? -1 : 1;
@@ -305,21 +355,33 @@ namespace TEC_Game
                     {
                         if (gameController.scheme.GetNode(x, y) != node2)
                             ans.Add(gameController.scheme.GetNode(x, y));
-                        if (FindHorizontalElement(gameController.scheme.GetNode(x, y), xStep) != null)
-                            ans.Add(FindHorizontalElement(gameController.scheme.GetNode(x, y), xStep));
+                        if (FindHorizontalElement(gameController.scheme.GetNode(x, y), xStep).Count != 0)
+                        {
+                            HashSet<BaseElement> set = FindHorizontalElement(gameController.scheme.GetNode(x, y), xStep);
+                            foreach (var element in set)
+                            {
+                                tempList.Add(element);
+                            }
+                        }
                     }
 
                     x += xStep;
                 }
 
                 while (y != node2.GetY())
-                { 
+                {
                     if (gameController.scheme.GetNode(x, y) != null)
                     {
                         if (gameController.scheme.GetNode(x, y) != node2)
                             ans.Add(gameController.scheme.GetNode(x, y));
-                        if (FindVerticalElement(gameController.scheme.GetNode(x, y), yStep) != null)
-                            ans.Add(FindVerticalElement(gameController.scheme.GetNode(x, y), yStep));
+                        if (FindVerticalElement(gameController.scheme.GetNode(x, y), yStep).Count != 0)
+                        {
+                            HashSet<BaseElement> set = FindVerticalElement(gameController.scheme.GetNode(x, y), yStep);
+                            foreach (var element in set)
+                            {
+                                tempList.Add(element);
+                            }
+                        }
                     }
 
                     y += yStep;
@@ -344,8 +406,14 @@ namespace TEC_Game
                 {
                     if (gameController.scheme.GetNode(x, y) != node2)
                         tempList.Add(gameController.scheme.GetNode(x, y));
-                    if (FindVerticalElement(gameController.scheme.GetNode(x, y), yStep) != null)
-                        tempList.Add(FindVerticalElement(gameController.scheme.GetNode(x, y), yStep));
+                    if (FindVerticalElement(gameController.scheme.GetNode(x, y), yStep).Count != 0)
+                    {
+                        HashSet<BaseElement> set = FindVerticalElement(gameController.scheme.GetNode(x, y), yStep);
+                        foreach (var element in set)
+                        {
+                            tempList.Add(element);
+                        }
+                    }
                 }
 
                 y += yStep;
@@ -357,8 +425,14 @@ namespace TEC_Game
                 {
                     if (gameController.scheme.GetNode(x, y) != node2)
                         tempList.Add(gameController.scheme.GetNode(x, y));
-                    if (FindHorizontalElement(gameController.scheme.GetNode(x, y), xStep) != null)
-                        tempList.Add(FindHorizontalElement(gameController.scheme.GetNode(x, y), xStep));
+                    if (FindHorizontalElement(gameController.scheme.GetNode(x, y), xStep).Count != 0)
+                    {
+                        HashSet<BaseElement> set = FindHorizontalElement(gameController.scheme.GetNode(x, y), xStep);
+                        foreach (var element in set)
+                        {
+                            tempList.Add(element);
+                        }
+                    }
                 }
 
                 x += xStep;
@@ -371,50 +445,26 @@ namespace TEC_Game
             return tempList;
         }
 
-        private BaseElement FindVerticalElement(Node node, int yStep)
+        private HashSet<BaseElement> FindVerticalElement(Node node, int yStep)
         {
             Node temp = gameController.scheme.GetVerticalNode(node, yStep);
+            HashSet<BaseElement> ans = new HashSet<BaseElement>();
 
             foreach (var element in node.GetConnectedElements())
                 if ((element.GetNode1() == temp) || (element.GetNode2() == temp))
-                    return element;
-            return null;
+                    ans.Add(element);
+            return ans;
         }
 
-        private BaseElement FindHorizontalElement(Node node, int xStep)
+        private HashSet<BaseElement> FindHorizontalElement(Node node, int xStep)
         {
             Node temp = gameController.scheme.GetHorizontalNode(node, xStep);
+            HashSet<BaseElement> ans = new HashSet<BaseElement>();
 
             foreach (var element in node.GetConnectedElements())
                 if ((element.GetNode1() == temp) || (element.GetNode2() == temp))
-                    return element;
-            return null;
-        }
-
-        private bool HasAdditionalWire(string direction, Node node)
-        {
-            if (direction == "R")
-            {
-                int y = node.GetY();
-                while (y > 0)
-                {
-                    y--;
-                    if (gameController.scheme.GetNode(node.GetX(), y) != null)
-                        return true;
-                }
-            }
-            else
-            {
-                int x = node.GetX();
-                while (x <= 70)
-                {
-                    x++;
-                    if (gameController.scheme.GetNode(x, node.GetY()) != null)
-                        return true;
-                }
-            }
-
-            return false;
+                    ans.Add(element);
+            return ans;
         }
     }
 }

@@ -13,8 +13,11 @@ namespace tec
     class Scheme
     {
         private List<BaseElement> elements;
+        private int elementMaxId;
         private List<Node> nodes;
+        private int nodeMaxId;
         private List<Wire> wires;
+        private int wireMaxId;
 
         public Scheme()
         {
@@ -43,10 +46,11 @@ namespace tec
         public bool SchemeIsConnected()
         {
             foreach (var element in elements)
-            {
-                if (element.GetNode2() == null)
-                    return false;
-            }
+                if (element != null)
+                {
+                    if (element.GetNode2() == null)
+                        return false;
+                }
 
             return true;
         }
@@ -83,14 +87,25 @@ namespace tec
             return elements.Count();
         }
 
+        public int GetElementMaxId()
+        {
+            return elementMaxId;
+        }
+
         public int GetNodesCount()
         {
             return nodes.Count;
         }
 
+        public int GetNodeMaxId()
+        {
+            return nodeMaxId;
+        }
+
         public void AddElement(BaseElement element)
         {
             elements.Add(element);
+            elementMaxId++;
             nodes[element.GetNode1().GetId() - 1].AddConnectedElement(element);
             nodes[element.GetNode2().GetId() - 1].AddConnectedElement(element);
         }
@@ -98,20 +113,66 @@ namespace tec
         public void AddNode(Node node)
         {
             nodes.Add(node);
+            nodeMaxId++;
         }
 
         public void AddWire(Wire wire)
         {
             wires.Add(wire);
+            wireMaxId++;
+        }
+
+        public void AddWireToObject(Wire wire, object obj)
+        {
+            switch (obj)
+            {
+                case Node temp1:
+                    temp1.AddConnectedWire(wire);
+                    wire.AddConnectedObject(temp1);
+                    break;
+                case BaseElement temp:
+                    temp.AddWire(wire);
+                    wire.AddConnectedObject(temp);
+                    break;
+                case Wire temp:
+                    temp.AddConnectedObject(wire);
+                    wire.AddConnectedObject(temp);
+                    break;
+            }
+        }
+
+        public Wire GetWire(int id)
+        {
+            foreach (var wire in wires)
+                if (wire != null)
+                {
+                    if (wire.GetId() == id)
+                        return wire;
+                }
+
+            return null;
+        }
+
+        public BaseElement GetElement(int id)
+        {
+            foreach (var element in elements)
+                if (element != null)
+                {
+                    if (element.GetId() == id)
+                        return element;
+                }
+
+            return null;
         }
 
         public Node GetNode(int id)
         {
             foreach (var node in nodes)
-            {
-                if (node.GetId() == id)
-                    return node;
-            }
+                if (node != null)
+                {
+                    if (node.GetId() == id)
+                        return node;
+                }
 
             return null;
         }
@@ -119,10 +180,11 @@ namespace tec
         public Node GetNode(int X, int Y)
         {
             foreach (var node in nodes)
-            {
-                if ((node.GetX() == X) && (node.GetY() == Y))
-                    return node;
-            }
+                if (node != null)
+                {
+                    if ((node.GetX() == X) && (node.GetY() == Y))
+                        return node;
+                }
 
             return null;
         }
@@ -162,24 +224,37 @@ namespace tec
             return wires.Count;
         }
 
-        public void RemoveNullor(Grid gameGrid)
+        public int GetWireMaxId()
         {
-            while (FindNorator() != null)
+            return wireMaxId;
+        }
+
+        public List<Wire> GetWires()
+        {
+            return wires;
+        }
+
+        public void RemoveNullor(Grid gameGrid, Norator norator, Nullator nullator)
+        {
+            if (norator != null)
             {
-                RemoveElement(FindNorator(), gameGrid);
+                RemoveElement(norator, gameGrid);
             }
 
-            while (FindNullator() != null)
+            if (nullator != null)
             {
-                RemoveElement(FindNullator(), gameGrid);
+                RemoveElement(nullator, gameGrid);
             }
         }
 
         public void RemoveElement(BaseElement element, Grid gameGrid)
         {
-            elements.Remove(element);
+            elements[element.GetId() - 1] = null;
+            int tempId = element.GetId();
             nodes[element.GetNode1().GetId() - 1].RemoveElement(element);
             nodes[element.GetNode2().GetId() - 1].RemoveElement(element);
+            element.GetWire1().RemoveObject(element);
+            element.GetWire2().RemoveObject(element);
 
             if (elements.Count > 1)
             {
@@ -213,17 +288,13 @@ namespace tec
 
         public void RemoveNode(Node node)
         {
-            for (int i = node.GetId(); i < nodes.Count; i++)
-            {
-                nodes[i].SetId(i);
-            }
-            nodes.Remove(node);
+            nodes[node.GetId() - 1] = null;
             node = null;
         }
 
         public void RemoveWire(Wire wire)
         {
-            wires.Remove(wire);
+            wires[wire.GetId() - 1] = null;
             wire.Destroy();
             wire = null;
         }

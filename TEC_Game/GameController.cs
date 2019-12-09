@@ -110,15 +110,16 @@ namespace tec
             elements.AddRange(v.GetNode2().GetConnectedElements());
 
             foreach (var element in elements)
-            {
-                var a = element.GetNode1();
-                var b = element.GetNode2();
-                if (!AllElementsSet.Contains(element))
+                if (element != null)
                 {
-                    AllElementsSet.Add(element);
-                    Dfs(element);
+                    var a = element.GetNode1();
+                    var b = element.GetNode2();
+                    if (!AllElementsSet.Contains(element))
+                    {
+                        AllElementsSet.Add(element);
+                        Dfs(element);
+                    }
                 }
-            }
         }
 
         private void RecalcElementsList()
@@ -206,11 +207,30 @@ namespace tec
                     }
 
                     foreach (var element in elementsToDelete) SayGoodBye(element, ref usedElements);
+
+                    HashSet<Wire> wiresToDelete = new HashSet<Wire>();
+                    foreach (var wire in scheme.GetWires())
+                        if (wire != null)
+                        {
+                            if (wire.GetObjectsCount() == 1)
+                                wiresToDelete.Add(wire);
+                        }
+
+                    foreach (var wire in wiresToDelete)
+                    {
+                        DeleteWire(wire);
+                    }
                     continue;
                 }
 
                 break;
             }
+        }
+
+        private void DeleteWire(Wire wire)
+        {
+            scheme.RemoveWire(wire);
+            gameWindow.GameGrid.Children.Remove(wire.GetImage());
         }
 
         private void SayGoodBye(BaseElement element, ref HashSet<BaseElement> usedElements)
@@ -235,7 +255,48 @@ namespace tec
 
             Eliminate(usedNodes, usedElements);
 
-            scheme.RemoveNullor(gameWindow.GameGrid);
+            Node nullNode1 = scheme.FindNullator().GetNode1();
+            Node nullNode2 = scheme.FindNullator().GetNode2();
+            Node norNode1 = scheme.FindNorator().GetNode1();
+            Node norNode2 = scheme.FindNorator().GetNode2();
+
+            schemeController.FindPlaceAndCreateNullor(nullNode1, nullNode2, "Nu");
+            schemeController.FindPlaceAndCreateNullor(norNode1, norNode2, "No");
+
+            scheme.RemoveNullor(gameWindow.GameGrid, norator, nullator);
+
+            var deletedWires = 1;
+            while (deletedWires > 0)
+            {
+                deletedWires = 0;
+
+                HashSet<Wire> wiresToDelete = new HashSet<Wire>();
+                foreach (var wire in scheme.GetWires())
+                    if (wire != null)
+                    {
+                        if (wire.GetObjectsCount() == 1)
+                        {
+                            deletedWires++;
+                            wiresToDelete.Add(wire);
+                            if (wire.GetObject1() is Wire)
+                            {
+                                Wire temp = (Wire) wire.GetObject1();
+                                temp.RemoveObject(wire);
+                            }
+
+                            if (wire.GetObject2() is Wire)
+                            {
+                                Wire temp = (Wire) wire.GetObject2();
+                                temp.RemoveObject(wire);
+                            }
+                        }
+                    }
+
+                foreach (var wire in wiresToDelete)
+                {
+                    DeleteWire(wire);
+                }
+            }
         }
 
 

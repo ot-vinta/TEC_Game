@@ -17,6 +17,7 @@ namespace TEC_Game
     {
         private Image image;
         private int id, row, column;
+        private object obj1, obj2;
 
         public Wire(int id, int row, int column)
         {
@@ -24,10 +25,41 @@ namespace TEC_Game
             this.row = row;
             this.column = column;
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
+            obj1 = null;
+            obj2 = null;
             image = new Image();
             image.StretchDirection = StretchDirection.Both;
             image.Stretch = Stretch.Fill;
             image.Source = new BitmapImage(new Uri(dir + @"Images\Wire.png"));
+        }
+
+        public void AddConnectedObject(object obj)
+        {
+            if (obj1 == null) obj1 = obj;
+            else obj2 = obj;
+        }
+
+        public void RemoveObject(object obj)
+        {
+            if (obj1 == obj) obj1 = null;
+            else if (obj2 == obj) obj2 = null;
+        }
+
+        public int GetObjectsCount()
+        {
+            if (obj1 != null && obj2 != null) return 2;
+            if (obj1 == null && obj2 == null) return 0;
+            return 1;
+        }
+
+        public object GetObject1()
+        {
+            return obj1;
+        }
+
+        public object GetObject2()
+        {
+            return obj2;
         }
 
         public void ChangeImageDirectionToLand()
@@ -58,7 +90,12 @@ namespace TEC_Game
 
         public void Destroy()
         {
-            //TO DO
+            try
+            {
+                image.Source = null;
+                image = null;
+            }
+            catch (NullReferenceException) { }
         }
     }
 }
