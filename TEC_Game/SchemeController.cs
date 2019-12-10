@@ -283,19 +283,21 @@ namespace TEC_Game
             {
                 //Если есть блокирующие элементы и нужно как-то считать положение элемента
                 //TO DO
-                if (direction == "R" && node1.GetY() > node2.GetY())
-                {
-                    var temp = node1;
-                    node1 = node2;
-                    node2 = temp;
-                }
-                if (direction == "D" && node1.GetX() > node2.GetX())
-                {
-                    var temp = node1;
-                    node1 = node2;
-                    node2 = temp;
-                }
                 direction = node1.GetY() == node2.GetY() ? "R" : "D";
+
+                if (direction == "R" && node1.GetX() > node2.GetX())
+                {
+                    var temp = node1;
+                    node1 = node2;
+                    node2 = temp;
+                }
+                if (direction == "D" && node1.GetY() > node2.GetY())
+                {
+                    var temp = node1;
+                    node1 = node2;
+                    node2 = temp;
+                }
+
                 id = gameController.scheme.GetElementMaxId() + 1;
                 line = direction == "R" 
                     ? id + " " + (node1.GetY() - 4) + " " + (node1.GetX() + 4) + " R " + node1.GetId() + " " + node2.GetId()
@@ -360,7 +362,7 @@ namespace TEC_Game
                             HashSet<BaseElement> set = FindHorizontalElement(gameController.scheme.GetNode(x, y), xStep);
                             foreach (var element in set)
                             {
-                                tempList.Add(element);
+                                ans.Add(element);
                             }
                         }
                     }
@@ -379,7 +381,7 @@ namespace TEC_Game
                             HashSet<BaseElement> set = FindVerticalElement(gameController.scheme.GetNode(x, y), yStep);
                             foreach (var element in set)
                             {
-                                tempList.Add(element);
+                                ans.Add(element);
                             }
                         }
                     }

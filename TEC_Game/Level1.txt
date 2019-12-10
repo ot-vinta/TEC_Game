@@ -23,8 +23,8 @@ Wi 4 22 10 6 D 1 N 2 E
 Wi 5 10 27 6 D 7 N 3 E
 Wi 6 22 27 6 D 2 N 3 E
 Wi 7 27 10 6 R 1 N 4 E
-Wi 8 27 27 6 R 2 N 4 E
-Wi 9 27 22 6 R 2 N 5 E
+Wi 8 27 22 6 R 2 N 4 E
+Wi 9 27 27 6 R 2 N 5 E
 Wi 10 27 39 6 R 4 N 5 E
 Wi 11 27 10 6 D 1 N 6 E
 Wi 12 39 10 6 D 8 N 6 E
