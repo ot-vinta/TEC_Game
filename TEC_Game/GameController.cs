@@ -297,6 +297,8 @@ namespace tec
                     DeleteWire(wire);
                 }
             }
+
+            SetSimplifyStatus();
         }
 
 
@@ -315,7 +317,7 @@ namespace tec
         public void SetSimplifyStatus()
         {
             RecalcElementsList();
-            if (AllElementsSet.OfType<Nullator>().Count() != 0 && AllElementsSet.OfType<Norator>().Count() != 0)
+            if (gameWindow.simplifyButton.IsEnabled == false)
             {
                 if (!gameWindow.simplifyButton.IsEnabled)
                     opacityAnimation(gameWindow.simplifyButton, GetFadeInAnimation());
@@ -324,7 +326,7 @@ namespace tec
             else
             {
                 if (gameWindow.simplifyButton.IsEnabled)
-                    opacityAnimation(gameWindow.simplifyButton, GetFadeInAnimation());
+                    opacityAnimation(gameWindow.simplifyButton, GetFadeOutAnimation());
                 gameWindow.simplifyButton.IsEnabled = false;
             }
         }
@@ -440,7 +442,8 @@ namespace tec
                 player.GetNodeChosen2().Background = Brushes.Black;
                 player.RemoveNode(player.GetNodeChosen1());
                 player.RemoveNode(player.GetNodeChosen2());
-                SetSimplifyStatus();
+                if (scheme.FindNullator() != null && scheme.FindNorator() != null)
+                    SetSimplifyStatus();
                 e.Handled = true;
                 DisableNullatorAndNoratorBtn();
             }
@@ -458,7 +461,8 @@ namespace tec
                 player.GetNodeChosen2().Background = Brushes.Black;
                 player.RemoveNode(player.GetNodeChosen1());
                 player.RemoveNode(player.GetNodeChosen2());
-                SetSimplifyStatus();
+                if (scheme.FindNullator() != null && scheme.FindNorator() != null)
+                    SetSimplifyStatus();
                 e.Handled = true;
                 DisableNullatorAndNoratorBtn();
             }
