@@ -391,10 +391,7 @@ namespace TEC_Game
 
                 if (!ans.Any())
                 {
-                    if (xStep < 0)
-                        direction = "L";
-                    else
-                        direction = "R";
+                    direction = xStep < 0 ? "L" : "R";
                     return ans;
                 }
             }
@@ -440,10 +437,24 @@ namespace TEC_Game
                 x += xStep;
             }
 
-            if (yStep < 0)
-                direction = "U";
-            else
-                direction = "D";
+            if (node1.GetY() == node2.GetY())
+            {
+                direction = xStep < 0 ? "L" : "R";
+                return ans;
+            }
+
+            if (node1.GetX() == node2.GetX())
+            {
+                direction = yStep < 0 ? "U" : "D";
+                return tempList;
+            }
+
+            if (ans.Count < tempList.Count())
+            {
+                direction = xStep < 0 ? "L" : "R";
+                return ans;
+            }
+            direction = yStep < 0 ? "U" : "D";
             return tempList;
         }
 
