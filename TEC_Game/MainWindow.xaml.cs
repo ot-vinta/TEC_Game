@@ -54,6 +54,17 @@ namespace TEC_Game
             controller.InitializeScheme(dir + "Level2.txt");
         }
 
+        private void Level3ChooseButton_Click(object sender, RoutedEventArgs e)
+        {
+            GameWindow gameWindow = new GameWindow();
+            gameWindow.Owner = this;
+            this.Hide();
+            GameController controller = new GameController(new Player(), new Scheme());
+            string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
+            gameWindow.Show();
+            controller.InitializeScheme(dir + "Level3.txt");
+        }
+
         private void StatisticsButton_Click(object sender, RoutedEventArgs e)
         {
             StatisticsWindows statWindow = new StatisticsWindows();

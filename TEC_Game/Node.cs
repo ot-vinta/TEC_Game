@@ -83,6 +83,11 @@ namespace tec
             return connectedElements;
         }
 
+        public HashSet<Wire> GetConnectedWires()
+        {
+            return connectedWires;
+        }
+
         public void RemoveElement(BaseElement element)
         {
             connectedElements.Remove(element);

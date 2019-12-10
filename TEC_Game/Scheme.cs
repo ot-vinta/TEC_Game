@@ -234,6 +234,11 @@ namespace tec
             return wires;
         }
 
+        public List<Node> GetNodes()
+        {
+            return nodes;
+        }
+
         public void RemoveNullor(Grid gameGrid, Norator norator, Nullator nullator)
         {
             if (norator != null)
@@ -256,18 +261,60 @@ namespace tec
             element.GetWire1().RemoveObject(element);
             element.GetWire2().RemoveObject(element);
 
-            if (elements.Count > 1)
+            if (elements.Count > 1 && element is Resistor)
             {
-                if (element.GetNode1().GetConnectedElements()[0] is NullorElement &&
-                    element.GetNode1().GetConnectedElementsCount() == 1)
+                if (element.GetNode1().GetConnectedElementsCount() == 1 &&
+                    element.GetNode1().GetConnectedElements()[0] is NullorElement)
                 {
                     element.GetNode1().GetConnectedElements()[0].ChangeNode(element.GetNode1(), element.GetNode2());
                 }
 
-                if (element.GetNode2().GetConnectedElements()[0] is NullorElement &&
-                    element.GetNode2().GetConnectedElementsCount() == 1)
+                if (element.GetNode2().GetConnectedElementsCount() == 1 && 
+                    element.GetNode2().GetConnectedElements()[0] is NullorElement)
                 {
                     element.GetNode2().GetConnectedElements()[0].ChangeNode(element.GetNode2(), element.GetNode1());
+                }
+            }
+
+            if (elements.Count > 1 && element is Conductor)
+            {
+                int conductorsCount = 0;
+                foreach (var elem in elements)
+                    if (elem != null)
+                    {
+                        if (elem.GetNode1() == element.GetNode1() && elem.GetNode2() == element.GetNode2() ||
+                            elem.GetNode2() == element.GetNode1() && elem.GetNode1() == element.GetNode2())
+                            conductorsCount++;
+                    }
+
+                if (conductorsCount == 1)
+                {
+                    Node tempNode1 = null, tempNode2 = null;
+
+                    foreach (var wire in element.GetNode1().GetConnectedWires())
+                    {
+                        if (wire.GetObject1() is Node && wire.GetObject2() is Node)
+                        {
+                            tempNode1 = (Node)wire.GetObject1();
+                            tempNode2 = (Node)wire.GetObject2();
+
+                            CheckForFreeNodes(tempNode1, tempNode2);
+                        }
+                    }
+
+                    tempNode1 = null;
+                    tempNode2 = null;
+
+                    foreach (var wire in element.GetNode2().GetConnectedWires())
+                    {
+                        if (wire.GetObject1() is Node && wire.GetObject2() is Node)
+                        {
+                            tempNode1 = (Node)wire.GetObject1();
+                            tempNode2 = (Node)wire.GetObject2();
+
+                            CheckForFreeNodes(tempNode1, tempNode2);
+                        }
+                    }
                 }
             }
 
@@ -284,6 +331,22 @@ namespace tec
             }
             element.Destroy();
             element = null;
+        }
+
+        private void CheckForFreeNodes(Node tempNode1, Node tempNode2)
+        {
+            if (!(tempNode1?.GetConnectedElementsCount() > 0) || !(tempNode2?.GetConnectedElementsCount() > 0)) return;
+            if (tempNode1.GetConnectedElements()[0] is NullorElement &&
+                tempNode1.GetConnectedElementsCount() == 1)
+            {
+                tempNode1.GetConnectedElements()[0].ChangeNode(tempNode1, tempNode2);
+            }
+
+            if (tempNode2.GetConnectedElements()[0] is NullorElement &&
+                tempNode2.GetConnectedElementsCount() == 1)
+            {
+                tempNode2.GetConnectedElements()[0].ChangeNode(tempNode2, tempNode1);
+            }
         }
 
         public void RemoveNode(Node node)

@@ -218,25 +218,34 @@ namespace TEC_Game
             if (!blockingElements.Any())
             {
                 line = (direction == "R") || (direction == "L")
-                    ? id + " " + (row - 1) + " " + column + " R " + node1.GetId() + " " + node2.GetId()
-                    : id + " " + row + " " + (column - 1) + " D " + node1.GetId() + " " + node2.GetId();
+                    ? id + " " + (row - 1) + " " + (column + 4) + " R " + node1.GetId() + " " + node2.GetId()
+                    : id + " " + (row + 4) + " " + (column - 1) + " D " + node1.GetId() + " " + node2.GetId();
 
                 PlaceElement(ref line, type);
 
+                int wireId = gameController.scheme.GetWireMaxId() + 1;
+                int id1 = direction == "U" || direction == "L" ? node1.GetId() : node2.GetId();
+
+                line = (direction == "R" || direction == "L")
+                    ? wireId + " " + row + " " + column + " " + 6 + " R " + id1 + " N " + id + " E"
+                    : wireId + " " + row + " " + column + " " + 6 + " D " + id1 + " N " + id + " E";
+
+                PlaceWire(ref line);
+
                 int length = (direction == "R") || (direction == "L")
-                    ? Math.Abs(node1.GetX() - node2.GetX())
-                    : Math.Abs(node1.GetY() - node2.GetY());
+                    ? Math.Abs(node1.GetX() - node2.GetX()) - 4
+                    : Math.Abs(node1.GetY() - node2.GetY()) - 4;
 
                 //Если элемент слишком короткий(т.е. он не дотягивается до второго узла), то лучше пририсовать ему провод, чтобы нормально все выглядело
                 if (length > 8)
                 {
-                    int wireId = gameController.scheme.GetWireMaxId();
+                    wireId = gameController.scheme.GetWireMaxId() + 1;
 
-                    int id1 = direction == "U" || direction == "L" ? node2.GetId() : node1.GetId();
+                    id1 = direction == "U" || direction == "L" ? node2.GetId() : node1.GetId();
 
                     line = (direction == "R") || (direction == "L") 
-                        ? wireId + " " + row + " " + (column + 8) + " " + (length - 7) + " R " + id1 + " N " + id + " E"
-                        : wireId + " " + (row + 8) + " " + column + " " + (length - 7) + " D " + id1 + " N " + id + " E";
+                        ? wireId + " " + row + " " + (column + 12) + " " + (length - 7) + " R " + id1 + " N " + id + " E"
+                        : wireId + " " + (row + 12) + " " + column + " " + (length - 7) + " D " + id1 + " N " + id + " E";
 
                     PlaceWire(ref line);
                     line = "";
@@ -245,7 +254,7 @@ namespace TEC_Game
                 //Если у узлов не совпадают ни X, ни Y (здесь нужен будет еще один провод)
                 if ((node1.GetX() != node2.GetX()) && (node1.GetY() != node2.GetY()))
                 {
-                    int wireId = gameController.scheme.GetWireMaxId();
+                    wireId = gameController.scheme.GetWireMaxId();
 
                     int wireRow = 0;
                     int wireColumn = 0;
@@ -262,8 +271,8 @@ namespace TEC_Game
                     }
 
                     length = (direction == "R") || (direction == "L") 
-                             ? Math.Abs(node1.GetY() - node2.GetY())
-                             : Math.Abs(node1.GetX() - node2.GetX());
+                             ? Math.Abs(node1.GetY() - node2.GetY()) + 1
+                             : Math.Abs(node1.GetX() - node2.GetX()) + 1;
 
                     line = (direction == "R") || (direction == "L")
                         ? (wireId + 1) + " " + wireRow + " " + wireColumn + " " + length + " D " + node1.GetId() + " N " + node2.GetId() + " N"

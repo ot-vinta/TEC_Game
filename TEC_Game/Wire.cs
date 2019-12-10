@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Data;
 using System.Windows;
 using System.ComponentModel;
+using tec;
 
 namespace TEC_Game
 {

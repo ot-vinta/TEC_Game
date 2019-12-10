@@ -101,37 +101,6 @@ namespace tec
             }
         }
 
-
-
-        private void Dfs(BaseElement v)
-        {
-            var elements = new List<BaseElement>();
-            elements.AddRange(v.GetNode1().GetConnectedElements());
-            elements.AddRange(v.GetNode2().GetConnectedElements());
-
-            foreach (var element in elements)
-                if (element != null)
-                {
-                    var a = element.GetNode1();
-                    var b = element.GetNode2();
-                    if (!AllElementsSet.Contains(element))
-                    {
-                        AllElementsSet.Add(element);
-                        Dfs(element);
-                    }
-                }
-        }
-
-        private void RecalcElementsList()
-        {
-            AllElementsSet.Clear();
-            var root = scheme.getRoot();
-            foreach (var v in root.GetConnectedElements())
-            {
-                Dfs(v);
-            }
-        }
-
         private void Eliminate(HashSet<Node> usedNodes, HashSet<BaseElement> usedElements)
         {
             var deletedElements = 1;
@@ -265,6 +234,22 @@ namespace tec
 
             scheme.RemoveNullor(gameWindow.GameGrid, norator, nullator);
 
+            HashSet<Node> nodesToDelete = new HashSet<Node>();
+
+            foreach (var node in scheme.GetNodes())
+                if (node != null && node.GetConnectedElementsCount() == 0 && node.GetConnectedWires().Count == 0)
+                {
+                    nodesToDelete.Add(node);
+                }
+
+            foreach (var temp in nodesToDelete)
+            {
+                scheme.RemoveNode(temp);
+                gameWindow.GameGrid.Children.Remove(temp);
+            }
+
+            CheckWires();
+
             var deletedWires = 1;
             while (deletedWires > 0)
             {
@@ -301,6 +286,31 @@ namespace tec
             SetSimplifyStatus();
         }
 
+        private void CheckWires()
+        {
+            foreach (var wire in scheme.GetWires())
+                if (wire != null)
+                {
+                    if (wire.GetObject1() is Node)
+                    {
+                        Node temp1 = (Node) wire.GetObject1();
+                        if (scheme.GetNodes()[temp1.GetId() - 1] == null)
+                        {
+                            wire.RemoveObject(temp1);
+                        }
+                    }
+
+                    if (wire.GetObject2() is Node)
+                    {
+                        Node temp2 = (Node) wire.GetObject2();
+                        if (scheme.GetNodes()[temp2.GetId() - 1] == null)
+                        {
+                            wire.RemoveObject(temp2);
+                        }
+                    }
+                }
+        }
+
 
         private void OnNodeLeave(object sender, MouseEventArgs e)
         {
@@ -316,7 +326,6 @@ namespace tec
 
         public void SetSimplifyStatus()
         {
-            RecalcElementsList();
             if (gameWindow.simplifyButton.IsEnabled == false)
             {
                 if (!gameWindow.simplifyButton.IsEnabled)

@@ -78,7 +78,7 @@
             </Grid.RowDefinitions>
             <Label Template="{StaticResource SmallLabelTemplate}" Content="Level 2" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC" Foreground="Black"/>
             <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="0" Grid.RowSpan="2" Background="#FFE1E2E1"/>
-            <Image Grid.Row="1" />
+            <Image Grid.Row="1" Source="Images/level2.png" />
         </Grid>
 
         <Grid Grid.Column="5" Grid.Row="2">
@@ -88,14 +88,14 @@
             </Grid.RowDefinitions>
             <Label Template="{StaticResource SmallLabelTemplate}" Content="Level 3" Panel.ZIndex="2" FontSize="24" Grid.Row="0" Background="#FF00B2CC" Foreground="Black"/>
             <ContentControl Template="{StaticResource UndefinedTemplate}" Grid.Row="0" Grid.RowSpan="2" Background="#FFE1E2E1"/>
-            <Image Grid.Row="1"/>
+            <Image Grid.Row="1" Source="Images/level3.png"/>
         </Grid>
 
         <Button Content="Выбрать уровень 1" x:Name="Level1ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="1" Grid.Row="4" Background="#FFFF6E40" Click="Level1ChooseButton_Click" Foreground="Black"/>
         <Button Content="Выбрать уровень 2" x:Name="Level2ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="4" Background="#FFFF6E40" Click="Level2ChooseButton_Click" Foreground="Black"/>
-        <Button Content="Выбрать уровень 3" x:Name="Level3ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="5" Grid.Row="4" Background="#FFFF6E40" Foreground="Black"/>
-        <Button Content="Настройки" Template="{StaticResource ButtonTemplate}" Grid.Column="1" Grid.Row="6" Background="#FFFF6E40" Foreground="Black"/>
-        <Button x:Name="StatisticsButton" Content="Статистика" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="6" Background="#FFFF6E40" Click="StatisticsButton_Click" Foreground="Black"/>
+        <Button Content="Выбрать уровень 3" x:Name="Level3ChooseButton" Template="{StaticResource ButtonTemplate}" Grid.Column="5" Grid.Row="4" Background="#FFFF6E40" Click="Level3ChooseButton_Click" Foreground="Black"/>
+        <Button Content="Настройки" Template="{StaticResource ButtonTemplate}" Grid.Column="1" Grid.Row="6" Background="#FFFF6E40" Foreground="Black" IsEnabled="False" Visibility="Hidden"/>
+        <Button x:Name="StatisticsButton" Content="Статистика" Template="{StaticResource ButtonTemplate}" Grid.Column="3" Grid.Row="6" Background="#FFFF6E40" Click="StatisticsButton_Click" Foreground="Black" IsEnabled="False" Visibility="Hidden"/>
         <Button Content="Выход" x:Name="ExitButton" Template="{StaticResource ButtonTemplate}" Grid.Column="5" Grid.Row="6" Background="#FFC53D13" Click="ExitButton_Click" Foreground="Black"/>
 
     </Grid>
