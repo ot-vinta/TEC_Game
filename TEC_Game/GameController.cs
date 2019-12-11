@@ -181,7 +181,7 @@ namespace tec
                     foreach (var wire in scheme.GetWires())
                         if (wire != null)
                         {
-                            if (wire.GetObjectsCount() == 1)
+                            if (wire.GetObjectsCount() <= 1)
                                 wiresToDelete.Add(wire);
                         }
 
@@ -259,7 +259,7 @@ namespace tec
                 foreach (var wire in scheme.GetWires())
                     if (wire != null)
                     {
-                        if (wire.GetObjectsCount() == 1)
+                        if (wire.GetObjectsCount() <= 1)
                         {
                             deletedWires++;
                             wiresToDelete.Add(wire);
