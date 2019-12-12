@@ -198,30 +198,60 @@ namespace TEC_Game
             string direction = "";
 
             var blockingElements = FindBlockingElements(node1, node2, ref direction);
-            blockingElements.Remove(node1);
-            blockingElements.Remove(node2);
 
-            Norator norator = null;
-            Nullator nullator = null;
-            foreach (var elem in blockingElements)
-            {
-                if (elem is Norator) norator = (Norator) elem;
-                if (elem is Nullator) nullator = (Nullator) elem;
-            }
+            foreach (var node in gameController.scheme.GetNodes())
+                if (node != null)
+                {
+                    if ((direction == "R" || direction == "L" &&
+                         node1.GetY() == node.GetY() && node2.GetX() == node.GetX()) ||
+                        (direction == "U" || direction == "D" &&
+                         node2.GetY() == node.GetY() && node1.GetX() == node.GetX()))
+                    {
+                        blockingElements.Remove(node);
+                    }
+                }
 
-            blockingElements.Remove(norator);
-            blockingElements.Remove(nullator);
+            List<object> tempList = blockingElements.ToList();
 
             row = direction == "U" ? node2.GetY() : node1.GetY();
             column = direction == "L" ? node2.GetX() : node1.GetX();
 
+            bool isBad = (node1.GetX() != node2.GetX()) && (node1.GetY() != node2.GetY());
+
             if (!blockingElements.Any())
             {
+                Node temp = node2;
+                int tempId = 0;
+                if ((node1.GetX() != node2.GetX()) && (node1.GetY() != node2.GetY()))
+                {
+                    foreach (var node in gameController.scheme.GetNodes())
+                        if (node != null)
+                        {
+                            if ((direction == "R" || direction == "L" &&
+                                 node1.GetY() == node.GetY() && node2.GetX() == node.GetX()) ||
+                                (direction == "U" || direction == "D" &&
+                                 node2.GetY() == node.GetY() && node1.GetX() == node.GetX()))
+                            {
+                                tempId = node.GetId();
+                            }
+                        }
+
+                    if (tempId == 0)
+                        tempId = gameController.scheme.GetNodeMaxId() + 1;
+                    line = (direction == "R") || (direction == "L")
+                        ? tempId + " " + node1.GetY() + " " + node2.GetX()
+                        : tempId + " " + node2.GetY() + " " + node1.GetX();
+                    if (!gameController.scheme.GetNodes().Contains(gameController.scheme.GetNode(tempId)))
+                        PlaceNode(ref line);
+                    node2 = gameController.scheme.GetNode(tempId);
+                }
+
                 line = (direction == "R") || (direction == "L")
                     ? id + " " + (row - 1) + " " + (column + 4) + " R " + node1.GetId() + " " + node2.GetId()
                     : id + " " + (row + 4) + " " + (column - 1) + " D " + node1.GetId() + " " + node2.GetId();
 
                 PlaceElement(ref line, type);
+                node2 = temp;
 
                 int wireId = gameController.scheme.GetWireMaxId() + 1;
                 int id1 = direction == "U" || direction == "L" ? node1.GetId() : node2.GetId();
@@ -252,7 +282,7 @@ namespace TEC_Game
                 }
 
                 //Если у узлов не совпадают ни X, ни Y (здесь нужен будет еще один провод)
-                if ((node1.GetX() != node2.GetX()) && (node1.GetY() != node2.GetY()))
+                if (isBad)
                 {
                     wireId = gameController.scheme.GetWireMaxId();
 
@@ -280,15 +310,9 @@ namespace TEC_Game
 
                     PlaceWire(ref line);
                     line = "";
-
-                    line = (direction == "R") || (direction == "L")
-                        ? (gameController.scheme.GetNodeMaxId() + 1) + " " + node1.GetY() + " " + node2.GetX()
-                        : (gameController.scheme.GetNodeMaxId() + 1) + " " + node2.GetY() + " " + node1.GetX();
-                    PlaceNode(ref line);
-                    node2 = gameController.scheme.GetNode(gameController.scheme.GetNodeMaxId());
                 }
             }
-            else if (blockingElements.Count == 1)
+            else if (blockingElements.Count == 1 && (tempList[0] is BaseElement) && !isBad)
             {
                 //Если есть блокирующие элементы и нужно как-то считать положение элемента
                 //TO DO
@@ -358,6 +382,8 @@ namespace TEC_Game
             int xStep = node1.GetX() - node2.GetX() > 0 ? -1 : 1;
             int yStep = node1.GetY() - node2.GetY() > 0 ? -1 : 1;
 
+            Norator norator;
+            Nullator nullator;
             if (x != node2.GetX())
             {
                 while (x != node2.GetX())
@@ -398,7 +424,21 @@ namespace TEC_Game
                     y += yStep;
                 }
 
-                if (!ans.Any())
+                ans.Remove(node1);
+                ans.Remove(node2);
+
+                norator = null;
+                nullator = null;
+                foreach (var elem in ans)
+                {
+                    if (elem is Norator) norator = (Norator)elem;
+                    if (elem is Nullator) nullator = (Nullator)elem;
+                }
+
+                ans.Remove(norator);
+                ans.Remove(nullator);
+
+                if (ans.Count <= 1)
                 {
                     direction = xStep < 0 ? "L" : "R";
                     return ans;
@@ -445,6 +485,20 @@ namespace TEC_Game
 
                 x += xStep;
             }
+
+            tempList.Remove(node1);
+            tempList.Remove(node2);
+
+            norator = null;
+            nullator = null;
+            foreach (var elem in tempList)
+            {
+                if (elem is Norator) norator = (Norator)elem;
+                if (elem is Nullator) nullator = (Nullator)elem;
+            }
+
+            tempList.Remove(norator);
+            tempList.Remove(nullator);
 
             if (node1.GetY() == node2.GetY())
             {

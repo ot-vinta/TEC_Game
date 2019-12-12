@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Shell;
 using TEC_Game;
 
 namespace tec
@@ -198,7 +200,7 @@ namespace tec
 
         private void DeleteWire(Wire wire)
         {
-            scheme.RemoveWire(wire);
+            scheme.RemoveWire(wire, gameWindow.GameGrid);
             gameWindow.GameGrid.Children.Remove(wire.GetImage());
         }
 
@@ -229,11 +231,6 @@ namespace tec
             Node norNode1 = scheme.FindNorator().GetNode1();
             Node norNode2 = scheme.FindNorator().GetNode2();
 
-            schemeController.FindPlaceAndCreateNullor(nullNode1, nullNode2, "Nu");
-            schemeController.FindPlaceAndCreateNullor(norNode1, norNode2, "No");
-
-            scheme.RemoveNullor(gameWindow.GameGrid, norator, nullator);
-
             HashSet<Node> nodesToDelete = new HashSet<Node>();
 
             foreach (var node in scheme.GetNodes())
@@ -244,10 +241,16 @@ namespace tec
 
             foreach (var temp in nodesToDelete)
             {
-                scheme.RemoveNode(temp);
+                scheme.RemoveNode(temp, gameWindow.GameGrid);
                 gameWindow.GameGrid.Children.Remove(temp);
             }
 
+            schemeController.FindPlaceAndCreateNullor(nullNode1, nullNode2, "Nu");
+            schemeController.FindPlaceAndCreateNullor(norNode1, norNode2, "No");
+
+            scheme.RemoveNullor(gameWindow.GameGrid, norator, nullator);
+
+            CheckNodes();
             CheckWires();
 
             var deletedWires = 1;
@@ -284,6 +287,67 @@ namespace tec
             }
 
             SetSimplifyStatus();
+        }
+
+        private void CheckNodes()
+        {
+            HashSet<Node> nodesToDelete = new HashSet<Node>();
+            foreach (var node in scheme.GetNodes())
+                if (node != null)
+                {
+                    int connectedNodesCount = 0;
+                    HashSet<Node> uniqueNodes = new HashSet<Node>();
+                    bool isNullorConnected = false;
+                    foreach (var wire in node.GetConnectedWires())
+                    {
+                        if (Equals(wire.GetObject1(), node) && wire.GetObject2() is Node &&
+                            !uniqueNodes.Contains(wire.GetObject2()))
+                        {
+                            uniqueNodes.Add((Node) wire.GetObject2());
+                            connectedNodesCount++;
+                        }
+                        if (Equals(wire.GetObject2(), node) && wire.GetObject1() is Node &&
+                            !uniqueNodes.Contains(wire.GetObject1()))
+                        {
+                            uniqueNodes.Add((Node)wire.GetObject1());
+                            connectedNodesCount++;
+                        }
+
+                        if (Equals(wire.GetObject1(), node) && wire.GetObject2() is NullorElement &&
+                            !uniqueNodes.Contains(wire.GetObject2()))
+                        {
+                            isNullorConnected = true;
+                        }
+                        if (Equals(wire.GetObject2(), node) && wire.GetObject1() is NullorElement &&
+                            !uniqueNodes.Contains(wire.GetObject1()))
+                        {
+                            isNullorConnected = true;
+                        }
+                    }
+
+                    foreach (var elem in node.GetConnectedElements())
+                    {
+                        if (elem is NullorElement) isNullorConnected = true;
+                        if (!uniqueNodes.Contains(elem.GetNode1()) && elem.GetNode1() != node)
+                        {
+                            uniqueNodes.Add(elem.GetNode1());
+                            connectedNodesCount++;
+                        }
+                        if (!uniqueNodes.Contains(elem.GetNode2()) && elem.GetNode2() != node)
+                        {
+                            uniqueNodes.Add(elem.GetNode2());
+                            connectedNodesCount++;
+                        }
+                    }
+
+                    if (connectedNodesCount <= 1 && !isNullorConnected)
+                        nodesToDelete.Add(node);
+                }
+
+            foreach (var node in nodesToDelete)
+            {
+                scheme.RemoveNode(node, gameWindow.GameGrid);
+            }
         }
 
         private void CheckWires()
@@ -445,16 +509,26 @@ namespace tec
             if (scheme.FindNorator() == null)
             {
                 HideAlarm();
-                schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "No");
+                Node node1 = scheme.FindNullator()?.GetNode1();
+                Node node2 = scheme.FindNullator()?.GetNode2();
 
-                player.GetNodeChosen1().Background = Brushes.Black;
-                player.GetNodeChosen2().Background = Brushes.Black;
-                player.RemoveNode(player.GetNodeChosen1());
-                player.RemoveNode(player.GetNodeChosen2());
-                if (scheme.FindNullator() != null && scheme.FindNorator() != null)
-                    SetSimplifyStatus();
-                e.Handled = true;
-                DisableNullatorAndNoratorBtn();
+                if (node2 != null && node1 != null && 
+                    (node1 == player.GetNodeChosen1() && node2 == player.GetNodeChosen2() ||
+                     node1 == player.GetNodeChosen2() && node2 == player.GetNodeChosen1()))
+                    Alarm("Здесь уже стоит нуллатор");
+                else
+                {
+                    schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "No");
+
+                    player.GetNodeChosen1().Background = Brushes.Black;
+                    player.GetNodeChosen2().Background = Brushes.Black;
+                    player.RemoveNode(player.GetNodeChosen1());
+                    player.RemoveNode(player.GetNodeChosen2());
+                    if (scheme.FindNullator() != null && scheme.FindNorator() != null)
+                        SetSimplifyStatus();
+                    e.Handled = true;
+                    DisableNullatorAndNoratorBtn();
+                }
             }
             else Alarm("Норатор уже есть!");
         }
@@ -464,16 +538,25 @@ namespace tec
             if (scheme.FindNullator() == null)
             {
                 HideAlarm();
-                schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "Nu");
+                Node node1 = scheme.FindNorator()?.GetNode1();
+                Node node2 = scheme.FindNorator()?.GetNode2();
+                if (node2 != null && node1 != null && 
+                    (node1 == player.GetNodeChosen1() && node2 == player.GetNodeChosen2() ||
+                     node1 == player.GetNodeChosen2() && node2 == player.GetNodeChosen1()))
+                    Alarm("Здесь уже стоит норатор");
+                else
+                {
+                    schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "Nu");
 
-                player.GetNodeChosen1().Background = Brushes.Black;
-                player.GetNodeChosen2().Background = Brushes.Black;
-                player.RemoveNode(player.GetNodeChosen1());
-                player.RemoveNode(player.GetNodeChosen2());
-                if (scheme.FindNullator() != null && scheme.FindNorator() != null)
-                    SetSimplifyStatus();
-                e.Handled = true;
-                DisableNullatorAndNoratorBtn();
+                    player.GetNodeChosen1().Background = Brushes.Black;
+                    player.GetNodeChosen2().Background = Brushes.Black;
+                    player.RemoveNode(player.GetNodeChosen1());
+                    player.RemoveNode(player.GetNodeChosen2());
+                    if (scheme.FindNullator() != null && scheme.FindNorator() != null)
+                        SetSimplifyStatus();
+                    e.Handled = true;
+                    DisableNullatorAndNoratorBtn();
+                }
             }
             else Alarm("Нуллатор уже есть!");
         }

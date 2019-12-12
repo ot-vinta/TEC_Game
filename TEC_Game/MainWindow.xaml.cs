@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -52,6 +53,7 @@ namespace TEC_Game
             string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
             gameWindow.Show();
             controller.InitializeScheme(dir + "Level2.txt");
+
         }
 
         private void Level3ChooseButton_Click(object sender, RoutedEventArgs e)
