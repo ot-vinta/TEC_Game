@@ -192,7 +192,7 @@ namespace tec
         public Node GetHorizontalNode(Node node, int step)
         {
             int x = node.GetX();
-            while ((x <= 70) && (x >= 0))
+            while ((x <= 77) && (x >= 0))
             {
                 x += step;
                 if (GetNode(x, node.GetY()) != null)
@@ -207,7 +207,7 @@ namespace tec
         public Node GetVerticalNode(Node node, int step)
         {
             int y = node.GetY();
-            while ((y <= 50) && (y >= 0))
+            while ((y <= 55) && (y >= 0))
             {
                 y += step;
                 if (GetNode(node.GetX(), y) != null)

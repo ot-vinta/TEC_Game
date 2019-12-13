@@ -47,11 +47,11 @@ namespace tec
 
         private void MakeGrid()
         {
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 55; i++)
             {
                 gameWindow.GameGrid.RowDefinitions.Add(new RowDefinition());
             }
-            for (int i = 0; i < 70; i++)
+            for (int i = 0; i < 77; i++)
             {
                 gameWindow.GameGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
@@ -62,8 +62,8 @@ namespace tec
                 Background = new SolidColorBrush(Color.FromRgb(225, 226, 225))
             };
 
-            control.SetValue(Grid.RowSpanProperty, 50);
-            control.SetValue(Grid.ColumnSpanProperty, 70);
+            control.SetValue(Grid.RowSpanProperty, 55);
+            control.SetValue(Grid.ColumnSpanProperty, 77);
             control.SetValue(Panel.ZIndexProperty, 0);
 
             gameWindow.GameGrid.Children.Add(control);
@@ -114,6 +114,46 @@ namespace tec
                 if (deletedElements != 0)
                 {
                     deletedElements = 0;
+
+                    foreach (var wire in scheme.GetWires())
+                    {
+                        if (wire?.GetObject1() is Node && wire.GetObject2() is Node)
+                        {
+                            bool isGood = false;
+                            Node temp1 = (Node)wire.GetObject1();
+                            Node temp2 = (Node)wire.GetObject2();
+
+                            if (temp1.GetConnectedElements().Contains(nullator) && temp1.GetConnectedElementsCount() == 1)
+                            {
+                                nullator.ChangeNode(temp1, temp2);
+                                isGood = true;
+                            }
+
+                            if (temp1.GetConnectedElements().Contains(norator) && temp1.GetConnectedElementsCount() == 1)
+                            {
+                                norator.ChangeNode(temp1, temp2);
+                                isGood = true;
+                            }
+
+                            if (temp2.GetConnectedElements().Contains(nullator) && temp2.GetConnectedElementsCount() == 1)
+                            {
+                                nullator.ChangeNode(temp2, temp1);
+                                isGood = true;
+                            }
+
+                            if (temp2.GetConnectedElements().Contains(norator) && temp2.GetConnectedElementsCount() == 1)
+                            {
+                                norator.ChangeNode(temp2, temp1);
+                                isGood = true;
+                            }
+
+                            if (isGood)
+                            {
+                                usedNodes.Add((Node) wire.GetObject1());
+                                usedNodes.Add((Node) wire.GetObject2());
+                            }
+                        }
+                    }
 
                     foreach (var elem in usedNodes.SelectMany(node => node.GetConnectedElements()))
                     {
@@ -245,8 +285,17 @@ namespace tec
                 gameWindow.GameGrid.Children.Remove(temp);
             }
 
-            schemeController.FindPlaceAndCreateNullor(nullNode1, nullNode2, "Nu");
-            schemeController.FindPlaceAndCreateNullor(norNode1, norNode2, "No");
+            if (nullNode1 == norNode1 && nullNode2 == norNode2)
+            {
+                Node temp = nullNode1;
+                nullNode1 = nullNode2;
+                nullNode2 = temp;
+            }
+
+            CheckNodes();
+
+            schemeController.FindPlaceAndCreateNullor(nullNode1, nullNode2, "Nu", true);
+            schemeController.FindPlaceAndCreateNullor(norNode1, norNode2, "No", true);
 
             scheme.RemoveNullor(gameWindow.GameGrid, norator, nullator);
 
@@ -262,7 +311,7 @@ namespace tec
                 foreach (var wire in scheme.GetWires())
                     if (wire != null)
                     {
-                        if (wire.GetObjectsCount() == 1)
+                        if (wire.GetObjectsCount() <= 1)
                         {
                             deletedWires++;
                             wiresToDelete.Add(wire);
@@ -297,7 +346,7 @@ namespace tec
                 {
                     int connectedNodesCount = 0;
                     HashSet<Node> uniqueNodes = new HashSet<Node>();
-                    bool isNullorConnected = false;
+                    bool isElementConnected = false;
                     foreach (var wire in node.GetConnectedWires())
                     {
                         if (Equals(wire.GetObject1(), node) && wire.GetObject2() is Node &&
@@ -313,34 +362,21 @@ namespace tec
                             connectedNodesCount++;
                         }
 
-                        if (Equals(wire.GetObject1(), node) && wire.GetObject2() is NullorElement &&
+                        if (Equals(wire.GetObject1(), node) && wire.GetObject2() is BaseElement &&
                             !uniqueNodes.Contains(wire.GetObject2()))
                         {
-                            isNullorConnected = true;
+                            isElementConnected = true;
                         }
-                        if (Equals(wire.GetObject2(), node) && wire.GetObject1() is NullorElement &&
+                        if (Equals(wire.GetObject2(), node) && wire.GetObject1() is BaseElement &&
                             !uniqueNodes.Contains(wire.GetObject1()))
                         {
-                            isNullorConnected = true;
+                            isElementConnected = true;
                         }
                     }
 
-                    foreach (var elem in node.GetConnectedElements())
-                    {
-                        if (elem is NullorElement) isNullorConnected = true;
-                        if (!uniqueNodes.Contains(elem.GetNode1()) && elem.GetNode1() != node)
-                        {
-                            uniqueNodes.Add(elem.GetNode1());
-                            connectedNodesCount++;
-                        }
-                        if (!uniqueNodes.Contains(elem.GetNode2()) && elem.GetNode2() != node)
-                        {
-                            uniqueNodes.Add(elem.GetNode2());
-                            connectedNodesCount++;
-                        }
-                    }
+                    if (node.GetConnectedElementsCount() > 0) isElementConnected = true;
 
-                    if (connectedNodesCount <= 1 && !isNullorConnected)
+                    if (connectedNodesCount <= 1 && !isElementConnected)
                         nodesToDelete.Add(node);
                 }
 
@@ -518,7 +554,7 @@ namespace tec
                     Alarm("Здесь уже стоит нуллатор");
                 else
                 {
-                    schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "No");
+                    schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "No", false);
 
                     player.GetNodeChosen1().Background = Brushes.Black;
                     player.GetNodeChosen2().Background = Brushes.Black;
@@ -546,7 +582,7 @@ namespace tec
                     Alarm("Здесь уже стоит норатор");
                 else
                 {
-                    schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "Nu");
+                    schemeController.FindPlaceAndCreateNullor(player.GetNodeChosen1(), player.GetNodeChosen2(), "Nu", false);
 
                     player.GetNodeChosen1().Background = Brushes.Black;
                     player.GetNodeChosen2().Background = Brushes.Black;
