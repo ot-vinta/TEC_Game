@@ -229,6 +229,7 @@ namespace TEC_Game
             if (!blockingElements.Any())
             {
                 Node temp = node2;
+                bool isWireNeed = true;
                 int tempId = 0;
                 if ((node1.GetX() != node2.GetX()) && (node1.GetY() != node2.GetY()))
                 {
@@ -241,6 +242,7 @@ namespace TEC_Game
                                  (node2.GetY() == node.GetY() && node1.GetX() == node.GetX())))
                             {
                                 tempId = node.GetId();
+                                isWireNeed = false;
                             }
                         }
 
@@ -316,8 +318,8 @@ namespace TEC_Game
                     line = (direction == "R") || (direction == "L")
                         ? (wireId + 1) + " " + wireRow + " " + wireColumn + " " + length + " D " + node2.GetId() + " N " + tempId + " N"
                         : (wireId + 1) + " " + wireRow + " " + wireColumn + " " + length + " R " + node2.GetId() + " N " + tempId + " N";
-
-                    PlaceWire(ref line);
+                    if (isWireNeed)
+                        PlaceWire(ref line);
                     line = "";
                 }
             }
