@@ -192,7 +192,7 @@ namespace tec
         public Node GetHorizontalNode(Node node, int step)
         {
             int x = node.GetX();
-            while ((x <= 70) && (x >= 0))
+            while ((x <= 77) && (x >= 0))
             {
                 x += step;
                 if (GetNode(x, node.GetY()) != null)
@@ -207,7 +207,7 @@ namespace tec
         public Node GetVerticalNode(Node node, int step)
         {
             int y = node.GetY();
-            while ((y <= 50) && (y >= 0))
+            while ((y <= 55) && (y >= 0))
             {
                 y += step;
                 if (GetNode(node.GetX(), y) != null)
@@ -318,16 +318,16 @@ namespace tec
                 }
             }
 
-            if (element.GetNode1().GetConnectedElementsCount() == 0)
+            if (element.GetNode1().GetConnectedElementsCount() == 0 && element.GetNode1().GetConnectedWires().Count == 0)
             {
                 gameGrid?.Children.Remove(element.GetNode1());
-                RemoveNode(element.GetNode1());
+                RemoveNode(element.GetNode1(), gameGrid);
             }
 
-            if (element.GetNode2().GetConnectedElementsCount() == 0)
+            if (element.GetNode2().GetConnectedElementsCount() == 0 && element.GetNode2().GetConnectedWires().Count == 0)
             {
                 gameGrid?.Children.Remove(element.GetNode2());
-                RemoveNode(element.GetNode2());
+                RemoveNode(element.GetNode2(), gameGrid);
             }
             element.Destroy();
             element = null;
@@ -349,17 +349,35 @@ namespace tec
             }
         }
 
-        public void RemoveNode(Node node)
+        public void RemoveNode(Node node, Grid gameGrid)
         {
             nodes[node.GetId() - 1] = null;
+            gameGrid.Children.Remove(node);
             node = null;
         }
 
-        public void RemoveWire(Wire wire)
+        public void RemoveWire(Wire wire, Grid gameGrid)
         {
             wires[wire.GetId() - 1] = null;
+            HashSet<Node> nodesToDelete = new HashSet<Node>();
+            foreach (var node in nodes)
+                if (node != null)
+                {
+                    if (node.GetConnectedWires().Contains(wire))
+                    {
+                        node.RemoveConnectedWire(wire);
+                        if (node.GetConnectedWires().Count == 0 && node.GetConnectedElementsCount() == 0)
+                            nodesToDelete.Add(node);
+                    }
+                }
+            gameGrid.Children.Remove(wire.GetImage());
             wire.Destroy();
             wire = null;
+
+            foreach (var node in nodesToDelete)
+            {
+                RemoveNode(node, gameGrid);
+            }
         }
     }
 }
