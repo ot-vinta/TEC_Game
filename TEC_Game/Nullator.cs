@@ -14,11 +14,11 @@ namespace tec
     {
         public Nullator(Node node1, Node node2, int id) : base(node1, node2, id)
         {
-            string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
+            string dir = Environment.CurrentDirectory;
             image = new Image();
             image.StretchDirection = StretchDirection.Both;
             image.Stretch = Stretch.Fill;
-            image.Source = new BitmapImage(new Uri(dir + @"Images\Nullator.png"));
+            image.Source = new BitmapImage(new Uri(dir + @"\Images\Nullator.png"));
             image.HorizontalAlignment = HorizontalAlignment.Stretch;
             image.VerticalAlignment = VerticalAlignment.Stretch;
         }
@@ -35,8 +35,8 @@ namespace tec
 
         public override void ChangeImageDirectionToLand()
         {
-            string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
-            image.Source = new BitmapImage(new Uri(dir + @"Images\NullatorLand.png"));
+            string dir = Environment.CurrentDirectory;
+            image.Source = new BitmapImage(new Uri(dir + @"\Images\NullatorLand.png"));
         }
     }
 }

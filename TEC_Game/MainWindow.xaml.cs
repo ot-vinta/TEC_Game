@@ -39,9 +39,9 @@ namespace TEC_Game
             gameWindow.Owner = this;
             this.Hide();
             GameController controller = new GameController(new Player(), new Scheme());
-            string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
+            string dir = Environment.CurrentDirectory;
             gameWindow.Show();
-            controller.InitializeScheme(dir + "Level1.txt");
+            controller.InitializeScheme(dir + @"\Level1.txt");
         }
 
         private void Level2ChooseButton_Click(object sender, RoutedEventArgs e)
@@ -50,9 +50,9 @@ namespace TEC_Game
             gameWindow.Owner = this;
             this.Hide();
             GameController controller = new GameController(new Player(), new Scheme());
-            string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
+            string dir = Environment.CurrentDirectory;
             gameWindow.Show();
-            controller.InitializeScheme(dir + "Level2.txt");
+            controller.InitializeScheme(dir + @"\Level2.txt");
 
         }
 
@@ -62,9 +62,9 @@ namespace TEC_Game
             gameWindow.Owner = this;
             this.Hide();
             GameController controller = new GameController(new Player(), new Scheme());
-            string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
+            string dir = Environment.CurrentDirectory;
             gameWindow.Show();
-            controller.InitializeScheme(dir + "Level3.txt");
+            controller.InitializeScheme(dir + @"\Level3.txt");
         }
 
         private void StatisticsButton_Click(object sender, RoutedEventArgs e)

@@ -16,7 +16,7 @@ namespace TEC_Game
             this.lose = 0; //to make sure value is not empty in case of exception
             try
             {
-                string Path = Environment.CurrentDirectory.Replace(@"bin\Debug", "") + "\\Stats.txt";
+                string Path = Environment.CurrentDirectory + "\\Stats.txt";
                 StreamReader reader = new StreamReader(Path);
                 string wins_str = reader.ReadLine();
                 string loses_str = reader.ReadLine();

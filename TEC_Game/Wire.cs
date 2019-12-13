@@ -25,13 +25,13 @@ namespace TEC_Game
             this.id = id;
             this.row = row;
             this.column = column;
-            string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
+            string dir = Environment.CurrentDirectory;
             obj1 = null;
             obj2 = null;
             image = new Image();
             image.StretchDirection = StretchDirection.Both;
             image.Stretch = Stretch.Fill;
-            image.Source = new BitmapImage(new Uri(dir + @"Images\Wire.png"));
+            image.Source = new BitmapImage(new Uri(dir + @"\Images\Wire.png"));
         }
 
         public void AddConnectedObject(object obj)
@@ -65,8 +65,8 @@ namespace TEC_Game
 
         public void ChangeImageDirectionToLand()
         {
-            string dir = Environment.CurrentDirectory.Replace(@"bin\Debug", "");
-            image.Source = new BitmapImage(new Uri(dir + @"Images\WireLand.png"));
+            string dir = Environment.CurrentDirectory;
+            image.Source = new BitmapImage(new Uri(dir + @"\Images\WireLand.png"));
         }
 
         public Image GetImage()
